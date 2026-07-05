@@ -1,8 +1,8 @@
 # kokey
 
-[![npm](https://img.shields.io/npm/v/kokey)](https://www.npmjs.com/package/kokey)
+[![npm](https://img.shields.io/npm/v/%40devslab%2Fkokey)](https://www.npmjs.com/package/@devslab/kokey)
 [![CI](https://github.com/devslab-kr/kokey/actions/workflows/ci.yml/badge.svg)](https://github.com/devslab-kr/kokey/actions/workflows/ci.yml)
-[![license](https://img.shields.io/npm/l/kokey)](./LICENSE)
+[![license](https://img.shields.io/npm/l/%40devslab%2Fkokey)](./LICENSE)
 
 한↔영 자판 변환 라이브러리 (두벌식 ↔ QWERTY).
 TypeScript-first, **zero-dependency**, ESM/CJS 듀얼 패키지.
@@ -17,13 +17,13 @@ TypeScript-first, **zero-dependency**, ESM/CJS 듀얼 패키지.
 ## 설치
 
 ```sh
-npm install kokey
+npm install @devslab/kokey
 ```
 
 CDN으로 빌드 없이 바로 — 전부 `kokey` 전역 아래에 노출됩니다:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/kokey/dist/kokey.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@devslab/kokey/dist/kokey.global.js"></script>
 <script>
   kokey.enToKo('dkssud') // '안녕'
   kokey.observe()        // <input data-hangul> 전부 자동 바인딩
@@ -33,7 +33,7 @@ CDN으로 빌드 없이 바로 — 전부 `kokey` 전역 아래에 노출됩니�
 ## 사용법
 
 ```ts
-import { koToEn, enToKo } from 'kokey'
+import { koToEn, enToKo } from '@devslab/kokey'
 
 // 한글 → 그 한글을 만든 QWERTY 키 시퀀스
 koToEn('안녕')            // 'dkssud'
@@ -65,7 +65,7 @@ enToKo('ekfrl')           // '달기' (겹받침 분해 — 실제 IME와 동일
 ```
 
 ```ts
-import { bind, observe } from 'kokey'
+import { bind, observe } from '@devslab/kokey'
 
 observe()                     // 현재 + 이후 추가되는 [data-hangul] 전부 바인딩
 const unbind = bind(el, 'en') // 개별 엘리먼트 명시 바인딩

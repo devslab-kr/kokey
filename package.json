@@ -1,6 +1,9 @@
 {
-  "name": "kokey",
+  "name": "@devslab/kokey",
   "version": "0.2.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "description": "Korean ↔ English keyboard layout converter (Dubeolsik ↔ QWERTY). TypeScript-first, zero-dependency, ESM/CJS dual.",
   "type": "module",
   "main": "./dist/index.cjs",
