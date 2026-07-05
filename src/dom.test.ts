@@ -1,6 +1,8 @@
 // @vitest-environment jsdom
 import { afterEach, describe, expect, it } from 'vitest'
 import { bind, observe } from './dom'
+import { register } from './registry'
+import { ru } from './layouts/ru'
 
 function makeInput(mode: string): HTMLInputElement {
   const el = document.createElement('input')
@@ -95,6 +97,39 @@ describe('bind — lifecycle', () => {
     el.value = '안'
     el.dispatchEvent(new Event('input'))
     expect(el.value).toBe('안')
+  })
+})
+
+describe('bind — data-kokey layouts', () => {
+  it('enforces a registered non-Korean layout', () => {
+    register(ru)
+    const el = document.createElement('input')
+    el.setAttribute('data-kokey', 'ru')
+    document.body.appendChild(el)
+    bind(el)
+    for (const key of 'ghbdtn') type(el, key)
+    expect(el.value).toBe('привет')
+  })
+
+  it('en mode restores any registered script', () => {
+    register(ru)
+    const el = document.createElement('input')
+    el.setAttribute('data-kokey', 'en')
+    document.body.appendChild(el)
+    bind(el)
+    el.value = 'привет안녕'
+    el.setSelectionRange(el.value.length, el.value.length)
+    el.dispatchEvent(new Event('input'))
+    expect(el.value).toBe('ghbdtndkssud')
+  })
+
+  it('ignores unregistered layout ids', () => {
+    const el = document.createElement('input')
+    el.setAttribute('data-kokey', 'zz')
+    document.body.appendChild(el)
+    bind(el)
+    type(el, 'a')
+    expect(el.value).toBe('a')
   })
 })
 

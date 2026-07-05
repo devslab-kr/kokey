@@ -1,9 +1,11 @@
 /**
  * DOM layer — enforce an input mode on <input>/<textarea> regardless of the
- * user's IME state.
+ * user's IME/layout state.
  *
- *   <input data-hangul="ko">  — QWERTY keystrokes compose into Hangul
- *   <input data-hangul="en">  — Hangul (IME left on) is restored to QWERTY
+ *   <input data-kokey="ko">   — QWERTY keystrokes compose into Hangul
+ *   <input data-kokey="ru">   — QWERTY keystrokes become Russian (register(ru) first)
+ *   <input data-kokey="en">   — any registered script is restored to QWERTY
+ *   <input data-hangul="ko">  — legacy alias, still supported
  *
  * Composition-safe: while the native IME is composing we never touch the
  * value (that would break the composition); conversion runs on
@@ -11,38 +13,44 @@
  * The cursor is preserved by converting the text before the caret and using
  * its converted length as the new caret position.
  */
-import { enToKo } from './enToKo'
-import { koToEn } from './koToEn'
+import { getLayout, toEn } from './registry'
 
+/** Legacy mode union kept for compatibility — `KokeyMode` supersedes it. */
 export type HangulMode = 'ko' | 'en'
+/** 'en' to restore QWERTY, or the id of a registered layout to enforce it. */
+export type KokeyMode = 'en' | (string & {})
 
 type Bindable = HTMLInputElement | HTMLTextAreaElement
 
-const SELECTOR = 'input[data-hangul], textarea[data-hangul]'
+const SELECTOR =
+  'input[data-kokey], textarea[data-kokey], input[data-hangul], textarea[data-hangul]'
 
 const unbinders = new WeakMap<Bindable, () => void>()
 
-function resolveMode(el: Bindable, fixed?: HangulMode): HangulMode | null {
-  const m = fixed ?? el.getAttribute('data-hangul')
-  return m === 'ko' || m === 'en' ? m : null
+function resolveMode(el: Bindable, fixed?: KokeyMode): KokeyMode | null {
+  const m =
+    fixed ?? el.getAttribute('data-kokey') ?? el.getAttribute('data-hangul')
+  return m ? m : null
 }
 
 /**
- * `ko` mode normalizes through both directions so progressive typing works:
- * the visible value may already contain composed Hangul from previous
+ * Layout modes normalize through both directions so progressive typing works:
+ * the visible value may already contain composed text from previous
  * keystrokes (`안` + `s` → decompose to `dkss` → recompose to `안ㄴ`).
  */
-function convertValue(value: string, mode: HangulMode): string {
-  return mode === 'ko' ? enToKo(koToEn(value)) : koToEn(value)
+function convertValue(value: string, mode: KokeyMode): string {
+  if (mode === 'en') return toEn(value)
+  const layout = getLayout(mode)
+  return layout ? layout.fromLatin(layout.toLatin(value)) : value
 }
 
 /**
  * Bind conversion to a single element. The mode is read from the
- * `data-hangul` attribute at event time unless `mode` is given explicitly.
- * Returns an unbind function. Binding an already-bound element is a no-op
- * that returns the existing unbinder.
+ * `data-kokey` (or legacy `data-hangul`) attribute at event time unless
+ * `mode` is given explicitly. Returns an unbind function. Binding an
+ * already-bound element is a no-op that returns the existing unbinder.
  */
-export function bind(el: Bindable, mode?: HangulMode): () => void {
+export function bind(el: Bindable, mode?: KokeyMode): () => void {
   const existing = unbinders.get(el)
   if (existing) return existing
 
@@ -102,11 +110,11 @@ function bindAll(scope: ParentNode): void {
 
 /**
  * Framework-agnostic ref-callback factory: pass the element to bind, `null`
- * to unbind. This is what the React `useHangul` hook wraps — usable directly
+ * to unbind. This is what the React `useKokey` hook wraps — usable directly
  * with any library that hands you element refs.
  */
 export function createRefBinder(
-  mode?: HangulMode
+  mode?: KokeyMode
 ): (el: Bindable | null) => void {
   let unbind: (() => void) | null = null
   return (el) => {
@@ -116,11 +124,11 @@ export function createRefBinder(
 }
 
 /**
- * Bind every `[data-hangul]` input under `root` (default: `document`) and
- * keep watching for inputs added later or gaining the attribute.
- * Returns a stop function that disconnects the observer (existing bindings
- * stay; removing the `data-hangul` attribute already disables conversion
- * because the mode is read at event time).
+ * Bind every `[data-kokey]` / `[data-hangul]` input under `root` (default:
+ * `document`) and keep watching for inputs added later or gaining the
+ * attribute. Returns a stop function that disconnects the observer (existing
+ * bindings stay; removing the attribute already disables conversion because
+ * the mode is read at event time).
  */
 export function observe(root: ParentNode = document): () => void {
   bindAll(root)
@@ -128,7 +136,12 @@ export function observe(root: ParentNode = document): () => void {
   const observer = new MutationObserver((records) => {
     for (const record of records) {
       if (record.type === 'attributes' && isBindable(record.target)) {
-        if (record.target.hasAttribute('data-hangul')) bind(record.target)
+        if (
+          record.target.hasAttribute('data-kokey') ||
+          record.target.hasAttribute('data-hangul')
+        ) {
+          bind(record.target)
+        }
         continue
       }
       for (const node of record.addedNodes) {
@@ -142,7 +155,7 @@ export function observe(root: ParentNode = document): () => void {
     childList: true,
     subtree: true,
     attributes: true,
-    attributeFilter: ['data-hangul']
+    attributeFilter: ['data-kokey', 'data-hangul']
   })
   return () => observer.disconnect()
 }

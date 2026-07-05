@@ -1,22 +1,22 @@
 /**
- * Vue 3 directive — `v-hangul` / `v-hangul="'en'"`.
+ * Vue 3 directives — `v-kokey` / `v-kokey="'ru'"` (and the legacy `v-hangul`).
  *
  *   <script setup>
- *   import { vHangul } from '@devslab/kokey/vue'
+ *   import { vKokey } from '@devslab/kokey/vue'
  *   </script>
  *   <template>
- *     <input v-hangul="'ko'">          <!-- explicit mode -->
- *     <input v-hangul data-hangul="en"> <!-- or mode from the attribute -->
+ *     <input v-kokey="'ko'">           <!-- explicit mode -->
+ *     <input v-kokey data-kokey="en">  <!-- or mode from the attribute -->
  *   </template>
  */
 import type { Directive } from 'vue'
-import { bind, type HangulMode } from './dom'
+import { bind, type HangulMode, type KokeyMode } from './dom'
 
 type Bindable = HTMLInputElement | HTMLTextAreaElement
 
 const unbinds = new WeakMap<Bindable, () => void>()
 
-export const vHangul: Directive<Bindable, HangulMode | undefined> = {
+export const vKokey: Directive<Bindable, KokeyMode | undefined> = {
   mounted(el, binding) {
     unbinds.set(el, bind(el, binding.value))
   },
@@ -31,3 +31,6 @@ export const vHangul: Directive<Bindable, HangulMode | undefined> = {
     unbinds.delete(el)
   }
 }
+
+/** Legacy alias of `vKokey`, limited to the Korean modes. */
+export const vHangul = vKokey as Directive<Bindable, HangulMode | undefined>

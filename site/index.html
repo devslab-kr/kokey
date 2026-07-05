@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>kokey — 한↔영 자판 변환 · Korean ↔ English keyboard layout converter</title>
-<meta name="description" content="kokey: 두벌식 ↔ QWERTY 자판 변환. koToEn / enToKo, IME 조합 오토마타, zero-dependency TypeScript.">
+<title>kokey — 자판 오입력 복원 · wrong-keyboard-layout converter (한글·русский·עברית·ไทย…)</title>
+<meta name="description" content="kokey: 잘못된 자판으로 친 텍스트 복원. 한국어 두벌식 내장 + 러시아어·우크라이나어·히브리어·그리스어·태국어·아랍어·조지아어. zero-dependency TypeScript.">
 <style>
   :root {
     --bg: #0f1117; --panel: #171a23; --line: #262b38;
@@ -56,7 +56,7 @@
 <body>
 <main>
   <h1>ko<span class="accent">key</span></h1>
-  <p class="tagline">한↔영 자판 변환 (두벌식 ↔ QWERTY) · Korean ↔ English keyboard layout converter</p>
+  <p class="tagline">자판 오입력 복원 · wrong-keyboard-layout converter — 한글 · русский · українська · עברית · ελληνικά · ไทย · العربية · ქართული ↔ QWERTY</p>
   <p class="tagline">TypeScript-first · zero-dependency · ESM / CJS / <code>&lt;script&gt;</code></p>
   <div class="badges">
     <a href="https://www.npmjs.com/package/@devslab/kokey"><img src="https://img.shields.io/npm/v/%40devslab%2Fkokey" alt="npm"></a>
@@ -76,10 +76,20 @@
       <p>한글 IME가 켜져 있어도 QWERTY로 복원됩니다. Try <code>ㅇㄴㅁ쇼2068601</code></p>
       <input data-hangul="en" placeholder="ㅇㄴㅁ쇼2068601 → dsaty2068601" autocomplete="off">
     </div>
+    <div class="card">
+      <h3>data-kokey="ru" — 영타를 러시아어로</h3>
+      <p>ЙЦУКЕН 강제 조립. Try <code>ghbdtn</code> → привет</p>
+      <input data-kokey="ru" placeholder="ghbdtn → привет" autocomplete="off">
+    </div>
+    <div class="card">
+      <h3>data-kokey="en" — 어떤 오입력이든 복원</h3>
+      <p>스크립트 자동 감지. Try <code>привет안녕שלום</code></p>
+      <input data-kokey="en" placeholder="привет안녕 → ghbdtndkssud" autocomplete="off">
+    </div>
     <div class="card" style="grid-column: 1 / -1">
       <h3>Converter — 양방향 변환기</h3>
-      <p>아래에 아무 텍스트나 붙여넣으면 두 방향 결과를 동시에 보여줍니다.</p>
-      <textarea id="src" rows="2" placeholder="여기에 입력 · type here">dkssudgktpdy, 이거 실화냐</textarea>
+      <p>아래에 아무 텍스트나 붙여넣으면 결과를 동시에 보여줍니다. toEn은 8개 자판을 자동 감지합니다.</p>
+      <textarea id="src" rows="2" placeholder="여기에 입력 · type here">dkssudgktpdy, ghbdtn vbh, สวัสดี</textarea>
       <div class="out" id="outKo"></div>
       <div class="out" id="outEn" style="color: var(--accent2)"></div>
     </div>
@@ -93,13 +103,17 @@ npm install @devslab/kokey
 &lt;script src="https://cdn.jsdelivr.net/npm/@devslab/kokey/dist/kokey.global.js"&gt;&lt;/script&gt;</code></pre>
 
   <h2>Usage</h2>
-  <pre><code><span class="k">import</span> { koToEn, enToKo, observe } <span class="k">from</span> <span class="s">'@devslab/kokey'</span>
+  <pre><code><span class="k">import</span> { koToEn, enToKo, register, toEn, observe } <span class="k">from</span> <span class="s">'@devslab/kokey'</span>
+<span class="k">import</span> { ru } <span class="k">from</span> <span class="s">'@devslab/kokey/ru'</span>   <span class="c">// /uk /he /el /th /ar /ka</span>
 
 koToEn(<span class="s">'안녕'</span>)   <span class="c">// 'dkssud'</span>
 enToKo(<span class="s">'dkssud'</span>) <span class="c">// '안녕' — 겹모음·겹받침·받침 넘김까지 실제 IME 그대로</span>
 
-<span class="c">// DOM: data-hangul 인풋을 전부 자동 바인딩</span>
-observe() <span class="c">// &lt;input data-hangul="ko|en"&gt;</span></code></pre>
+register(ru)
+toEn(<span class="s">'привет안녕'</span>) <span class="c">// 'ghbdtndkssud' — 스크립트 자동 감지</span>
+
+<span class="c">// DOM: data-kokey / data-hangul 인풋을 전부 자동 바인딩</span>
+observe() <span class="c">// &lt;input data-kokey="ko|ru|en|…"&gt;</span></code></pre>
 
   <footer>
     <a href="https://github.com/devslab-kr/kokey">GitHub</a> ·
@@ -115,7 +129,7 @@ observe() <span class="c">// &lt;input data-hangul="ko|en"&gt;</span></code></pr
   const outEn = document.getElementById('outEn')
   const render = () => {
     outKo.textContent = 'enToKo → ' + kokey.enToKo(src.value)
-    outEn.textContent = 'koToEn → ' + kokey.koToEn(src.value)
+    outEn.textContent = 'toEn → ' + kokey.toEn(src.value)
   }
   src.addEventListener('input', render)
   render()

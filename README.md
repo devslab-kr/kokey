@@ -4,15 +4,22 @@
 [![CI](https://github.com/devslab-kr/kokey/actions/workflows/ci.yml/badge.svg)](https://github.com/devslab-kr/kokey/actions/workflows/ci.yml)
 [![license](https://img.shields.io/npm/l/%40devslab%2Fkokey)](./LICENSE)
 
-Korean ↔ English keyboard layout converter (Dubeolsik ↔ QWERTY).
+Keyboard layout converter — restore text typed with the wrong layout.
+Korean (Dubeolsik ↔ QWERTY) built in; Russian, Ukrainian, Hebrew, Greek,
+Thai, Arabic and Georgian available as tree-shakeable subpath imports.
 TypeScript-first, **zero dependencies**, ESM/CJS dual package.
 
-[한국어 문서](./README.ko.md)
+[한국어 문서](./README.ko.md) · [Live demo](https://devslab-kr.github.io/kokey/)
 
 Ever typed `dkssud` when you meant `안녕`, or scanned a barcode while the
 Korean IME was on and got `ㅇㄴㅁ쇼2068601` instead of `DSATY2068601`?
 `kokey` converts between what was typed and what was meant — in both
 directions, exactly the way a Dubeolsik IME composes Hangul.
+
+The same slip exists in every language that toggles a non-Latin layout with
+QWERTY: Russians type `ghbdtn` for `привет`, Israelis `akuo` for `שלום`,
+Thais scan barcodes with Kedmanee on. `kokey` covers those layouts too —
+see [Beyond Korean](#beyond-korean--any-registered-layout).
 
 ## Install
 
@@ -25,8 +32,9 @@ Or straight from a CDN — no build step, everything under the `kokey` global:
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@devslab/kokey/dist/kokey.global.js"></script>
 <script>
-  kokey.enToKo('dkssud') // '안녕'
-  kokey.observe()        // auto-bind every <input data-hangul>
+  kokey.enToKo('dkssud')   // '안녕'
+  kokey.toEn('привет안녕')  // 'ghbdtndkssud' — the CDN build ships every layout
+  kokey.observe()          // auto-bind every <input data-kokey> / <input data-hangul>
 </script>
 ```
 
@@ -54,6 +62,43 @@ enToKo('ekfrl')           // '달기' (compound-final split, like a real IME)
 - **Pass-through**: digits, punctuation, and unmapped letters are left as-is
 - Round-trip safe for Korean text: `enToKo(koToEn(s)) === s`
 
+### Beyond Korean — any registered layout
+
+Each layout is a subpath import (unused ones never reach your bundle) and
+plugs into the same machinery:
+
+```ts
+import { register, toEn, fromEn } from '@devslab/kokey'
+import { ru, ruToEn, enToRu } from '@devslab/kokey/ru'
+import { he } from '@devslab/kokey/he'
+
+// direct, per-layout
+ruToEn('привет')   // 'ghbdtn'  — the Punto Switcher classic
+enToRu('ghbdtn')   // 'привет'
+
+// or register + auto-detect by script, mixed strings included
+register(ru, he)
+toEn('안녕 привет שלום')  // 'dkssud ghbdtn akuo'
+fromEn('ghbdtn', 'ru')    // 'привет'
+```
+
+| Layout | Import | Notes |
+| --- | --- | --- |
+| Korean 두벌식 | built-in (`ko`) | full IME composition automaton |
+| Russian ЙЦУКЕН | `@devslab/kokey/ru` | moved punctuation (ё on backtick, №, `.` on `/`) mapped faithfully |
+| Ukrainian Enhanced | `@devslab/kokey/uk` | і/є/ї; AltGr-only ґ restored in reverse; ru/uk auto-disambiguated |
+| Hebrew | `@devslab/kokey/he` | final forms, swapped brackets, caps-lock safe |
+| Greek | `@devslab/kokey/el` | tonos/dialytika dead keys (`;a` → ά), final sigma |
+| Thai Kedmanee | `@devslab/kokey/th` | full digit-row remap — barcode rescue works for Thai too |
+| Arabic (101) | `@devslab/kokey/ar` | lam-alef لا on `b`, hamza forms, tashkeel |
+| Georgian QWERTY | `@devslab/kokey/ka` | near-phonetic (`gamarjoba` ↔ გამარჯობა) |
+
+Languages whose IME needs a candidate-selection step (Chinese pinyin,
+Japanese kanji) are out of scope by construction — the keystroke ↔ text
+relation there isn't deterministic. Need another deterministic layout?
+It's one `defineLayout({ id, script, fromKey })` table —
+[PRs welcome](https://github.com/devslab-kr/kokey/pulls).
+
 ### DOM layer — enforce an input mode
 
 Force an `<input>`/`<textarea>` to a specific mode regardless of the user's
@@ -61,38 +106,46 @@ IME state — the field converts as you type, composition-safe, cursor
 preserved:
 
 ```html
-<input data-hangul="ko">  <!-- QWERTY keystrokes compose into Hangul -->
-<input data-hangul="en">  <!-- Hangul (IME left on) restored to QWERTY -->
+<input data-kokey="ko">   <!-- QWERTY keystrokes compose into Hangul -->
+<input data-kokey="ru">   <!-- QWERTY keystrokes become Russian (register(ru) first) -->
+<input data-kokey="en">   <!-- any registered script restored to QWERTY -->
+<input data-hangul="ko">  <!-- legacy attribute, still supported -->
 ```
 
 ```ts
 import { bind, observe } from '@devslab/kokey'
 
-observe()                    // bind all [data-hangul] now + watch for new ones
+observe()                    // bind all [data-kokey]/[data-hangul] + watch for new ones
 const unbind = bind(el, 'en') // or bind a single element explicitly
 ```
+
+`data-kokey="en"` shines on invoice/e-mail/ID fields: whatever layout the
+user forgot to switch off — Korean, Russian, Thai — the field self-heals to
+Latin with no per-language branching.
 
 ### Vue / React
 
 ```vue
 <script setup>
-import { vHangul } from '@devslab/kokey/vue'
+import { vKokey } from '@devslab/kokey/vue'
 </script>
 <template>
-  <input v-hangul="'ko'">
+  <input v-kokey="'ko'">
+  <input v-kokey="'ru'">
 </template>
 ```
 
 ```tsx
-import { useHangul } from '@devslab/kokey/react'
+import { useKokey } from '@devslab/kokey/react'
 
 function Field() {
-  return <input ref={useHangul('en')} />
+  return <input ref={useKokey('en')} />
 }
 ```
 
 Both are thin wrappers over the DOM layer — `vue`/`react` are optional peer
-dependencies, so the core stays zero-dependency.
+dependencies, so the core stays zero-dependency. The legacy `vHangul` /
+`useHangul` names still work.
 
 ## API
 
@@ -100,19 +153,26 @@ dependencies, so the core stays zero-dependency.
 | --- | --- | --- |
 | `koToEn` | `(text: string) => string` | Decompose Hangul syllables/jamo into their Dubeolsik QWERTY key sequence |
 | `enToKo` | `(text: string) => string` | Compose QWERTY key sequence into Hangul via the standard IME automaton |
-| `bind` | `(el, mode?) => unbind` | Enforce a mode on one input/textarea (mode defaults to its `data-hangul` attribute) |
-| `observe` | `(root?) => stop` | Bind every `[data-hangul]` under `root` and keep watching via MutationObserver |
-| `createRefBinder` | `(mode?) => (el \| null) => void` | Framework-agnostic ref-callback factory (what `useHangul` wraps) |
-| `vHangul` | `@devslab/kokey/vue` | Vue 3 directive: `v-hangul="'ko'"` |
-| `useHangul` | `@devslab/kokey/react` | React hook returning a ref callback |
+| `toEn` | `(text: string) => string` | Restore any registered script to QWERTY, auto-detected per run |
+| `fromEn` | `(text, layoutId) => string` | Compose QWERTY keystrokes into the given registered layout |
+| `register` | `(...layouts) => void` | Register layouts for `toEn` and the DOM `data-kokey` modes |
+| `defineLayout` | `(def) => Layout` | Build a table-driven layout (`{ id, script, fromKey }`) |
+| `bind` | `(el, mode?) => unbind` | Enforce a mode on one input/textarea (mode defaults to its `data-kokey`/`data-hangul` attribute) |
+| `observe` | `(root?) => stop` | Bind every `[data-kokey]`/`[data-hangul]` under `root` and keep watching via MutationObserver |
+| `createRefBinder` | `(mode?) => (el \| null) => void` | Framework-agnostic ref-callback factory (what `useKokey` wraps) |
+| `vKokey` | `@devslab/kokey/vue` | Vue 3 directive: `v-kokey="'ko'"` (legacy `vHangul` kept) |
+| `useKokey` | `@devslab/kokey/react` | React hook returning a ref callback (legacy `useHangul` kept) |
 
-Low-level tables (`CHOSUNG`, `JUNGSUNG`, `JONGSUNG`, `JAMO_TO_KEY`,
-`KEY_TO_JAMO`) are exported for advanced use.
+Per-layout modules also export direct converters: `ruToEn`/`enToRu`,
+`heToEn`/`enToHe`, `thToEn`/`enToTh`, … Low-level Korean tables (`CHOSUNG`,
+`JUNGSUNG`, `JONGSUNG`, `JAMO_TO_KEY`, `KEY_TO_JAMO`) are exported for
+advanced use.
 
 ## Roadmap
 
 - ~~`v0.2` — DOM layer~~ ✅ shipped
 - ~~`v0.3` — Vue directive / React hook~~ ✅ shipped
+- ~~`v0.4` — multi-layout: ru/uk/he/el/th/ar/ka + `toEn` auto-detection~~ ✅ shipped
 
 ## Why not inko?
 
