@@ -72,6 +72,28 @@ observe()                    // bind all [data-hangul] now + watch for new ones
 const unbind = bind(el, 'en') // or bind a single element explicitly
 ```
 
+### Vue / React
+
+```vue
+<script setup>
+import { vHangul } from 'kokey/vue'
+</script>
+<template>
+  <input v-hangul="'ko'">
+</template>
+```
+
+```tsx
+import { useHangul } from 'kokey/react'
+
+function Field() {
+  return <input ref={useHangul('en')} />
+}
+```
+
+Both are thin wrappers over the DOM layer — `vue`/`react` are optional peer
+dependencies, so the core stays zero-dependency.
+
 ## API
 
 | Function | Signature | Description |
@@ -80,6 +102,9 @@ const unbind = bind(el, 'en') // or bind a single element explicitly
 | `enToKo` | `(text: string) => string` | Compose QWERTY key sequence into Hangul via the standard IME automaton |
 | `bind` | `(el, mode?) => unbind` | Enforce a mode on one input/textarea (mode defaults to its `data-hangul` attribute) |
 | `observe` | `(root?) => stop` | Bind every `[data-hangul]` under `root` and keep watching via MutationObserver |
+| `createRefBinder` | `(mode?) => (el \| null) => void` | Framework-agnostic ref-callback factory (what `useHangul` wraps) |
+| `vHangul` | `kokey/vue` | Vue 3 directive: `v-hangul="'ko'"` |
+| `useHangul` | `kokey/react` | React hook returning a ref callback |
 
 Low-level tables (`CHOSUNG`, `JUNGSUNG`, `JONGSUNG`, `JAMO_TO_KEY`,
 `KEY_TO_JAMO`) are exported for advanced use.
@@ -87,7 +112,7 @@ Low-level tables (`CHOSUNG`, `JUNGSUNG`, `JONGSUNG`, `JAMO_TO_KEY`,
 ## Roadmap
 
 - ~~`v0.2` — DOM layer~~ ✅ shipped
-- `v0.3` — Vue directive / React hook
+- ~~`v0.3` — Vue directive / React hook~~ ✅ shipped
 
 ## Why not inko?
 

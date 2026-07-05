@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.3.0 (2026-07-05)
+
+### Added
+
+- **`kokey/vue`** — Vue 3 directive `vHangul` (`v-hangul="'ko'"`, or mode
+  from the `data-hangul` attribute). Vue 3 디렉티브.
+- **`kokey/react`** — `useHangul(mode?)` hook returning a ref callback.
+  ref 콜백을 반환하는 React 훅.
+- **`createRefBinder(mode?)`** — framework-agnostic ref-callback factory in
+  the core (what `useHangul` wraps). 프레임워크 무관 ref 콜백 팩토리.
+- `vue` / `react` are **optional peer dependencies** — the core stays
+  zero-dependency. 코어는 여전히 zero-dependency.
+
 ## 0.2.0 (2026-07-05)
 
 ### Added
