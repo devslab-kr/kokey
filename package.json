@@ -1,0 +1,56 @@
+{
+  "name": "kokey",
+  "version": "0.1.0",
+  "description": "Korean ↔ English keyboard layout converter (Dubeolsik ↔ QWERTY). TypeScript-first, zero-dependency, ESM/CJS dual.",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepublishOnly": "npm run typecheck && npm run test && npm run build"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.0",
+    "typescript": "^5.7.0",
+    "vitest": "^4.1.9"
+  },
+  "keywords": [
+    "hangul",
+    "korean",
+    "keyboard",
+    "layout",
+    "qwerty",
+    "dubeolsik",
+    "ime",
+    "converter",
+    "inko",
+    "한글",
+    "두벌식",
+    "한영변환"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devslab-kr/kokey.git"
+  },
+  "homepage": "https://github.com/devslab-kr/kokey#readme",
+  "bugs": {
+    "url": "https://github.com/devslab-kr/kokey/issues"
+  },
+  "author": "devslab <jlc488@gmail.com>",
+  "license": "MIT"
+}
