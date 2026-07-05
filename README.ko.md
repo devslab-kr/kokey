@@ -20,6 +20,16 @@ TypeScript-first, **zero-dependency**, ESM/CJS 듀얼 패키지.
 npm install kokey
 ```
 
+CDN으로 빌드 없이 바로 — 전부 `kokey` 전역 아래에 노출됩니다:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/kokey/dist/kokey.global.js"></script>
+<script>
+  kokey.enToKo('dkssud') // '안녕'
+  kokey.observe()        // <input data-hangul> 전부 자동 바인딩
+</script>
+```
+
 ## 사용법
 
 ```ts
@@ -44,20 +54,38 @@ enToKo('ekfrl')           // '달기' (겹받침 분해 — 실제 IME와 동일
 - **통과 처리**: 숫자·문장부호·미매핑 문자는 그대로 유지
 - 한글 텍스트 왕복 보장: `enToKo(koToEn(s)) === s`
 
+### DOM 레이어 — 입력 모드 강제
+
+사용자 IME 상태와 무관하게 `<input>`/`<textarea>`를 특정 모드로 고정합니다 —
+타이핑하는 대로 변환되고, IME 조합 중엔 건드리지 않으며, 커서가 보존됩니다:
+
+```html
+<input data-hangul="ko">  <!-- 영타가 한글로 조합됨 -->
+<input data-hangul="en">  <!-- 한글 IME가 켜져 있어도 QWERTY로 복원 -->
+```
+
+```ts
+import { bind, observe } from 'kokey'
+
+observe()                     // 현재 + 이후 추가되는 [data-hangul] 전부 바인딩
+const unbind = bind(el, 'en') // 개별 엘리먼트 명시 바인딩
+```
+
 ## API
 
 | 함수 | 시그니처 | 설명 |
 | --- | --- | --- |
 | `koToEn` | `(text: string) => string` | 한글 음절/자모를 두벌식 QWERTY 키 시퀀스로 분해 |
 | `enToKo` | `(text: string) => string` | QWERTY 키 시퀀스를 표준 IME 오토마타로 한글 조합 |
+| `bind` | `(el, mode?) => unbind` | 인풋 하나에 모드 강제 (mode 생략 시 `data-hangul` 속성값) |
+| `observe` | `(root?) => stop` | `root` 아래 `[data-hangul]` 전부 바인딩 + MutationObserver로 감시 |
 
 저수준 테이블(`CHOSUNG`, `JUNGSUNG`, `JONGSUNG`, `JAMO_TO_KEY`,
 `KEY_TO_JAMO`)도 export 됩니다.
 
 ## 로드맵
 
-- `v0.2` — DOM 레이어: `<input data-hangul="ko|en">` 입력 강제
-  (IME `compositionend` 처리 + 커서 보존), `observe(document)` 자동 바인딩
+- ~~`v0.2` — DOM 레이어~~ ✅ 출시됨
 - `v0.3` — Vue 디렉티브 / React 훅
 
 ## inko가 아닌 이유

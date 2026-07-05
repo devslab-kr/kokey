@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kokey — 한↔영 자판 변환 · Korean ↔ English keyboard layout converter</title>
+<meta name="description" content="kokey: 두벌식 ↔ QWERTY 자판 변환. koToEn / enToKo, IME 조합 오토마타, zero-dependency TypeScript.">
+<style>
+  :root {
+    --bg: #0f1117; --panel: #171a23; --line: #262b38;
+    --text: #e8eaf0; --dim: #8b93a7; --accent: #5eead4; --accent2: #818cf8;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: "Pretendard", -apple-system, "Segoe UI", "Malgun Gothic", sans-serif;
+    line-height: 1.6;
+  }
+  main { max-width: 860px; margin: 0 auto; padding: 48px 20px 80px; }
+  h1 { font-size: 44px; letter-spacing: -1px; }
+  h1 .accent { color: var(--accent); }
+  .tagline { color: var(--dim); font-size: 18px; margin: 8px 0 4px; }
+  .badges { margin: 16px 0 40px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .badges img { height: 20px; }
+  h2 { font-size: 22px; margin: 48px 0 16px; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+  .demo { display: grid; gap: 16px; grid-template-columns: 1fr 1fr; }
+  @media (max-width: 640px) { .demo { grid-template-columns: 1fr; } }
+  .card {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 12px; padding: 20px;
+  }
+  .card h3 { font-size: 15px; margin-bottom: 4px; }
+  .card p { color: var(--dim); font-size: 13px; margin-bottom: 12px; }
+  .card input, .card textarea {
+    width: 100%; background: var(--bg); color: var(--text);
+    border: 1px solid var(--line); border-radius: 8px;
+    padding: 12px 14px; font-size: 18px; font-family: inherit;
+  }
+  .card input:focus, .card textarea:focus { outline: 2px solid var(--accent); border-color: transparent; }
+  .out {
+    margin-top: 10px; padding: 12px 14px; min-height: 48px;
+    background: var(--bg); border-radius: 8px; font-size: 18px;
+    color: var(--accent); word-break: break-all;
+  }
+  pre {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+    padding: 18px; overflow-x: auto; font-size: 14px;
+  }
+  code { font-family: ui-monospace, "Cascadia Code", Consolas, monospace; }
+  .k { color: var(--accent2); } .s { color: var(--accent); } .c { color: var(--dim); }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  footer { margin-top: 64px; color: var(--dim); font-size: 13px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>ko<span class="accent">key</span></h1>
+  <p class="tagline">한↔영 자판 변환 (두벌식 ↔ QWERTY) · Korean ↔ English keyboard layout converter</p>
+  <p class="tagline">TypeScript-first · zero-dependency · ESM / CJS / <code>&lt;script&gt;</code></p>
+  <div class="badges">
+    <a href="https://www.npmjs.com/package/kokey"><img src="https://img.shields.io/npm/v/kokey" alt="npm"></a>
+    <a href="https://github.com/devslab-kr/kokey/actions/workflows/ci.yml"><img src="https://github.com/devslab-kr/kokey/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+    <a href="https://github.com/devslab-kr/kokey"><img src="https://img.shields.io/github/stars/devslab-kr/kokey?style=flat" alt="GitHub"></a>
+  </div>
+
+  <h2>Live demo — 직접 쳐보세요</h2>
+  <div class="demo">
+    <div class="card">
+      <h3>enToKo — 영타를 한글로</h3>
+      <p>영문 자판으로 그대로 치면 한글이 조합됩니다. Try <code>dkssudgktpdy</code></p>
+      <input data-hangul="ko" placeholder="dkssud → 안녕" autocomplete="off">
+    </div>
+    <div class="card">
+      <h3>koToEn — 한타를 영문으로</h3>
+      <p>한글 IME가 켜져 있어도 QWERTY로 복원됩니다. Try <code>ㅇㄴㅁ쇼2068601</code></p>
+      <input data-hangul="en" placeholder="ㅇㄴㅁ쇼2068601 → dsaty2068601" autocomplete="off">
+    </div>
+    <div class="card" style="grid-column: 1 / -1">
+      <h3>Converter — 양방향 변환기</h3>
+      <p>아래에 아무 텍스트나 붙여넣으면 두 방향 결과를 동시에 보여줍니다.</p>
+      <textarea id="src" rows="2" placeholder="여기에 입력 · type here">dkssudgktpdy, 이거 실화냐</textarea>
+      <div class="out" id="outKo"></div>
+      <div class="out" id="outEn" style="color: var(--accent2)"></div>
+    </div>
+  </div>
+
+  <h2>Install</h2>
+  <pre><code><span class="c"># npm</span>
+npm install kokey
+
+<span class="c"># CDN — no build step</span>
+&lt;script src="https://cdn.jsdelivr.net/npm/kokey/dist/kokey.global.js"&gt;&lt;/script&gt;</code></pre>
+
+  <h2>Usage</h2>
+  <pre><code><span class="k">import</span> { koToEn, enToKo, observe } <span class="k">from</span> <span class="s">'kokey'</span>
+
+koToEn(<span class="s">'안녕'</span>)   <span class="c">// 'dkssud'</span>
+enToKo(<span class="s">'dkssud'</span>) <span class="c">// '안녕' — 겹모음·겹받침·받침 넘김까지 실제 IME 그대로</span>
+
+<span class="c">// DOM: data-hangul 인풋을 전부 자동 바인딩</span>
+observe() <span class="c">// &lt;input data-hangul="ko|en"&gt;</span></code></pre>
+
+  <footer>
+    <a href="https://github.com/devslab-kr/kokey">GitHub</a> ·
+    <a href="https://www.npmjs.com/package/kokey">npm</a> ·
+    MIT © <a href="https://github.com/devslab-kr">devslab</a>
+  </footer>
+</main>
+<script src="./kokey.global.js"></script>
+<script>
+  kokey.observe()
+  const src = document.getElementById('src')
+  const outKo = document.getElementById('outKo')
+  const outEn = document.getElementById('outEn')
+  const render = () => {
+    outKo.textContent = 'enToKo → ' + kokey.enToKo(src.value)
+    outEn.textContent = 'koToEn → ' + kokey.koToEn(src.value)
+  }
+  src.addEventListener('input', render)
+  render()
+</script>
+</body>
+</html>
