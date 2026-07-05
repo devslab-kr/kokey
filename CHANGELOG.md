@@ -4,9 +4,9 @@
 
 ### Added
 
-- **`kokey/vue`** — Vue 3 directive `vHangul` (`v-hangul="'ko'"`, or mode
-  from the `data-hangul` attribute). Vue 3 디렉티브.
-- **`kokey/react`** — `useHangul(mode?)` hook returning a ref callback.
+- **`@devslab/kokey/vue`** — Vue 3 directive `vHangul` (`v-hangul="'ko'"`, or
+  mode from the `data-hangul` attribute). Vue 3 디렉티브.
+- **`@devslab/kokey/react`** — `useHangul(mode?)` hook returning a ref callback.
   ref 콜백을 반환하는 React 훅.
 - **`createRefBinder(mode?)`** — framework-agnostic ref-callback factory in
   the core (what `useHangul` wraps). 프레임워크 무관 ref 콜백 팩토리.
@@ -25,14 +25,17 @@
   커서 보존.
 - **Browser global build** — `dist/kokey.global.js` (IIFE, minified) with
   `unpkg`/`jsdelivr` fields, usable via
-  `<script src="https://cdn.jsdelivr.net/npm/kokey/dist/kokey.global.js">`.
+  `<script src="https://cdn.jsdelivr.net/npm/@devslab/kokey/dist/kokey.global.js">`.
   브라우저 전역 빌드 — CDN `<script>` 한 줄로 사용 가능.
 - **Homepage** — live demo at https://devslab-kr.github.io/kokey/
   (GitHub Pages, deployed on every main push).
 
 ## 0.1.0 (2026-07-05)
 
-Initial release. / 최초 릴리스.
+Initial release, published as **`@devslab/kokey`** — npm's name-similarity
+rule blocks the unscoped name `kokey` (too similar to `hdkey`).
+최초 릴리스, **`@devslab/kokey`** 로 발행 — unscoped `kokey`는 npm 유사 이름
+규칙(`hdkey`와 유사)에 걸려 사용 불가.
 
 ### Added
 

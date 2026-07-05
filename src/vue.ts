@@ -2,7 +2,7 @@
  * Vue 3 directive — `v-hangul` / `v-hangul="'en'"`.
  *
  *   <script setup>
- *   import { vHangul } from 'kokey/vue'
+ *   import { vHangul } from '@devslab/kokey/vue'
  *   </script>
  *   <template>
  *     <input v-hangul="'ko'">          <!-- explicit mode -->

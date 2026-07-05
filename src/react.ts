@@ -1,7 +1,7 @@
 /**
  * React hook — returns a ref callback that enforces the mode on the element.
  *
- *   import { useHangul } from 'kokey/react'
+ *   import { useHangul } from '@devslab/kokey/react'
  *
  *   function Field() {
  *     return <input ref={useHangul('ko')} />

@@ -59,7 +59,7 @@
   <p class="tagline">한↔영 자판 변환 (두벌식 ↔ QWERTY) · Korean ↔ English keyboard layout converter</p>
   <p class="tagline">TypeScript-first · zero-dependency · ESM / CJS / <code>&lt;script&gt;</code></p>
   <div class="badges">
-    <a href="https://www.npmjs.com/package/kokey"><img src="https://img.shields.io/npm/v/kokey" alt="npm"></a>
+    <a href="https://www.npmjs.com/package/@devslab/kokey"><img src="https://img.shields.io/npm/v/%40devslab%2Fkokey" alt="npm"></a>
     <a href="https://github.com/devslab-kr/kokey/actions/workflows/ci.yml"><img src="https://github.com/devslab-kr/kokey/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
     <a href="https://github.com/devslab-kr/kokey"><img src="https://img.shields.io/github/stars/devslab-kr/kokey?style=flat" alt="GitHub"></a>
   </div>
@@ -87,13 +87,13 @@
 
   <h2>Install</h2>
   <pre><code><span class="c"># npm</span>
-npm install kokey
+npm install @devslab/kokey
 
 <span class="c"># CDN — no build step</span>
-&lt;script src="https://cdn.jsdelivr.net/npm/kokey/dist/kokey.global.js"&gt;&lt;/script&gt;</code></pre>
+&lt;script src="https://cdn.jsdelivr.net/npm/@devslab/kokey/dist/kokey.global.js"&gt;&lt;/script&gt;</code></pre>
 
   <h2>Usage</h2>
-  <pre><code><span class="k">import</span> { koToEn, enToKo, observe } <span class="k">from</span> <span class="s">'kokey'</span>
+  <pre><code><span class="k">import</span> { koToEn, enToKo, observe } <span class="k">from</span> <span class="s">'@devslab/kokey'</span>
 
 koToEn(<span class="s">'안녕'</span>)   <span class="c">// 'dkssud'</span>
 enToKo(<span class="s">'dkssud'</span>) <span class="c">// '안녕' — 겹모음·겹받침·받침 넘김까지 실제 IME 그대로</span>
@@ -103,7 +103,7 @@ observe() <span class="c">// &lt;input data-hangul="ko|en"&gt;</span></code></pr
 
   <footer>
     <a href="https://github.com/devslab-kr/kokey">GitHub</a> ·
-    <a href="https://www.npmjs.com/package/kokey">npm</a> ·
+    <a href="https://www.npmjs.com/package/@devslab/kokey">npm</a> ·
     MIT © <a href="https://github.com/devslab-kr">devslab</a>
   </footer>
 </main>
