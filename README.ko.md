@@ -1,8 +1,8 @@
 # kokey
 
-[![npm](https://img.shields.io/npm/v/kokey)](https://www.npmjs.com/package/kokey)
+[![npm](https://img.shields.io/npm/v/%40devslab%2Fkokey)](https://www.npmjs.com/package/@devslab/kokey)
 [![CI](https://github.com/devslab-kr/kokey/actions/workflows/ci.yml/badge.svg)](https://github.com/devslab-kr/kokey/actions/workflows/ci.yml)
-[![license](https://img.shields.io/npm/l/kokey)](./LICENSE)
+[![license](https://img.shields.io/npm/l/%40devslab%2Fkokey)](./LICENSE)
 
 한↔영 자판 변환 라이브러리 (두벌식 ↔ QWERTY).
 TypeScript-first, **zero-dependency**, ESM/CJS 듀얼 패키지.
@@ -17,13 +17,13 @@ TypeScript-first, **zero-dependency**, ESM/CJS 듀얼 패키지.
 ## 설치
 
 ```sh
-npm install kokey
+npm install @devslab/kokey
 ```
 
 ## 사용법
 
 ```ts
-import { koToEn, enToKo } from 'kokey'
+import { koToEn, enToKo } from '@devslab/kokey'
 
 // 한글 → 그 한글을 만든 QWERTY 키 시퀀스
 koToEn('안녕')            // 'dkssud'

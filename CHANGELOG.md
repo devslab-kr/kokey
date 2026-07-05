@@ -2,7 +2,10 @@
 
 ## 0.1.0 (2026-07-05)
 
-Initial release. / 최초 릴리스.
+Initial release, published as **`@devslab/kokey`** — npm's name-similarity
+rule blocks the unscoped name `kokey` (too similar to `hdkey`).
+최초 릴리스, **`@devslab/kokey`** 로 발행 — unscoped `kokey`는 npm 유사 이름
+규칙(`hdkey`와 유사)에 걸려 사용 불가.
 
 ### Added
 
