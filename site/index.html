@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>kokey — 자판 오입력 복원 · wrong-keyboard-layout converter (한글·русский·עברית·ไทย…)</title>
-<meta name="description" content="kokey: 잘못된 자판으로 친 텍스트 복원. 한국어 두벌식 내장 + 러시아어·우크라이나어·히브리어·그리스어·태국어·아랍어·조지아어. zero-dependency TypeScript.">
+<meta name="description" content="kokey: restore text typed with the wrong keyboard layout. Korean Dubeolsik built in + Russian, Ukrainian, Hebrew, Greek, Thai, Arabic, Georgian. zero-dependency TypeScript.">
 <style>
   :root {
     --bg: #0f1117; --panel: #171a23; --line: #262b38;
@@ -20,8 +20,11 @@
   h1 { font-size: 44px; letter-spacing: -1px; }
   h1 .accent { color: var(--accent); }
   .tagline { color: var(--dim); font-size: 18px; margin: 8px 0 4px; }
-  .badges { margin: 16px 0 40px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .badges { margin: 16px 0 12px; display: flex; gap: 8px; flex-wrap: wrap; }
   .badges img { height: 20px; }
+  .langs { margin: 0 0 32px; display: flex; gap: 4px 12px; flex-wrap: wrap; font-size: 13px; }
+  .langs a { color: var(--dim); cursor: pointer; }
+  .langs a.active { color: var(--accent); font-weight: 600; }
   h2 { font-size: 22px; margin: 48px 0 16px; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
   .demo { display: grid; gap: 16px; grid-template-columns: 1fr 1fr; }
   @media (max-width: 640px) { .demo { grid-template-columns: 1fr; } }
@@ -45,6 +48,7 @@
   pre {
     background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
     padding: 18px; overflow-x: auto; font-size: 14px;
+    direction: ltr; text-align: left;
   }
   code { font-family: ui-monospace, "Cascadia Code", Consolas, monospace; }
   .k { color: var(--accent2); } .s { color: var(--accent); } .c { color: var(--dim); }
@@ -56,64 +60,77 @@
 <body>
 <main>
   <h1>ko<span class="accent">key</span></h1>
-  <p class="tagline">자판 오입력 복원 · wrong-keyboard-layout converter — 한글 · русский · українська · עברית · ελληνικά · ไทย · العربية · ქართული ↔ QWERTY</p>
-  <p class="tagline">TypeScript-first · zero-dependency · ESM / CJS / <code>&lt;script&gt;</code></p>
+  <p class="tagline">한글 · русский · українська · עברית · ελληνικά · ไทย · العربية · ქართული ↔ QWERTY</p>
+  <p class="tagline" data-i18n="tagline">Restore text typed with the wrong keyboard layout · TypeScript-first · zero-dependency</p>
   <div class="badges">
     <a href="https://www.npmjs.com/package/@devslab/kokey"><img src="https://img.shields.io/npm/v/%40devslab%2Fkokey" alt="npm"></a>
     <a href="https://github.com/devslab-kr/kokey/actions/workflows/ci.yml"><img src="https://github.com/devslab-kr/kokey/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
     <a href="https://github.com/devslab-kr/kokey"><img src="https://img.shields.io/github/stars/devslab-kr/kokey?style=flat" alt="GitHub"></a>
   </div>
+  <nav class="langs" id="langs" aria-label="Language">
+    <a data-lang="en">English</a>
+    <a data-lang="ko">한국어</a>
+    <a data-lang="ru">Русский</a>
+    <a data-lang="uk">Українська</a>
+    <a data-lang="he">עברית</a>
+    <a data-lang="el">Ελληνικά</a>
+    <a data-lang="th">ไทย</a>
+    <a data-lang="ar">العربية</a>
+    <a data-lang="ka">ქართული</a>
+  </nav>
 
-  <h2>Live demo — 직접 쳐보세요</h2>
+  <h2 data-i18n="demo_h">Live demo — try it yourself</h2>
   <div class="demo">
     <div class="card">
-      <h3>enToKo — 영타를 한글로</h3>
-      <p>영문 자판으로 그대로 치면 한글이 조합됩니다. Try <code>dkssudgktpdy</code></p>
-      <input data-hangul="ko" placeholder="dkssud → 안녕" autocomplete="off">
+      <h3 data-i18n="ko_in_t">enToKo — QWERTY → 한글</h3>
+      <p data-i18n="ko_in_d">Latin keystrokes compose into Hangul. Try dkssudgktpdy</p>
+      <input data-hangul="ko" placeholder="dkssud → 안녕" autocomplete="off" dir="ltr">
     </div>
     <div class="card">
-      <h3>koToEn — 한타를 영문으로</h3>
-      <p>한글 IME가 켜져 있어도 QWERTY로 복원됩니다. Try <code>ㅇㄴㅁ쇼2068601</code></p>
-      <input data-hangul="en" placeholder="ㅇㄴㅁ쇼2068601 → dsaty2068601" autocomplete="off">
+      <h3 data-i18n="ko_out_t">koToEn — 한글 → QWERTY</h3>
+      <p data-i18n="ko_out_d">Restored even with the Korean IME left on. Try ㅇㄴㅁ쇼2068601</p>
+      <input data-hangul="en" placeholder="ㅇㄴㅁ쇼2068601 → dsaty2068601" autocomplete="off" dir="ltr">
     </div>
     <div class="card">
-      <h3>data-kokey="ru" — 영타를 러시아어로</h3>
-      <p>ЙЦУКЕН 강제 조립. Try <code>ghbdtn</code> → привет</p>
-      <input data-kokey="ru" placeholder="ghbdtn → привет" autocomplete="off">
+      <h3 data-i18n="ru_t">data-kokey="ru" — QWERTY → русский</h3>
+      <p data-i18n="ru_d">ЙЦУКЕН enforced as you type. Try ghbdtn → привет</p>
+      <input data-kokey="ru" placeholder="ghbdtn → привет" autocomplete="off" dir="ltr">
     </div>
     <div class="card">
-      <h3>data-kokey="en" — 어떤 오입력이든 복원</h3>
-      <p>스크립트 자동 감지. Try <code>привет안녕שלום</code></p>
-      <input data-kokey="en" placeholder="привет안녕 → ghbdtndkssud" autocomplete="off">
+      <h3 data-i18n="en_t">data-kokey="en" — restore anything</h3>
+      <p data-i18n="en_d">Script auto-detected. Try привет안녕שלום</p>
+      <input data-kokey="en" placeholder="привет안녕 → ghbdtndkssud" autocomplete="off" dir="ltr">
     </div>
     <div class="card" style="grid-column: 1 / -1">
-      <h3>Converter — 양방향 변환기</h3>
-      <p>아래에 아무 텍스트나 붙여넣으면 결과를 동시에 보여줍니다. toEn은 8개 자판을 자동 감지합니다.</p>
-      <textarea id="src" rows="2" placeholder="여기에 입력 · type here">dkssudgktpdy, ghbdtn vbh, สวัสดี</textarea>
-      <div class="out" id="outKo"></div>
-      <div class="out" id="outEn" style="color: var(--accent2)"></div>
+      <h3 data-i18n="conv_t">Converter — both directions at once</h3>
+      <p data-i18n="conv_d">Paste anything below — toEn auto-detects all 8 layouts.</p>
+      <textarea id="src" rows="2" dir="ltr" placeholder="type here">dkssudgktpdy, ghbdtn vbh, สวัสดี</textarea>
+      <div class="out" id="outKo" dir="ltr"></div>
+      <div class="out" id="outEn" dir="ltr" style="color: var(--accent2)"></div>
     </div>
   </div>
 
-  <h2>Install</h2>
+  <h2 data-i18n="install_h">Install</h2>
   <pre><code><span class="c"># npm</span>
 npm install @devslab/kokey
 
 <span class="c"># CDN — no build step</span>
 &lt;script src="https://cdn.jsdelivr.net/npm/@devslab/kokey/dist/kokey.global.js"&gt;&lt;/script&gt;</code></pre>
 
-  <h2>Usage</h2>
+  <h2 data-i18n="usage_h">Usage</h2>
   <pre><code><span class="k">import</span> { koToEn, enToKo, register, toEn, observe } <span class="k">from</span> <span class="s">'@devslab/kokey'</span>
 <span class="k">import</span> { ru } <span class="k">from</span> <span class="s">'@devslab/kokey/ru'</span>   <span class="c">// /uk /he /el /th /ar /ka</span>
 
 koToEn(<span class="s">'안녕'</span>)   <span class="c">// 'dkssud'</span>
-enToKo(<span class="s">'dkssud'</span>) <span class="c">// '안녕' — 겹모음·겹받침·받침 넘김까지 실제 IME 그대로</span>
+enToKo(<span class="s">'dkssud'</span>) <span class="c">// '안녕'</span>
 
 register(ru)
-toEn(<span class="s">'привет안녕'</span>) <span class="c">// 'ghbdtndkssud' — 스크립트 자동 감지</span>
+toEn(<span class="s">'привет안녕'</span>) <span class="c">// 'ghbdtndkssud'</span>
 
-<span class="c">// DOM: data-kokey / data-hangul 인풋을 전부 자동 바인딩</span>
-observe() <span class="c">// &lt;input data-kokey="ko|ru|en|…"&gt;</span></code></pre>
+<span class="c">// Vue / React: v-model & controlled inputs</span>
+<span class="c">// &lt;KokeyInput v-model="v" mode="ru" /&gt;</span>
+
+observe() <span class="c">// bind every &lt;input data-kokey="ko|ru|en|…"&gt;</span></code></pre>
 
   <footer>
     <a href="https://github.com/devslab-kr/kokey">GitHub</a> ·
@@ -123,6 +140,174 @@ observe() <span class="c">// &lt;input data-kokey="ko|ru|en|…"&gt;</span></cod
 </main>
 <script src="./kokey.global.js"></script>
 <script>
+  // ---- i18n ---------------------------------------------------------------
+  const I18N = {
+    en: {
+      tagline: 'Restore text typed with the wrong keyboard layout · TypeScript-first · zero-dependency',
+      demo_h: 'Live demo — try it yourself',
+      ko_in_t: 'enToKo — QWERTY → Hangul',
+      ko_in_d: 'Latin keystrokes compose into Hangul. Try dkssudgktpdy',
+      ko_out_t: 'koToEn — Hangul → QWERTY',
+      ko_out_d: 'Restored even with the Korean IME left on. Try ㅇㄴㅁ쇼2068601',
+      ru_t: 'data-kokey="ru" — QWERTY → Russian',
+      ru_d: 'ЙЦУКЕН enforced as you type. Try ghbdtn → привет',
+      en_t: 'data-kokey="en" — restore anything',
+      en_d: 'Script auto-detected. Try привет안녕שלום',
+      conv_t: 'Converter — both directions at once',
+      conv_d: 'Paste anything below — toEn auto-detects all 8 layouts.',
+      install_h: 'Install', usage_h: 'Usage'
+    },
+    ko: {
+      tagline: '잘못된 자판으로 친 텍스트 복원 · TypeScript-first · zero-dependency',
+      demo_h: 'Live demo — 직접 쳐보세요',
+      ko_in_t: 'enToKo — 영타를 한글로',
+      ko_in_d: '영문 자판으로 그대로 치면 한글이 조합됩니다. Try dkssudgktpdy',
+      ko_out_t: 'koToEn — 한타를 영문으로',
+      ko_out_d: '한글 IME가 켜져 있어도 QWERTY로 복원됩니다. Try ㅇㄴㅁ쇼2068601',
+      ru_t: 'data-kokey="ru" — 영타를 러시아어로',
+      ru_d: 'ЙЦУКЕН 강제 조립. Try ghbdtn → привет',
+      en_t: 'data-kokey="en" — 어떤 오입력이든 복원',
+      en_d: '스크립트 자동 감지. Try привет안녕שלום',
+      conv_t: 'Converter — 양방향 변환기',
+      conv_d: '아무 텍스트나 붙여넣으세요 — toEn이 8개 자판을 자동 감지합니다.',
+      install_h: '설치', usage_h: '사용법'
+    },
+    ru: {
+      tagline: 'Восстановление текста, набранного не в той раскладке · TypeScript · без зависимостей',
+      demo_h: 'Демо — попробуйте сами',
+      ko_in_t: 'enToKo — QWERTY → хангыль',
+      ko_in_d: 'Латинские нажатия собираются в хангыль. Наберите dkssudgktpdy',
+      ko_out_t: 'koToEn — хангыль → QWERTY',
+      ko_out_d: 'Восстановление даже при включённом корейском IME. Вставьте ㅇㄴㅁ쇼2068601',
+      ru_t: 'data-kokey="ru" — QWERTY → русский',
+      ru_d: 'ЙЦУКЕН на лету. Наберите ghbdtn → привет',
+      en_t: 'data-kokey="en" — восстановить что угодно',
+      en_d: 'Письменность определяется автоматически. Вставьте привет안녕שלום',
+      conv_t: 'Конвертер — оба направления сразу',
+      conv_d: 'Вставьте любой текст — toEn сам определит все 8 раскладок.',
+      install_h: 'Установка', usage_h: 'Использование'
+    },
+    uk: {
+      tagline: 'Відновлення тексту, набраного не в тій розкладці · TypeScript · без залежностей',
+      demo_h: 'Демо — спробуйте самі',
+      ko_in_t: 'enToKo — QWERTY → хангиль',
+      ko_in_d: 'Латинські натискання збираються в хангиль. Наберіть dkssudgktpdy',
+      ko_out_t: 'koToEn — хангиль → QWERTY',
+      ko_out_d: 'Відновлення навіть з увімкненим корейським IME. Вставте ㅇㄴㅁ쇼2068601',
+      ru_t: 'data-kokey="ru" — QWERTY → російська',
+      ru_d: 'ЙЦУКЕН на льоту. Наберіть ghbdtn → привет',
+      en_t: 'data-kokey="en" — відновити будь-що',
+      en_d: 'Письмо визначається автоматично. Вставте привіт안녕שלום',
+      conv_t: 'Конвертер — обидва напрями одразу',
+      conv_d: 'Вставте будь-який текст — toEn сам визначить усі 8 розкладок.',
+      install_h: 'Встановлення', usage_h: 'Використання'
+    },
+    he: {
+      tagline: 'שחזור טקסט שהוקלד בפריסת מקלדת שגויה · TypeScript · ללא תלויות',
+      demo_h: 'הדגמה חיה — נסו בעצמכם',
+      ko_in_t: 'enToKo — QWERTY → האנגול',
+      ko_in_d: 'הקשות לטיניות מורכבות להאנגול. נסו dkssudgktpdy',
+      ko_out_t: 'koToEn — האנגול → QWERTY',
+      ko_out_d: 'משוחזר גם כשה־IME הקוריאני דולק. הדביקו ㅇㄴㅁ쇼2068601',
+      ru_t: 'data-kokey="ru" — QWERTY → רוסית',
+      ru_d: 'ЙЦУКЕН תוך כדי הקלדה. נסו ghbdtn → привет',
+      en_t: 'data-kokey="en" — שחזור של הכול',
+      en_d: 'זיהוי כתב אוטומטי. נסו привет안녕שלום',
+      conv_t: 'ממיר — שני הכיוונים בבת אחת',
+      conv_d: 'הדביקו כל טקסט — toEn מזהה את כל 8 הפריסות.',
+      install_h: 'התקנה', usage_h: 'שימוש'
+    },
+    el: {
+      tagline: 'Επαναφορά κειμένου που γράφτηκε με λάθος διάταξη · TypeScript · χωρίς εξαρτήσεις',
+      demo_h: 'Ζωντανή επίδειξη — δοκιμάστε το',
+      ko_in_t: 'enToKo — QWERTY → χανγκούλ',
+      ko_in_d: 'Λατινικά πλήκτρα συνθέτουν χανγκούλ. Δοκιμάστε dkssudgktpdy',
+      ko_out_t: 'koToEn — χανγκούλ → QWERTY',
+      ko_out_d: 'Επαναφορά ακόμη και με το κορεατικό IME ενεργό. Επικολλήστε ㅇㄴㅁ쇼2068601',
+      ru_t: 'data-kokey="ru" — QWERTY → ρωσικά',
+      ru_d: 'ЙЦУКЕН καθώς πληκτρολογείτε. Δοκιμάστε ghbdtn → привет',
+      en_t: 'data-kokey="en" — επαναφορά των πάντων',
+      en_d: 'Αυτόματη ανίχνευση γραφής. Δοκιμάστε привет안녕שלום',
+      conv_t: 'Μετατροπέας — και οι δύο κατευθύνσεις μαζί',
+      conv_d: 'Επικολλήστε οτιδήποτε — το toEn ανιχνεύει και τις 8 διατάξεις.',
+      install_h: 'Εγκατάσταση', usage_h: 'Χρήση'
+    },
+    th: {
+      tagline: 'กู้คืนข้อความที่พิมพ์ด้วยผังแป้นพิมพ์ผิด · TypeScript · ไม่มี dependency',
+      demo_h: 'เดโมสด — ลองด้วยตัวเอง',
+      ko_in_t: 'enToKo — QWERTY → ฮันกึล',
+      ko_in_d: 'การกดแป้นละตินประกอบเป็นฮันกึล ลอง dkssudgktpdy',
+      ko_out_t: 'koToEn — ฮันกึล → QWERTY',
+      ko_out_d: 'กู้คืนได้แม้ IME เกาหลียังเปิดอยู่ วาง ㅇㄴㅁ쇼2068601',
+      ru_t: 'data-kokey="ru" — QWERTY → รัสเซีย',
+      ru_d: 'ЙЦУКЕН ขณะพิมพ์ ลอง ghbdtn → привет',
+      en_t: 'data-kokey="en" — กู้คืนได้ทุกอย่าง',
+      en_d: 'ตรวจจับชนิดอักษรอัตโนมัติ ลอง привет안녕שלום หรือ l;ylfu',
+      conv_t: 'ตัวแปลง — สองทิศทางพร้อมกัน',
+      conv_d: 'วางข้อความอะไรก็ได้ — toEn ตรวจจับผังแป้นพิมพ์ทั้ง 8 อัตโนมัติ',
+      install_h: 'การติดตั้ง', usage_h: 'การใช้งาน'
+    },
+    ar: {
+      tagline: 'استعادة النص المكتوب بتخطيط لوحة مفاتيح خاطئ · TypeScript · بدون تبعيات',
+      demo_h: 'عرض مباشر — جرّب بنفسك',
+      ko_in_t: 'enToKo — QWERTY → هانغل',
+      ko_in_d: 'الضغطات اللاتينية تتركّب هانغل. جرّب dkssudgktpdy',
+      ko_out_t: 'koToEn — هانغل → QWERTY',
+      ko_out_d: 'يُستعاد حتى مع تشغيل IME الكوري. الصق ㅇㄴㅁ쇼2068601',
+      ru_t: 'data-kokey="ru" — QWERTY → الروسية',
+      ru_d: 'ЙЦУКЕН أثناء الكتابة. جرّب ghbdtn → привет',
+      en_t: 'data-kokey="en" — استعادة أي شيء',
+      en_d: 'كشف تلقائي لنوع الكتابة. جرّب привет안녕שלום أو lvpfh',
+      conv_t: 'المحوِّل — الاتجاهان معًا',
+      conv_d: 'الصق أي نص — يكتشف toEn التخطيطات الثمانية تلقائيًا.',
+      install_h: 'التثبيت', usage_h: 'الاستخدام'
+    },
+    ka: {
+      tagline: 'არასწორი განლაგებით აკრეფილი ტექსტის აღდგენა · TypeScript · დამოკიდებულებების გარეშე',
+      demo_h: 'ცოცხალი დემო — თავად სცადეთ',
+      ko_in_t: 'enToKo — QWERTY → ჰანგილი',
+      ko_in_d: 'ლათინური კლავიშები ჰანგილად იწყობა. სცადეთ dkssudgktpdy',
+      ko_out_t: 'koToEn — ჰანგილი → QWERTY',
+      ko_out_d: 'აღდგება კორეული IME-თიც კი. ჩასვით ㅇㄴㅁ쇼2068601',
+      ru_t: 'data-kokey="ru" — QWERTY → რუსული',
+      ru_d: 'ЙЦУКЕН აკრეფისას. სცადეთ ghbdtn → привет',
+      en_t: 'data-kokey="en" — ყველაფრის აღდგენა',
+      en_d: 'დამწერლობის ავტომატური ამოცნობა. სცადეთ привет안녕שלום ან gamarjoba',
+      conv_t: 'გადამყვანი — ორივე მიმართულება ერთდროულად',
+      conv_d: 'ჩასვით ნებისმიერი ტექსტი — toEn რვავე განლაგებას თავად ცნობს.',
+      install_h: 'ინსტალაცია', usage_h: 'გამოყენება'
+    }
+  }
+  const RTL = new Set(['he', 'ar'])
+  const nav = document.getElementById('langs')
+
+  function setLang(lang) {
+    const dict = I18N[lang] || I18N.en
+    document.documentElement.lang = lang
+    document.documentElement.dir = RTL.has(lang) ? 'rtl' : 'ltr'
+    for (const el of document.querySelectorAll('[data-i18n]')) {
+      el.textContent = dict[el.getAttribute('data-i18n')] || I18N.en[el.getAttribute('data-i18n')]
+    }
+    for (const a of nav.querySelectorAll('a')) {
+      a.classList.toggle('active', a.getAttribute('data-lang') === lang)
+    }
+    try { localStorage.setItem('kokey-lang', lang) } catch {}
+  }
+
+  nav.addEventListener('click', (e) => {
+    const lang = e.target.getAttribute && e.target.getAttribute('data-lang')
+    if (lang) setLang(lang)
+  })
+
+  let initial = null
+  try { initial = localStorage.getItem('kokey-lang') } catch {}
+  if (!initial || !I18N[initial]) {
+    const pref = (navigator.language || 'en').toLowerCase().slice(0, 2)
+    initial = I18N[pref] ? pref : 'en'
+  }
+  setLang(initial)
+
+  // ---- demo ---------------------------------------------------------------
   kokey.observe()
   const src = document.getElementById('src')
   const outKo = document.getElementById('outKo')
