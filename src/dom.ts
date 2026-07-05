@@ -34,14 +34,35 @@ function resolveMode(el: Bindable, fixed?: KokeyMode): KokeyMode | null {
 }
 
 /**
+ * Convert a value the way the DOM layer would for the given mode.
+ *
  * Layout modes normalize through both directions so progressive typing works:
  * the visible value may already contain composed text from previous
  * keystrokes (`안` + `s` → decompose to `dkss` → recompose to `안ㄴ`).
  */
-function convertValue(value: string, mode: KokeyMode): string {
+export function convert(value: string, mode: KokeyMode): string {
   if (mode === 'en') return toEn(value)
   const layout = getLayout(mode)
   return layout ? layout.fromLatin(layout.toLatin(value)) : value
+}
+
+/**
+ * Convert an input's value in place, preserving the caret (the text before
+ * the caret is converted separately and its length becomes the new caret
+ * position). Returns whether the value changed — the building block the
+ * bind/observe layer and the framework components share.
+ */
+export function applyToInput(el: Bindable, mode: KokeyMode): boolean {
+  const value = el.value
+  const next = convert(value, mode)
+  if (next === value) return false
+  const caret = el.selectionStart
+  el.value = next
+  if (caret !== null) {
+    const pos = convert(value.slice(0, caret), mode).length
+    el.setSelectionRange(pos, pos)
+  }
+  return true
 }
 
 /**
@@ -56,18 +77,9 @@ export function bind(el: Bindable, mode?: KokeyMode): () => void {
 
   let composing = false
 
-  const convert = (): void => {
+  const run = (): void => {
     const m = resolveMode(el, mode)
-    if (!m) return
-    const value = el.value
-    const next = convertValue(value, m)
-    if (next === value) return
-    const caret = el.selectionStart
-    el.value = next
-    if (caret !== null) {
-      const pos = convertValue(value.slice(0, caret), m).length
-      el.setSelectionRange(pos, pos)
-    }
+    if (m) applyToInput(el, m)
   }
 
   const onCompositionStart = (): void => {
@@ -75,10 +87,10 @@ export function bind(el: Bindable, mode?: KokeyMode): () => void {
   }
   const onCompositionEnd = (): void => {
     composing = false
-    convert()
+    run()
   }
   const onInput = (): void => {
-    if (!composing) convert()
+    if (!composing) run()
   }
 
   el.addEventListener('compositionstart', onCompositionStart)

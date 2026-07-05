@@ -123,6 +123,8 @@ const unbind = bind(el, 'en') // 개별 엘리먼트 명시 바인딩
 
 ### Vue / React
 
+일반(비제어) 인풋에는 디렉티브/훅을:
+
 ```vue
 <script setup>
 import { vKokey } from '@devslab/kokey/vue'
@@ -141,7 +143,32 @@ function Field() {
 }
 ```
 
-둘 다 DOM 레이어의 얇은 래퍼입니다 — `vue`/`react`는 optional peer dependency라
+`v-model` / controlled 인풋에는 `KokeyInput` 컴포넌트를 쓰세요 — 변환이
+**프레임워크 데이터 플로우 안에서** 일어나므로 바인딩된 상태가 항상 변환된
+값을 갖습니다 (ref 방식은 프레임워크가 값을 읽은 뒤 DOM을 바꾸는 구조라
+`v-model`/`value=`와 충돌할 수 있음):
+
+```vue
+<script setup>
+import { KokeyInput } from '@devslab/kokey/vue'
+const name = ref('')
+</script>
+<template>
+  <KokeyInput v-model="name" mode="ko" />
+  <KokeyInput v-model="memo" mode="en" as="textarea" />
+</template>
+```
+
+```tsx
+import { KokeyInput } from '@devslab/kokey/react'
+
+function Form() {
+  const [v, setV] = useState('')
+  return <KokeyInput mode="en" value={v} onChange={(e) => setV(e.target.value)} />
+}
+```
+
+전부 DOM 레이어의 얇은 래퍼입니다 — `vue`/`react`는 optional peer dependency라
 코어는 여전히 zero-dependency. 기존 `vHangul` / `useHangul` 이름도 유지됩니다.
 
 ## API
@@ -158,7 +185,10 @@ function Field() {
 | `observe` | `(root?) => stop` | `root` 아래 `[data-kokey]`/`[data-hangul]` 전부 바인딩 + MutationObserver로 감시 |
 | `createRefBinder` | `(mode?) => (el \| null) => void` | 프레임워크 무관 ref 콜백 팩토리 (`useKokey`의 코어) |
 | `vKokey` | `@devslab/kokey/vue` | Vue 3 디렉티브: `v-kokey="'ko'"` (기존 `vHangul` 유지) |
+| `KokeyInput` | `@devslab/kokey/vue` · `/react` | `v-model` / controlled 인풋용 컴포넌트 (`mode`, `as="input\|textarea"`) |
 | `useKokey` | `@devslab/kokey/react` | ref 콜백을 반환하는 React 훅 (기존 `useHangul` 유지) |
+| `convert` | `(text, mode) => string` | 모드 단발 변환 (`'en'` 또는 자판 id) |
+| `applyToInput` | `(el, mode) => boolean` | 인풋 값을 커서 보존하며 제자리 변환 |
 
 자판별 모듈은 직접 변환 함수도 export 합니다: `ruToEn`/`enToRu`,
 `heToEn`/`enToHe`, `thToEn`/`enToTh`, … 저수준 한국어 테이블(`CHOSUNG`,

@@ -29,6 +29,15 @@
 - **`vKokey` / `useKokey`** — generalized Vue directive & React hook;
   `vHangul` / `useHangul` kept as aliases.
   일반화된 Vue 디렉티브·React 훅; 기존 이름은 별칭으로 유지.
+- **`KokeyInput` component (Vue & React)** — converts inside the framework's
+  data flow, so `v-model` / controlled inputs receive the converted value
+  (the ref/directive bindings mutate the DOM after the framework reads it).
+  Props: `mode`, `as="input|textarea"`. IME-composition-safe.
+  **`KokeyInput` 컴포넌트** — `v-model`/controlled 인풋용. 변환이 데이터
+  플로우 안에서 일어나 상태가 항상 변환된 값을 가짐.
+- **`convert(text, mode)` / `applyToInput(el, mode)`** — the DOM layer's
+  building blocks exported for custom integrations.
+  커스텀 통합용 저수준 헬퍼 export.
 - **CDN global build** now ships every layout pre-registered —
   `kokey.toEn('привет안녕')` works with zero setup.
   CDN 빌드에는 전 자판이 사전 등록됨.

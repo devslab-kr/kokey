@@ -125,6 +125,8 @@ Latin with no per-language branching.
 
 ### Vue / React
 
+For plain (uncontrolled) inputs, the directive/hook:
+
 ```vue
 <script setup>
 import { vKokey } from '@devslab/kokey/vue'
@@ -143,7 +145,32 @@ function Field() {
 }
 ```
 
-Both are thin wrappers over the DOM layer — `vue`/`react` are optional peer
+For `v-model` / controlled inputs, use the `KokeyInput` component — it
+converts **inside the framework's data flow**, so your bound state always
+holds the converted value (the ref-based bindings mutate the DOM after the
+framework reads it, which fights `v-model`/`value=`):
+
+```vue
+<script setup>
+import { KokeyInput } from '@devslab/kokey/vue'
+const name = ref('')
+</script>
+<template>
+  <KokeyInput v-model="name" mode="ko" />
+  <KokeyInput v-model="memo" mode="en" as="textarea" />
+</template>
+```
+
+```tsx
+import { KokeyInput } from '@devslab/kokey/react'
+
+function Form() {
+  const [v, setV] = useState('')
+  return <KokeyInput mode="en" value={v} onChange={(e) => setV(e.target.value)} />
+}
+```
+
+All are thin wrappers over the DOM layer — `vue`/`react` are optional peer
 dependencies, so the core stays zero-dependency. The legacy `vHangul` /
 `useHangul` names still work.
 
@@ -161,7 +188,10 @@ dependencies, so the core stays zero-dependency. The legacy `vHangul` /
 | `observe` | `(root?) => stop` | Bind every `[data-kokey]`/`[data-hangul]` under `root` and keep watching via MutationObserver |
 | `createRefBinder` | `(mode?) => (el \| null) => void` | Framework-agnostic ref-callback factory (what `useKokey` wraps) |
 | `vKokey` | `@devslab/kokey/vue` | Vue 3 directive: `v-kokey="'ko'"` (legacy `vHangul` kept) |
+| `KokeyInput` | `@devslab/kokey/vue` · `/react` | Component for `v-model` / controlled inputs (`mode`, `as="input\|textarea"`) |
 | `useKokey` | `@devslab/kokey/react` | React hook returning a ref callback (legacy `useHangul` kept) |
+| `convert` | `(text, mode) => string` | One-shot conversion for a mode (`'en'` or a layout id) |
+| `applyToInput` | `(el, mode) => boolean` | Convert an input's value in place, caret preserved |
 
 Per-layout modules also export direct converters: `ruToEn`/`enToRu`,
 `heToEn`/`enToHe`, `thToEn`/`enToTh`, … Low-level Korean tables (`CHOSUNG`,
