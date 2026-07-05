@@ -1,6 +1,6 @@
 {
   "name": "@devslab/kokey",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "publishConfig": {
     "access": "public"
   },
@@ -9,6 +9,8 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "unpkg": "./dist/kokey.global.js",
+  "jsdelivr": "./dist/kokey.global.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -28,6 +30,7 @@
     "prepublishOnly": "npm run typecheck && npm run test && npm run build"
   },
   "devDependencies": {
+    "jsdom": "^26.1.0",
     "tsup": "^8.5.0",
     "typescript": "^5.7.0",
     "vitest": "^4.1.9"

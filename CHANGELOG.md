@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.2.0 (2026-07-05)
+
+### Added
+
+- **DOM layer** — `bind(el, mode?)` and `observe(root?)` enforce an input
+  mode on `<input data-hangul="ko|en">` regardless of IME state.
+  Composition-safe (never touches the value mid-IME-composition), cursor
+  preserved via prefix conversion.
+  **DOM 레이어** — IME 상태와 무관하게 인풋 모드 강제. 조합 중 미개입,
+  커서 보존.
+- **Browser global build** — `dist/kokey.global.js` (IIFE, minified) with
+  `unpkg`/`jsdelivr` fields, usable via
+  `<script src="https://cdn.jsdelivr.net/npm/@devslab/kokey/dist/kokey.global.js">`.
+  브라우저 전역 빌드 — CDN `<script>` 한 줄로 사용 가능.
+- **Homepage** — live demo at https://devslab-kr.github.io/kokey/
+  (GitHub Pages, deployed on every main push).
+
 ## 0.1.0 (2026-07-05)
 
 Initial release, published as **`@devslab/kokey`** — npm's name-similarity

@@ -1,5 +1,7 @@
 export { koToEn } from './koToEn'
 export { enToKo } from './enToKo'
+export { bind, observe } from './dom'
+export type { HangulMode } from './dom'
 export {
   CHOSUNG,
   JUNGSUNG,
