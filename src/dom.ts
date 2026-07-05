@@ -101,6 +101,21 @@ function bindAll(scope: ParentNode): void {
 }
 
 /**
+ * Framework-agnostic ref-callback factory: pass the element to bind, `null`
+ * to unbind. This is what the React `useHangul` hook wraps — usable directly
+ * with any library that hands you element refs.
+ */
+export function createRefBinder(
+  mode?: HangulMode
+): (el: Bindable | null) => void {
+  let unbind: (() => void) | null = null
+  return (el) => {
+    unbind?.()
+    unbind = el ? bind(el, mode) : null
+  }
+}
+
+/**
  * Bind every `[data-hangul]` input under `root` (default: `document`) and
  * keep watching for inputs added later or gaining the attribute.
  * Returns a stop function that disconnects the observer (existing bindings
