@@ -1,10 +1,10 @@
 {
   "name": "@devslab/kokey",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "publishConfig": {
     "access": "public"
   },
-  "description": "Korean ↔ English keyboard layout converter (Dubeolsik ↔ QWERTY). TypeScript-first, zero-dependency, ESM/CJS dual.",
+  "description": "Keyboard layout converter — restore text typed with the wrong layout (한글, русский, עברית, ελληνικά, ไทย, العربية, українська, ქართული ↔ QWERTY). TypeScript-first, zero-dependency, ESM/CJS dual.",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -26,6 +26,41 @@
       "types": "./dist/react.d.ts",
       "import": "./dist/react.js",
       "require": "./dist/react.cjs"
+    },
+    "./ru": {
+      "types": "./dist/ru.d.ts",
+      "import": "./dist/ru.js",
+      "require": "./dist/ru.cjs"
+    },
+    "./uk": {
+      "types": "./dist/uk.d.ts",
+      "import": "./dist/uk.js",
+      "require": "./dist/uk.cjs"
+    },
+    "./he": {
+      "types": "./dist/he.d.ts",
+      "import": "./dist/he.js",
+      "require": "./dist/he.cjs"
+    },
+    "./el": {
+      "types": "./dist/el.d.ts",
+      "import": "./dist/el.js",
+      "require": "./dist/el.cjs"
+    },
+    "./th": {
+      "types": "./dist/th.d.ts",
+      "import": "./dist/th.js",
+      "require": "./dist/th.cjs"
+    },
+    "./ar": {
+      "types": "./dist/ar.d.ts",
+      "import": "./dist/ar.js",
+      "require": "./dist/ar.cjs"
+    },
+    "./ka": {
+      "types": "./dist/ka.d.ts",
+      "import": "./dist/ka.js",
+      "require": "./dist/ka.cjs"
     }
   },
   "files": [
@@ -71,13 +106,40 @@
     "inko",
     "한글",
     "두벌식",
-    "한영변환"
+    "한영변환",
+    "punto-switcher",
+    "russian",
+    "ЙЦУКЕН",
+    "jcuken",
+    "ghbdtn",
+    "hebrew",
+    "greek",
+    "thai",
+    "kedmanee",
+    "arabic",
+    "ukrainian",
+    "georgian",
+    "wrong-layout",
+    "keyboard-layout",
+    "layout-converter",
+    "input-method",
+    "i18n",
+    "raskladka",
+    "раскладка",
+    "mistyped",
+    "autocorrect",
+    "vue",
+    "react",
+    "barcode-scanner",
+    "한영키",
+    "영타",
+    "한타"
   ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/devslab-kr/kokey.git"
   },
-  "homepage": "https://github.com/devslab-kr/kokey#readme",
+  "homepage": "https://devslab-kr.github.io/kokey/",
   "bugs": {
     "url": "https://github.com/devslab-kr/kokey/issues"
   },

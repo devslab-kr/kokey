@@ -1,5 +1,53 @@
 # Changelog
 
+## 0.4.0 (2026-07-06)
+
+### Added
+
+- **Multi-layout support** — seven new keyboard layouts as tree-shakeable
+  subpath imports, each with faithful punctuation/shift handling and
+  round-trip tests against the Windows reference layouts:
+  `@devslab/kokey/ru` (Russian ЙЦУКЕН), `/uk` (Ukrainian Enhanced),
+  `/he` (Hebrew), `/el` (Greek, tonos/dialytika dead keys), `/th`
+  (Thai Kedmanee, full digit-row remap), `/ar` (Arabic 101, lam-alef +
+  tashkeel), `/ka` (Georgian QWERTY).
+  **다국어 자판 지원** — 서브패스 import 7종 (러시아어·우크라이나어·
+  히브리어·그리스어·태국어·아랍어·조지아어), Windows 표준 배열 기준
+  왕복 테스트 포함.
+- **`register` / `toEn` / `fromEn`** — layout registry with per-run script
+  auto-detection: `toEn('안녕 привет')` → `'dkssud ghbdtn'`. Layouts sharing
+  a script (ru/uk) are disambiguated by character coverage.
+  자판 registry + 스크립트 자동 감지. 같은 문자권(ru/uk)은 커버리지로 판별.
+- **`defineLayout`** — public helper to build custom table-driven layouts
+  (`{ id, script, fromKey }`), with greedy multi-key matching (dead keys,
+  lam-alef) and automatic reverse-table derivation.
+  커스텀 자판 정의 헬퍼 (dead key·다문자 시퀀스 지원).
+- **`data-kokey` attribute** — DOM layer generalized: `data-kokey="ru"`
+  enforces any registered layout, `data-kokey="en"` restores whatever
+  registered script was mistyped. `data-hangul` keeps working.
+  DOM 레이어 일반화 — `data-hangul`도 계속 동작.
+- **`vKokey` / `useKokey`** — generalized Vue directive & React hook;
+  `vHangul` / `useHangul` kept as aliases.
+  일반화된 Vue 디렉티브·React 훅; 기존 이름은 별칭으로 유지.
+- **`KokeyInput` component (Vue & React)** — converts inside the framework's
+  data flow, so `v-model` / controlled inputs receive the converted value
+  (the ref/directive bindings mutate the DOM after the framework reads it).
+  Props: `mode`, `as="input|textarea"`. IME-composition-safe.
+  **`KokeyInput` 컴포넌트** — `v-model`/controlled 인풋용. 변환이 데이터
+  플로우 안에서 일어나 상태가 항상 변환된 값을 가짐.
+- **`convert(text, mode)` / `applyToInput(el, mode)`** — the DOM layer's
+  building blocks exported for custom integrations.
+  커스텀 통합용 저수준 헬퍼 export.
+- **CDN global build** now ships every layout pre-registered —
+  `kokey.toEn('привет안녕')` works with zero setup.
+  CDN 빌드에는 전 자판이 사전 등록됨.
+
+### Changed
+
+- npm `homepage` now points to the live demo
+  (https://devslab-kr.github.io/kokey/) instead of the GitHub README.
+  npm 홈페이지 링크를 라이브 데모로 변경.
+
 ## 0.3.0 (2026-07-05)
 
 ### Added

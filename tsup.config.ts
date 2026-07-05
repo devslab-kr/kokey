@@ -2,7 +2,18 @@ import { defineConfig } from 'tsup'
 
 export default defineConfig([
   {
-    entry: ['src/index.ts', 'src/vue.ts', 'src/react.ts'],
+    entry: {
+      index: 'src/index.ts',
+      vue: 'src/vue.ts',
+      react: 'src/react.ts',
+      ru: 'src/layouts/ru.ts',
+      uk: 'src/layouts/uk.ts',
+      he: 'src/layouts/he.ts',
+      el: 'src/layouts/el.ts',
+      th: 'src/layouts/th.ts',
+      ar: 'src/layouts/ar.ts',
+      ka: 'src/layouts/ka.ts'
+    },
     format: ['esm', 'cjs'],
     dts: true,
     clean: true,
