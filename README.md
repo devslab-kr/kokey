@@ -9,7 +9,7 @@ Korean (Dubeolsik ↔ QWERTY) built in; Russian, Ukrainian, Hebrew, Greek,
 Thai, Arabic and Georgian available as tree-shakeable subpath imports.
 TypeScript-first, **zero dependencies**, ESM/CJS dual package.
 
-[한국어 문서](./README.ko.md) · [Live demo](https://devslab-kr.github.io/kokey/)
+**English** · [한국어](./README.ko.md) · [Русский](./README.ru.md) · [Українська](./README.uk.md) · [עברית](./README.he.md) · [Ελληνικά](./README.el.md) · [ไทย](./README.th.md) · [العربية](./README.ar.md) · [ქართული](./README.ka.md) · [Live demo](https://devslab-kr.github.io/kokey/)
 
 Ever typed `dkssud` when you meant `안녕`, or scanned a barcode while the
 Korean IME was on and got `ㅇㄴㅁ쇼2068601` instead of `DSATY2068601`?

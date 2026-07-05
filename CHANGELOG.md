@@ -42,6 +42,16 @@
   `kokey.toEn('привет안녕')` works with zero setup.
   CDN 빌드에는 전 자판이 사전 등록됨.
 
+- **Localized READMEs** — README.ru/uk/he/el/th/ar/ka.md, each opening with
+  that language's own wrong-layout example (`ghbdtn`, `akuo`, `l;ylfu`, …)
+  and linking to the English README for the full API; language switcher row
+  in every README.
+  **다국어 README** — 지원 언어 7종 각각의 대표 사례로 시작하는 현지어 문서.
+- **Multilingual demo site** — 9-language switcher (auto-detected from
+  `navigator.language`, persisted, RTL for he/ar) plus new demo fields for
+  `data-kokey="ru"` and the auto-restoring `data-kokey="en"`.
+  **데모 사이트 다국어화** — 9개 언어 스위처, RTL 지원, 자동 감지.
+
 ### Changed
 
 - npm `homepage` now points to the live demo
