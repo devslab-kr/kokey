@@ -1,8 +1,8 @@
 # kokey
 
-[![npm](https://img.shields.io/npm/v/kokey)](https://www.npmjs.com/package/kokey)
+[![npm](https://img.shields.io/npm/v/%40devslab%2Fkokey)](https://www.npmjs.com/package/@devslab/kokey)
 [![CI](https://github.com/devslab-kr/kokey/actions/workflows/ci.yml/badge.svg)](https://github.com/devslab-kr/kokey/actions/workflows/ci.yml)
-[![license](https://img.shields.io/npm/l/kokey)](./LICENSE)
+[![license](https://img.shields.io/npm/l/%40devslab%2Fkokey)](./LICENSE)
 
 Korean ↔ English keyboard layout converter (Dubeolsik ↔ QWERTY).
 TypeScript-first, **zero dependencies**, ESM/CJS dual package.
@@ -17,13 +17,13 @@ directions, exactly the way a Dubeolsik IME composes Hangul.
 ## Install
 
 ```sh
-npm install kokey
+npm install @devslab/kokey
 ```
 
 ## Usage
 
 ```ts
-import { koToEn, enToKo } from 'kokey'
+import { koToEn, enToKo } from '@devslab/kokey'
 
 // Hangul → the QWERTY keystrokes that produced it
 koToEn('안녕')            // 'dkssud'
