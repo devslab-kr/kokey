@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.1 (2026-07-17)
+
+Docs-only republish — no code changes. Runnable `examples/{vanilla,vue,react}`,
+StackBlitz / CodeSandbox try-online links in all nine READMEs, and the numkey
+sibling cross-link now appear on the npm page.
+/ 문서 재배포 — 코드 무변경. examples 3종, 9개 언어 README의 원클릭 실행
+링크, numkey 형제 링크가 npm 페이지에 반영됩니다.
+
 ## 0.4.0 (2026-07-06)
 
 ### Added
