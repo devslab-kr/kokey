@@ -21,6 +21,10 @@ QWERTY: Russians type `ghbdtn` for `привет`, Israelis `akuo` for `שלום
 Thais scan barcodes with Kedmanee on. `kokey` covers those layouts too —
 see [Beyond Korean](#beyond-korean--any-registered-layout).
 
+*Numeric fields in the same form — amounts that need live comma grouping,
+a stable caret, and right alignment? That's kokey's sibling,
+[numkey](https://github.com/devslab-kr/numkey).*
+
 ## Install
 
 ```sh
