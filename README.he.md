@@ -9,6 +9,8 @@ TypeScript-first, **ללא תלויות**, ESM/CJS.
 
 [English](./README.md) · [한국어](./README.ko.md) · [Русский](./README.ru.md) · [Українська](./README.uk.md) · **עברית** · [Ελληνικά](./README.el.md) · [ไทย](./README.th.md) · [العربية](./README.ar.md) · [ქართული](./README.ka.md)
 
+Try it online: [⚡ StackBlitz — Vanilla](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/vanilla) · [Vue](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/vue) · [React](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/react) | [📦 CodeSandbox](https://codesandbox.io/s/github/devslab-kr/kokey/tree/main/examples/vanilla)
+
 הקלדתם `akuo` כשהתכוונתם ל־`שלום`? שכחתם להחליף שפה וקיבלתם ג'יבריש
 בעברית במקום סיסמה או מק"ט? `kokey` ממיר בין "מה שהוקלד" ל"מה שהתכוונתם" —
 בשני הכיוונים, בדיוק לפי הפריסה העברית הסטנדרטית של Windows: אותיות

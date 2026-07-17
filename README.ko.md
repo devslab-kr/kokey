@@ -11,6 +11,8 @@ TypeScript-first, **zero-dependency**, ESM/CJS 듀얼 패키지.
 
 [English](./README.md) · **한국어** · [Русский](./README.ru.md) · [Українська](./README.uk.md) · [עברית](./README.he.md) · [Ελληνικά](./README.el.md) · [ไทย](./README.th.md) · [العربية](./README.ar.md) · [ქართული](./README.ka.md) · [라이브 데모](https://devslab-kr.github.io/kokey/)
 
+바로 실행해보기: [⚡ StackBlitz — Vanilla](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/vanilla) · [Vue](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/vue) · [React](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/react) | [📦 CodeSandbox](https://codesandbox.io/s/github/devslab-kr/kokey/tree/main/examples/vanilla)
+
 `안녕`을 치려다 `dkssud`를 쳐본 적, 한글 IME가 켜진 채 바코드를 스캔해서
 `DSATY2068601` 대신 `ㅇㄴㅁ쇼2068601`이 들어온 적 있다면 — `kokey`가
 "입력된 것"과 "의도한 것" 사이를 양방향으로 변환합니다. 실제 두벌식 IME의

@@ -11,6 +11,8 @@ TypeScript-first, **zero dependencies**, ESM/CJS dual package.
 
 **English** · [한국어](./README.ko.md) · [Русский](./README.ru.md) · [Українська](./README.uk.md) · [עברית](./README.he.md) · [Ελληνικά](./README.el.md) · [ไทย](./README.th.md) · [العربية](./README.ar.md) · [ქართული](./README.ka.md) · [Live demo](https://devslab-kr.github.io/kokey/)
 
+Try it online: [⚡ StackBlitz — Vanilla](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/vanilla) · [Vue](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/vue) · [React](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/react) | [📦 CodeSandbox](https://codesandbox.io/s/github/devslab-kr/kokey/tree/main/examples/vanilla)
+
 Ever typed `dkssud` when you meant `안녕`, or scanned a barcode while the
 Korean IME was on and got `ㅇㄴㅁ쇼2068601` instead of `DSATY2068601`?
 `kokey` converts between what was typed and what was meant — in both

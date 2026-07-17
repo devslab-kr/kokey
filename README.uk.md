@@ -9,6 +9,8 @@
 
 [English](./README.md) · [한국어](./README.ko.md) · [Русский](./README.ru.md) · **Українська** · [עברית](./README.he.md) · [Ελληνικά](./README.el.md) · [ไทย](./README.th.md) · [العربية](./README.ar.md) · [ქართული](./README.ka.md)
 
+Try it online: [⚡ StackBlitz — Vanilla](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/vanilla) · [Vue](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/vue) · [React](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/react) | [📦 CodeSandbox](https://codesandbox.io/s/github/devslab-kr/kokey/tree/main/examples/vanilla)
+
 Набирали `ghbdsn`, коли хотіли написати `привіт`? Забули перемкнути
 розкладку — і замість пароля чи артикула вийшла кирилична каша? `kokey`
 перетворює «що набралося» на «що малося на увазі» — в обидва боки, точно за
