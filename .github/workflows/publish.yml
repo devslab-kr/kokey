@@ -1,18 +1,32 @@
 name: Publish to npm
 
+# Two ways to release:
+#   1. workflow_dispatch with a version input (preferred — no local tag work):
+#      gh workflow run publish.yml -f version=v0.2.0
+#      Creates the tag AND the GitHub Release after publishing.
+#   2. Pushing a v*.*.* tag (manual fallback) — publishes and creates the
+#      GitHub Release on the existing tag.
+# Either way the version must match package.json.
+
 on:
   push:
     tags:
       - 'v*.*.*'
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version incl. the v prefix, must match package.json (e.g. v0.2.0)'
+        required: true
 
 permissions:
-  contents: read
+  contents: write
   id-token: write
 
 jobs:
   publish:
     runs-on: ubuntu-latest
+    env:
+      RELEASE_TAG: ${{ github.event_name == 'push' && github.ref_name || inputs.version }}
     steps:
       - uses: actions/checkout@v5
 
@@ -27,12 +41,34 @@ jobs:
       - run: npm run test
       - run: npm run build
 
-      - name: Check release tag matches package version
-        if: startsWith(github.ref, 'refs/tags/')
+      - name: Check release version matches package.json
         run: |
-          node -e "const pkg=require('./package.json'); const expected='v'+pkg.version; const actual=process.env.GITHUB_REF_NAME; if (actual !== expected) { console.error('Tag ' + actual + ' does not match package version ' + expected); process.exit(1); }"
+          node -e "const pkg=require('./package.json'); const expected='v'+pkg.version; const actual=process.env.RELEASE_TAG; if (actual !== expected) { console.error('Release version ' + actual + ' does not match package version ' + expected); process.exit(1); }"
+
+      - name: Extract release notes from CHANGELOG
+        run: |
+          node -e "
+            const fs = require('fs');
+            const version = process.env.RELEASE_TAG.slice(1);
+            const changelog = fs.readFileSync('CHANGELOG.md', 'utf8');
+            const lines = changelog.split('\n');
+            const start = lines.findIndex(l => l.startsWith('## ' + version));
+            if (start === -1) { console.error('No CHANGELOG section for ' + version); process.exit(1); }
+            let end = lines.length;
+            for (let i = start + 1; i < lines.length; i++) {
+              if (lines[i].startsWith('## ')) { end = i; break; }
+            }
+            fs.writeFileSync('release-notes.md', lines.slice(start + 1, end).join('\n').trim() + '\n');
+          "
 
       - name: Publish package
         run: npm publish --access public --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create GitHub Release (creates the tag on workflow_dispatch)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.RELEASE_TAG }}
+          name: ${{ env.RELEASE_TAG }}
+          body_path: release-notes.md
