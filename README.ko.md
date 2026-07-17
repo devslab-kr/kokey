@@ -21,6 +21,10 @@ TypeScript-first, **zero-dependency**, ESM/CJS 듀얼 패키지.
 `akuo`를 칩니다. `kokey`는 그 자판들도 지원합니다 —
 [한국어 너머](#한국어-너머--등록된-모든-자판) 참고.
 
+*같은 폼의 숫자 필드 — 실시간 콤마, 안정적인 커서, 오른쪽 정렬이 필요한
+금액 인풋이라면? kokey의 형제 [numkey](https://github.com/devslab-kr/numkey)를
+보세요.*
+
 ## 설치
 
 ```sh
