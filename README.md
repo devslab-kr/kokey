@@ -13,6 +13,10 @@ TypeScript-first, **zero dependencies**, ESM/CJS dual package.
 
 Try it online: [⚡ StackBlitz — Vanilla](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/vanilla) · [Vue](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/vue) · [React](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/react) | [📦 CodeSandbox](https://codesandbox.io/s/github/devslab-kr/kokey/tree/main/examples/vanilla)
 
+<p align="center">
+  <a href="https://devslab-kr.github.io/kokey/"><img src="https://raw.githubusercontent.com/devslab-kr/kokey/main/docs/preview.png" alt="kokey demo — dkssud → 안녕, ghbdtn → привет, wrong-layout text restored live" width="720"></a>
+</p>
+
 Ever typed `dkssud` when you meant `안녕`, or scanned a barcode while the
 Korean IME was on and got `ㅇㄴㅁ쇼2068601` instead of `DSATY2068601`?
 `kokey` converts between what was typed and what was meant — in both
@@ -217,6 +221,12 @@ unmaintained since 2019 and predates modern TypeScript/ESM packaging.
 `kokey` is a from-scratch implementation: typed, tree-shakeable, dual
 ESM/CJS, tested against real IME behavior (compound finals, carry-over,
 shift handling).
+
+## Contributing
+
+Issues and PRs welcome — new layouts especially. See
+[CONTRIBUTING.md](./CONTRIBUTING.md) for the dev setup and the two hard
+rules for layout tables (anchor verification + round-trip tests).
 
 ## License
 

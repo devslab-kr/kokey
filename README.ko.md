@@ -13,6 +13,10 @@ TypeScript-first, **zero-dependency**, ESM/CJS 듀얼 패키지.
 
 바로 실행해보기: [⚡ StackBlitz — Vanilla](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/vanilla) · [Vue](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/vue) · [React](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/react) | [📦 CodeSandbox](https://codesandbox.io/s/github/devslab-kr/kokey/tree/main/examples/vanilla)
 
+<p align="center">
+  <a href="https://devslab-kr.github.io/kokey/"><img src="https://raw.githubusercontent.com/devslab-kr/kokey/main/docs/preview.png" alt="kokey 데모 — dkssud → 안녕, ghbdtn → привет, 오타 자판 실시간 복원" width="720"></a>
+</p>
+
 `안녕`을 치려다 `dkssud`를 쳐본 적, 한글 IME가 켜진 채 바코드를 스캔해서
 `DSATY2068601` 대신 `ㅇㄴㅁ쇼2068601`이 들어온 적 있다면 — `kokey`가
 "입력된 것"과 "의도한 것" 사이를 양방향으로 변환합니다. 실제 두벌식 IME의
@@ -212,6 +216,12 @@ function Form() {
 유지보수가 멈췄고 현대 TypeScript/ESM 패키징 이전 세대입니다. `kokey`는
 처음부터 다시 구현했습니다: 타입 지원, tree-shaking, ESM/CJS 듀얼,
 실제 IME 동작(겹받침, 받침 넘김, Shift 처리) 기준 테스트.
+
+## 기여하기
+
+이슈·PR 환영합니다 — 특히 새 자판 추가. 개발 환경 셋업과 자판 테이블의
+두 가지 필수 규칙(앵커 검증 + 왕복 테스트)은
+[CONTRIBUTING.md](./CONTRIBUTING.md)를 보세요.
 
 ## 라이선스
 
