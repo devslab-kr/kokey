@@ -2,7 +2,9 @@
 
 [![npm](https://img.shields.io/npm/v/%40devslab%2Fkokey)](https://www.npmjs.com/package/@devslab/kokey)
 [![CI](https://github.com/devslab-kr/kokey/actions/workflows/ci.yml/badge.svg)](https://github.com/devslab-kr/kokey/actions/workflows/ci.yml)
-[![license](https://img.shields.io/npm/l/%40devslab%2Fkokey)](./LICENSE)
+![TypeScript](https://img.shields.io/badge/TypeScript-Ready-3178C6?logo=typescript&logoColor=white)
+[![License](https://img.shields.io/badge/License-MIT-blue)](./LICENSE)
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/vanilla)
 
 Конвертер розкладок клавіатури — відновлює текст, набраний не в тій
 розкладці. TypeScript-first, **без залежностей**, ESM/CJS.
