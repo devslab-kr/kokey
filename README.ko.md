@@ -2,7 +2,9 @@
 
 [![npm](https://img.shields.io/npm/v/%40devslab%2Fkokey)](https://www.npmjs.com/package/@devslab/kokey)
 [![CI](https://github.com/devslab-kr/kokey/actions/workflows/ci.yml/badge.svg)](https://github.com/devslab-kr/kokey/actions/workflows/ci.yml)
-[![license](https://img.shields.io/npm/l/%40devslab%2Fkokey)](./LICENSE)
+![TypeScript](https://img.shields.io/badge/TypeScript-Ready-3178C6?logo=typescript&logoColor=white)
+[![License](https://img.shields.io/badge/License-MIT-blue)](./LICENSE)
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/vanilla)
 
 자판 오입력 복원 라이브러리 — 잘못된 자판으로 친 텍스트를 되돌립니다.
 한국어(두벌식 ↔ QWERTY) 기본 내장, 러시아어·우크라이나어·히브리어·그리스어·
@@ -222,6 +224,11 @@ function Form() {
 이슈·PR 환영합니다 — 특히 새 자판 추가. 개발 환경 셋업과 자판 테이블의
 두 가지 필수 규칙(앵커 검증 + 왕복 테스트)은
 [CONTRIBUTING.md](./CONTRIBUTING.md)를 보세요.
+
+## Family
+
+- [numkey](https://github.com/devslab-kr/numkey) — "-key" 인풋 패밀리의 숫자 형제: 실시간 천 단위 콤마, 한국형 금액 UX, 문자열 우선 정식 값
+- [devslab](https://github.com/devslab-kr)의 다른 오픈소스
 
 ## 라이선스
 

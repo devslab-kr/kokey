@@ -2,7 +2,9 @@
 
 [![npm](https://img.shields.io/npm/v/%40devslab%2Fkokey)](https://www.npmjs.com/package/@devslab/kokey)
 [![CI](https://github.com/devslab-kr/kokey/actions/workflows/ci.yml/badge.svg)](https://github.com/devslab-kr/kokey/actions/workflows/ci.yml)
-[![license](https://img.shields.io/npm/l/%40devslab%2Fkokey)](./LICENSE)
+![TypeScript](https://img.shields.io/badge/TypeScript-Ready-3178C6?logo=typescript&logoColor=white)
+[![License](https://img.shields.io/badge/License-MIT-blue)](./LICENSE)
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/vanilla)
 
 Keyboard layout converter — restore text typed with the wrong layout.
 Korean (Dubeolsik ↔ QWERTY) built in; Russian, Ukrainian, Hebrew, Greek,
@@ -227,6 +229,11 @@ shift handling).
 Issues and PRs welcome — new layouts especially. See
 [CONTRIBUTING.md](./CONTRIBUTING.md) for the dev setup and the two hard
 rules for layout tables (anchor verification + round-trip tests).
+
+## Family
+
+- [numkey](https://github.com/devslab-kr/numkey) — the numeric sibling in the "-key" input family: live thousands grouping, Korean amount UX, string-first canonical values
+- More open source from [devslab](https://github.com/devslab-kr)
 
 ## License
 
