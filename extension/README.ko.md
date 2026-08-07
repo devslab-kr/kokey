@@ -47,3 +47,14 @@ npm run build:extension   # dist/ 빌드 후 kokey.global.js를 이 폴더로 �
 
 `content.test.ts`가 실제 `convert.js` + `content.js`를 `chrome.runtime`
 스텁과 함께 메인 vitest 스위트에서 구동합니다.
+
+## 스토어 제출
+
+```sh
+npm run package:extension   # → extension/kokey-extension-v<version>.zip
+```
+
+zip에는 런타임 파일만 들어갑니다(하네스/테스트/README 제외). 목록 문안·
+권한 정당화·대시보드 입력값은 [store/listing.md](./store/listing.md),
+스크린샷은 `store/`, 개인정보 방침은
+https://devslab-kr.github.io/kokey/privacy.html 입니다.
