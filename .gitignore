@@ -1,5 +1,6 @@
 node_modules/
 dist/
+extension/kokey.global.js
 coverage/
 *.log
 .DS_Store

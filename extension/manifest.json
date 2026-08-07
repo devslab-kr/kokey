@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "kokey — wrong-layout text fixer",
+  "version": "0.6.0",
+  "description": "Fix text typed with the wrong keyboard layout — 한글, русский, עברית, ελληνικά, ไทย, العربية, українська, ქართული ↔ QWERTY. All processing is local; nothing leaves your browser.",
+  "permissions": ["contextMenus"],
+  "background": {
+    "service_worker": "background.js",
+    "scripts": ["background.js"]
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["kokey.global.js", "convert.js", "content.js"],
+      "run_at": "document_idle",
+      "all_frames": true
+    }
+  ],
+  "commands": {
+    "kokey-fix": {
+      "suggested_key": { "default": "Alt+K" },
+      "description": "Fix the focused field or selection / 포커스된 필드·선택 텍스트 복원"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "browser_specific_settings": {
+    "gecko": { "id": "kokey@devslab.kr" }
+  }
+}
