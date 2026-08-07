@@ -64,7 +64,7 @@ register(uk)
 observe()
 ```
 
-## Vue / React
+## Vue / React / Svelte / Solid
 
 ```vue
 <KokeyInput v-model="value" mode="uk" />
@@ -76,6 +76,12 @@ observe()
 
 Компонент виконує перетворення всередині потоку даних фреймворку, тому
 `v-model` / controlled-інпути завжди отримують уже перетворене значення.
+
+У Svelte і Solid — дія/директива `use:kokey` (`@devslab/kokey/svelte`, `/solid`):
+
+```svelte
+<input use:kokey={'uk'} />
+```
 
 ## Повна документація
 

@@ -58,7 +58,7 @@ register(ka)
 observe()
 ```
 
-## Vue / React
+## Vue / React / Svelte / Solid
 
 ```vue
 <KokeyInput v-model="value" mode="ka" />
@@ -70,6 +70,12 @@ observe()
 
 კომპონენტი გარდაქმნას ფრეიმვორკის მონაცემთა ნაკადში ასრულებს, ამიტომ
 `v-model` / controlled input ყოველთვის გარდაქმნილ მნიშვნელობას იღებს.
+
+Svelte-სა და Solid-ში არის `use:kokey` (`@devslab/kokey/svelte`, `/solid`):
+
+```svelte
+<input use:kokey={'ka'} />
+```
 
 ## სრული დოკუმენტაცია
 

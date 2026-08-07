@@ -1,5 +1,38 @@
 # Changelog
 
+## 0.5.0 (2026-08-07)
+
+### Added
+
+- **Svelte adapter** (`@devslab/kokey/svelte`) — `use:kokey` action +
+  `use:kokeyPaste`. `bind:value` works: the action binds with `resync`, so
+  after a conversion it re-dispatches `input` and the binding picks up the
+  converted value. Imports nothing from `svelte` — no peer dependency.
+  **Svelte 어댑터** — `use:kokey` 액션 + `use:kokeyPaste`. `bind:value`
+  동작(변환 후 `input` 재발행으로 재동기화). `svelte` import 없음 —
+  peer dependency 자체가 없습니다.
+- **Solid adapter** (`@devslab/kokey/solid`) — `use:kokey` directive
+  (reactive to a mode signal), `use:kokeyPaste`, and a `useKokey` ref
+  factory. `solid-js` is an optional peer dependency.
+  **Solid 어댑터** — 모드 시그널에 반응하는 `use:kokey` 디렉티브,
+  `use:kokeyPaste`, `useKokey` ref 팩토리. `solid-js`는 optional peer.
+- **Paste auto-correction** — `fixMistyped(text)` returns the corrected
+  text when a string looks like wrong-layout gibberish (`null` otherwise);
+  `bindPaste(el)` / `<input data-kokey-paste>` (via `observe()`) apply it on
+  paste, with a cancelable `kokey-paste` CustomEvent as a veto/suggest hook.
+  Detection is conservative and Korean-only — composition itself is the
+  signal (standalone vowel jamo → mistyped English; fully-recomposing Latin
+  words → mistyped Korean; a single word needs ≥3 syllables). ㅋㅋㅋ/ㅠㅠ
+  laughter and real text in either language pass through.
+  **붙여넣기 자동 교정** — `fixMistyped` / `bindPaste` /
+  `data-kokey-paste`. 보수적 한국어 전용 휴리스틱(조합 가능성이 신호),
+  취소 가능한 `kokey-paste` 이벤트 훅 제공.
+- **`bind(el, mode, { resync })`** — opt-in re-dispatch of `input` after a
+  conversion changes the value, for frameworks whose own listeners run
+  before the conversion (what the Svelte action uses). Loop-safe because
+  conversion is idempotent.
+  **`bind` `resync` 옵션** — 변환 후 `input` 재발행(루프 안전).
+
 ## 0.4.1 (2026-07-17)
 
 Docs-only republish — no code changes. Runnable `examples/{vanilla,vue,react}`,

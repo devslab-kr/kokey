@@ -133,7 +133,35 @@ const unbind = bind(el, 'en') // or bind a single element explicitly
 user forgot to switch off — Korean, Russian, Thai — the field self-heals to
 Latin with no per-language branching.
 
-### Vue / React
+### Paste auto-correction
+
+Fix wrong-layout gibberish on paste **without** forcing a mode on the input:
+
+```html
+<input data-kokey-paste>  <!-- picked up by observe() -->
+```
+
+```ts
+import { bindPaste, fixMistyped } from '@devslab/kokey'
+
+bindPaste(el)               // imperative version
+fixMistyped('dkssudgktpdy') // '안녕하세요' — or null if it looks fine
+fixMistyped('hello')        // null
+```
+
+Detection is deliberately conservative and Korean-only, because composition
+itself is the signal: standalone vowel jamo mixed into text marks English
+typed in Korean mode (`ㅗ디ㅣㅐ` → `hello`), and Latin words that recompose
+into complete syllables with nothing left over mark Korean typed in English
+mode (`dkssudgktpdy` → `안녕하세요`). Real Korean — including ㅋㅋㅋ/ㅠㅠ
+laughter — and real English pass through untouched; a single short word must
+yield at least three syllables before it fires. Other layouts have no such
+validity signal (any Latin string maps to Cyrillic), so use explicit modes
+for those. Before replacing, a cancelable `kokey-paste` CustomEvent fires
+with `detail: { pasted, fixed }` — `preventDefault()` it to veto, or use
+`fixMistyped` directly to build a suggest-UI instead.
+
+### Vue / React / Svelte / Solid
 
 For plain (uncontrolled) inputs, the directive/hook:
 
@@ -180,9 +208,33 @@ function Form() {
 }
 ```
 
-All are thin wrappers over the DOM layer — `vue`/`react` are optional peer
-dependencies, so the core stays zero-dependency. The legacy `vHangul` /
-`useHangul` names still work.
+Svelte gets an action — `bind:value` works, the action re-syncs the binding
+after converting (and it imports nothing from `svelte`, so there is no peer
+dependency at all):
+
+```svelte
+<script>
+  import { kokey, kokeyPaste } from '@devslab/kokey/svelte'
+  let name = ''
+</script>
+
+<input use:kokey={'ko'} bind:value={name} />
+<input use:kokeyPaste />
+```
+
+Solid gets a `use:` directive (reactive to a mode signal) and a ref factory —
+Solid's delegated `onInput` already reads the converted value:
+
+```tsx
+import { kokey, useKokey } from '@devslab/kokey/solid'
+
+<input use:kokey={mode()} onInput={(e) => setV(e.currentTarget.value)} />
+<input ref={useKokey('en')} />
+```
+
+All are thin wrappers over the DOM layer — `vue`/`react`/`solid-js` are
+optional peer dependencies (Svelte needs none), so the core stays
+zero-dependency. The legacy `vHangul` / `useHangul` names still work.
 
 ## API
 
@@ -197,9 +249,12 @@ dependencies, so the core stays zero-dependency. The legacy `vHangul` /
 | `bind` | `(el, mode?) => unbind` | Enforce a mode on one input/textarea (mode defaults to its `data-kokey`/`data-hangul` attribute) |
 | `observe` | `(root?) => stop` | Bind every `[data-kokey]`/`[data-hangul]` under `root` and keep watching via MutationObserver |
 | `createRefBinder` | `(mode?) => (el \| null) => void` | Framework-agnostic ref-callback factory (what `useKokey` wraps) |
+| `fixMistyped` | `(text) => string \| null` | Correct wrong-layout gibberish, or `null` if the text looks fine (heuristic, Korean-only) |
+| `bindPaste` | `(el) => unbind` | Auto-correct wrong-layout pastes on one input (`data-kokey-paste` via `observe`) |
 | `vKokey` | `@devslab/kokey/vue` | Vue 3 directive: `v-kokey="'ko'"` (legacy `vHangul` kept) |
 | `KokeyInput` | `@devslab/kokey/vue` · `/react` | Component for `v-model` / controlled inputs (`mode`, `as="input\|textarea"`) |
-| `useKokey` | `@devslab/kokey/react` | React hook returning a ref callback (legacy `useHangul` kept) |
+| `useKokey` | `@devslab/kokey/react` · `/solid` | Hook/ref factory returning a ref callback (legacy `useHangul` kept) |
+| `kokey` | `@devslab/kokey/svelte` · `/solid` | Svelte action / Solid directive for `use:kokey` (+ `kokeyPaste` in both) |
 | `convert` | `(text, mode) => string` | One-shot conversion for a mode (`'en'` or a layout id) |
 | `applyToInput` | `(el, mode) => boolean` | Convert an input's value in place, caret preserved |
 
@@ -213,6 +268,8 @@ advanced use.
 - ~~`v0.2` — DOM layer~~ ✅ shipped
 - ~~`v0.3` — Vue directive / React hook~~ ✅ shipped
 - ~~`v0.4` — multi-layout: ru/uk/he/el/th/ar/ka + `toEn` auto-detection~~ ✅ shipped
+- `v0.5` — Svelte action / Solid directive + paste auto-correction
+- `v0.6` — browser extension (fix mistyped text on any site — context menu + hotkey)
 
 ## Why not inko?
 

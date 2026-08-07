@@ -57,7 +57,7 @@ register(ar)
 observe()
 ```
 
-## Vue / React
+## Vue / React / Svelte / Solid
 
 ```vue
 <KokeyInput v-model="value" mode="ar" />
@@ -69,6 +69,12 @@ observe()
 
 يجري المكوِّن التحويل داخل تدفق بيانات إطار العمل، لذا تتلقى `v-model` /
 الحقول المتحكَّم بها القيمة المحوَّلة دائمًا.
+
+في Svelte وSolid يتوفر `use:kokey` (`@devslab/kokey/svelte`، `/solid`):
+
+```svelte
+<input use:kokey={'ar'} />
+```
 
 ## التوثيق الكامل
 

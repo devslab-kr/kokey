@@ -6,6 +6,8 @@ export default defineConfig([
       index: 'src/index.ts',
       vue: 'src/vue.ts',
       react: 'src/react.ts',
+      svelte: 'src/svelte.ts',
+      solid: 'src/solid.ts',
       ru: 'src/layouts/ru.ts',
       uk: 'src/layouts/uk.ts',
       he: 'src/layouts/he.ts',
