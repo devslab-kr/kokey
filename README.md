@@ -271,7 +271,7 @@ advanced use.
 - ~~`v0.3` — Vue directive / React hook~~ ✅ shipped
 - ~~`v0.4` — multi-layout: ru/uk/he/el/th/ar/ka + `toEn` auto-detection~~ ✅ shipped
 - `v0.5` — Svelte action / Solid directive + paste auto-correction
-- `v0.6` — browser extension (fix mistyped text on any site — context menu + hotkey)
+- `v0.6` — browser extension (fix mistyped text on any site — context menu + hotkey) — 🚧 in repo ([extension/](./extension/)), store submission pending
 
 ## Why not inko?
 

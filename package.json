@@ -79,6 +79,7 @@
   "sideEffects": false,
   "scripts": {
     "build": "tsup",
+    "build:extension": "npm run build && node scripts/build-extension.mjs",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",

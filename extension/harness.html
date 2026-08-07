@@ -1,0 +1,26 @@
+<!doctype html>
+<!-- Dev harness: run the content script outside the extension pipeline.
+     `chrome.runtime` is stubbed; click the buttons to simulate the context
+     menu / Alt+K message. Needs `npm run build:extension` first. -->
+<meta charset="utf-8">
+<title>kokey extension harness</title>
+<body style="font:14px system-ui;padding:24px;display:grid;gap:12px;max-width:480px">
+  <label>mistyped field <input id="a" value="dkssudgktpdy" style="width:100%"></label>
+  <label>nothing to convert <input id="b" value="123" style="width:100%"></label>
+  <p>select me: привет ghbdtn ㅗ디ㅣㅐ</p>
+  <button id="fix">simulate kokey-fix (or focus a field first)</button>
+  <script>
+    window.__handlers = []
+    window.chrome = { runtime: { onMessage: { addListener: (fn) => window.__handlers.push(fn) } } }
+  </script>
+  <script src="./kokey.global.js"></script>
+  <script src="./convert.js"></script>
+  <script src="./content.js"></script>
+  <script>
+    const fire = () => window.__handlers.forEach((f) => f({ type: 'kokey-fix' }))
+    document.getElementById('fix').addEventListener('mousedown', (e) => {
+      e.preventDefault() // keep focus on the field being tested
+      fire()
+    })
+  </script>
+</body>
