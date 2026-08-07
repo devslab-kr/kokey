@@ -133,7 +133,35 @@ const unbind = bind(el, 'en') // 개별 엘리먼트 명시 바인딩
 사용자가 한국어든 러시아어든 태국어든 어떤 자판을 켜두고 쳐도 필드가
 알아서 라틴으로 복원되므로 언어별 분기가 필요 없습니다.
 
-### Vue / React
+### 붙여넣기 자동 교정
+
+인풋에 모드를 강제하지 **않고도**, 붙여넣은 텍스트가 자판 착오로 보이면
+고쳐줍니다:
+
+```html
+<input data-kokey-paste>  <!-- observe()가 자동으로 바인딩 -->
+```
+
+```ts
+import { bindPaste, fixMistyped } from '@devslab/kokey'
+
+bindPaste(el)               // 명령형 버전
+fixMistyped('dkssudgktpdy') // '안녕하세요' — 정상 텍스트면 null
+fixMistyped('hello')        // null
+```
+
+감지는 의도적으로 보수적이며 한국어 전용입니다 — 조합 가능성 자체가
+신호이기 때문입니다: 홀로 선 모음 자모가 섞여 있으면 한글 모드로 잘못 친
+영어(`ㅗ디ㅣㅐ` → `hello`), 라틴 단어가 남김없이 완전한 음절로 조합되면
+영문 모드로 잘못 친 한국어(`dkssudgktpdy` → `안녕하세요`)로 판정합니다.
+진짜 한국어(ㅋㅋㅋ/ㅠㅠ 포함)와 진짜 영어는 건드리지 않고, 단어 하나짜리는
+3음절 이상이어야 발동합니다. 다른 자판은 이런 유효성 신호가 없어(어떤 라틴
+문자열이든 키릴로 대응됨) 명시 모드를 쓰세요. 교체 직전에 취소 가능한
+`kokey-paste` CustomEvent가 `detail: { pasted, fixed }`와 함께 발생하므로
+`preventDefault()`로 거부하거나, `fixMistyped`를 직접 써서 "제안 UI"를
+만들 수도 있습니다.
+
+### Vue / React / Svelte / Solid
 
 일반(비제어) 인풋에는 디렉티브/훅을:
 
@@ -180,8 +208,33 @@ function Form() {
 }
 ```
 
-전부 DOM 레이어의 얇은 래퍼입니다 — `vue`/`react`는 optional peer dependency라
-코어는 여전히 zero-dependency. 기존 `vHangul` / `useHangul` 이름도 유지됩니다.
+Svelte는 액션입니다 — `bind:value`가 그대로 동작합니다(변환 후 바인딩을
+재동기화). 액션은 `svelte`에서 아무것도 import하지 않아 peer dependency
+자체가 없습니다:
+
+```svelte
+<script>
+  import { kokey, kokeyPaste } from '@devslab/kokey/svelte'
+  let name = ''
+</script>
+
+<input use:kokey={'ko'} bind:value={name} />
+<input use:kokeyPaste />
+```
+
+Solid는 `use:` 디렉티브(모드 시그널에 반응)와 ref 팩토리입니다 — Solid의
+위임(delegated) `onInput`은 이미 변환된 값을 읽습니다:
+
+```tsx
+import { kokey, useKokey } from '@devslab/kokey/solid'
+
+<input use:kokey={mode()} onInput={(e) => setV(e.currentTarget.value)} />
+<input ref={useKokey('en')} />
+```
+
+전부 DOM 레이어의 얇은 래퍼입니다 — `vue`/`react`/`solid-js`는 optional
+peer dependency이고 Svelte는 그마저 없어서, 코어는 여전히 zero-dependency.
+기존 `vHangul` / `useHangul` 이름도 유지됩니다.
 
 ## API
 
@@ -196,9 +249,12 @@ function Form() {
 | `bind` | `(el, mode?) => unbind` | 인풋 하나에 모드 강제 (mode 생략 시 `data-kokey`/`data-hangul` 속성값) |
 | `observe` | `(root?) => stop` | `root` 아래 `[data-kokey]`/`[data-hangul]` 전부 바인딩 + MutationObserver로 감시 |
 | `createRefBinder` | `(mode?) => (el \| null) => void` | 프레임워크 무관 ref 콜백 팩토리 (`useKokey`의 코어) |
+| `fixMistyped` | `(text) => string \| null` | 자판 착오로 보이면 교정, 정상이면 `null` (휴리스틱, 한국어 전용) |
+| `bindPaste` | `(el) => unbind` | 인풋 하나의 붙여넣기 자동 교정 (`data-kokey-paste`는 `observe`가 처리) |
 | `vKokey` | `@devslab/kokey/vue` | Vue 3 디렉티브: `v-kokey="'ko'"` (기존 `vHangul` 유지) |
 | `KokeyInput` | `@devslab/kokey/vue` · `/react` | `v-model` / controlled 인풋용 컴포넌트 (`mode`, `as="input\|textarea"`) |
-| `useKokey` | `@devslab/kokey/react` | ref 콜백을 반환하는 React 훅 (기존 `useHangul` 유지) |
+| `useKokey` | `@devslab/kokey/react` · `/solid` | ref 콜백을 반환하는 훅/팩토리 (기존 `useHangul` 유지) |
+| `kokey` | `@devslab/kokey/svelte` · `/solid` | `use:kokey` Svelte 액션 / Solid 디렉티브 (+ 양쪽 모두 `kokeyPaste`) |
 | `convert` | `(text, mode) => string` | 모드 단발 변환 (`'en'` 또는 자판 id) |
 | `applyToInput` | `(el, mode) => boolean` | 인풋 값을 커서 보존하며 제자리 변환 |
 
@@ -211,6 +267,8 @@ function Form() {
 - ~~`v0.2` — DOM 레이어~~ ✅ 출시됨
 - ~~`v0.3` — Vue 디렉티브 / React 훅~~ ✅ 출시됨
 - ~~`v0.4` — 다국어 자판: ru/uk/he/el/th/ar/ka + `toEn` 자동 감지~~ ✅ 출시됨
+- `v0.5` — Svelte 액션 / Solid 디렉티브 + 붙여넣기 자동 교정
+- `v0.6` — 브라우저 확장 (어느 사이트에서든 자판 착오 교정 — 컨텍스트 메뉴 + 단축키)
 
 ## inko가 아닌 이유
 

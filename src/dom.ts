@@ -14,6 +14,7 @@
  * its converted length as the new caret position.
  */
 import { getLayout, toEn } from './registry'
+import { bindPaste } from './paste'
 
 /** Legacy mode union kept for compatibility — `KokeyMode` supersedes it. */
 export type HangulMode = 'ko' | 'en'
@@ -24,6 +25,7 @@ type Bindable = HTMLInputElement | HTMLTextAreaElement
 
 const SELECTOR =
   'input[data-kokey], textarea[data-kokey], input[data-hangul], textarea[data-hangul]'
+const PASTE_SELECTOR = 'input[data-kokey-paste], textarea[data-kokey-paste]'
 
 const unbinders = new WeakMap<Bindable, () => void>()
 
@@ -65,13 +67,29 @@ export function applyToInput(el: Bindable, mode: KokeyMode): boolean {
   return true
 }
 
+export interface BindOptions {
+  /**
+   * Re-dispatch a bubbling `input` event after a conversion changes the
+   * value. Frameworks that attach their own `input` listeners before the
+   * binding (Svelte's `bind:value`) read the value before conversion runs;
+   * the re-dispatched event lets them pick up the converted value. Safe
+   * against loops — conversion is idempotent, so the second pass changes
+   * nothing and does not re-dispatch.
+   */
+  resync?: boolean
+}
+
 /**
  * Bind conversion to a single element. The mode is read from the
  * `data-kokey` (or legacy `data-hangul`) attribute at event time unless
  * `mode` is given explicitly. Returns an unbind function. Binding an
  * already-bound element is a no-op that returns the existing unbinder.
  */
-export function bind(el: Bindable, mode?: KokeyMode): () => void {
+export function bind(
+  el: Bindable,
+  mode?: KokeyMode,
+  opts?: BindOptions
+): () => void {
   const existing = unbinders.get(el)
   if (existing) return existing
 
@@ -79,7 +97,9 @@ export function bind(el: Bindable, mode?: KokeyMode): () => void {
 
   const run = (): void => {
     const m = resolveMode(el, mode)
-    if (m) applyToInput(el, m)
+    if (m && applyToInput(el, m) && opts?.resync) {
+      el.dispatchEvent(new Event('input', { bubbles: true }))
+    }
   }
 
   const onCompositionStart = (): void => {
@@ -118,6 +138,9 @@ function bindAll(scope: ParentNode): void {
   for (const el of scope.querySelectorAll(SELECTOR)) {
     if (isBindable(el)) bind(el)
   }
+  for (const el of scope.querySelectorAll(PASTE_SELECTOR)) {
+    if (isBindable(el)) bindPaste(el)
+  }
 }
 
 /**
@@ -136,11 +159,11 @@ export function createRefBinder(
 }
 
 /**
- * Bind every `[data-kokey]` / `[data-hangul]` input under `root` (default:
- * `document`) and keep watching for inputs added later or gaining the
- * attribute. Returns a stop function that disconnects the observer (existing
- * bindings stay; removing the attribute already disables conversion because
- * the mode is read at event time).
+ * Bind every `[data-kokey]` / `[data-hangul]` / `[data-kokey-paste]` input
+ * under `root` (default: `document`) and keep watching for inputs added
+ * later or gaining the attribute. Returns a stop function that disconnects
+ * the observer (existing bindings stay; removing `data-kokey` already
+ * disables conversion because the mode is read at event time).
  */
 export function observe(root: ParentNode = document): () => void {
   bindAll(root)
@@ -154,11 +177,16 @@ export function observe(root: ParentNode = document): () => void {
         ) {
           bind(record.target)
         }
+        if (record.target.hasAttribute('data-kokey-paste')) {
+          bindPaste(record.target)
+        }
         continue
       }
       for (const node of record.addedNodes) {
-        if (isBindable(node) && node.matches(SELECTOR)) bind(node)
-        else if (node instanceof Element) bindAll(node)
+        if (isBindable(node)) {
+          if (node.matches(SELECTOR)) bind(node)
+          if (node.matches(PASTE_SELECTOR)) bindPaste(node)
+        } else if (node instanceof Element) bindAll(node)
       }
     }
   })
@@ -167,7 +195,7 @@ export function observe(root: ParentNode = document): () => void {
     childList: true,
     subtree: true,
     attributes: true,
-    attributeFilter: ['data-kokey', 'data-hangul']
+    attributeFilter: ['data-kokey', 'data-hangul', 'data-kokey-paste']
   })
   return () => observer.disconnect()
 }

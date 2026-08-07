@@ -60,7 +60,7 @@ register(el)
 observe()
 ```
 
-## Vue / React
+## Vue / React / Svelte / Solid
 
 ```vue
 <KokeyInput v-model="value" mode="el" />
@@ -72,6 +72,12 @@ observe()
 
 Το component μετατρέπει μέσα στη ροή δεδομένων του framework, οπότε τα
 `v-model` / controlled inputs λαμβάνουν πάντα τη μετατραπείσα τιμή.
+
+Σε Svelte και Solid υπάρχει το `use:kokey` (`@devslab/kokey/svelte`, `/solid`):
+
+```svelte
+<input use:kokey={'el'} />
+```
 
 ## Πλήρης τεκμηρίωση
 

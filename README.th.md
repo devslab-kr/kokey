@@ -63,7 +63,7 @@ register(th)
 observe()
 ```
 
-## Vue / React
+## Vue / React / Svelte / Solid
 
 ```vue
 <KokeyInput v-model="value" mode="th" />
@@ -75,6 +75,12 @@ observe()
 
 คอมโพเนนต์แปลงค่าภายใน data flow ของเฟรมเวิร์ก ดังนั้น `v-model` /
 controlled input จะได้รับค่าที่แปลงแล้วเสมอ
+
+สำหรับ Svelte และ Solid มี `use:kokey` (`@devslab/kokey/svelte`, `/solid`):
+
+```svelte
+<input use:kokey={'th'} />
+```
 
 ## เอกสารฉบับเต็ม
 

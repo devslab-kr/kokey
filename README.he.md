@@ -59,7 +59,7 @@ register(he)
 observe()
 ```
 
-## Vue / React
+## Vue / React / Svelte / Solid
 
 ```vue
 <KokeyInput v-model="value" mode="he" />
@@ -71,6 +71,12 @@ observe()
 
 הקומפוננטה ממירה בתוך זרימת הנתונים של הפריימוורק, ולכן `v-model` /
 controlled inputs תמיד מקבלים את הערך המומר.
+
+ב-Svelte וב-Solid יש `use:kokey` (`@devslab/kokey/svelte`, `/solid`):
+
+```svelte
+<input use:kokey={'he'} />
+```
 
 ## תיעוד מלא
 
