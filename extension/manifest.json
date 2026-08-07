@@ -28,6 +28,11 @@
     "128": "icons/icon128.png"
   },
   "browser_specific_settings": {
-    "gecko": { "id": "kokey@devslab.kr" }
+    "gecko": {
+      "id": "kokey@devslab.kr",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
+    }
   }
 }
