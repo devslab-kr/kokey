@@ -47,3 +47,14 @@ Firefox* → *Load Temporary Add-on* → pick `manifest.json`.
 
 `content.test.ts` runs the real `convert.js` + `content.js` against a
 stubbed `chrome.runtime` in the main vitest suite.
+
+## Store submission
+
+```sh
+npm run package:extension   # → extension/kokey-extension-v<version>.zip
+```
+
+The zip contains runtime files only (no harness/tests/READMEs). Listing
+copy, permission justifications and dashboard values are in
+[store/listing.md](./store/listing.md); screenshots in `store/`; privacy
+policy at https://devslab-kr.github.io/kokey/privacy.html.
