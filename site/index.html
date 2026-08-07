@@ -118,7 +118,7 @@ npm install @devslab/kokey
 &lt;script src="https://cdn.jsdelivr.net/npm/@devslab/kokey/dist/kokey.global.js"&gt;&lt;/script&gt;</code></pre>
 
   <h2 data-i18n="usage_h">Usage</h2>
-  <pre><code><span class="k">import</span> { koToEn, enToKo, register, toEn, observe } <span class="k">from</span> <span class="s">'@devslab/kokey'</span>
+  <pre><code><span class="k">import</span> { koToEn, enToKo, register, toEn, fixMistyped, observe } <span class="k">from</span> <span class="s">'@devslab/kokey'</span>
 <span class="k">import</span> { ru } <span class="k">from</span> <span class="s">'@devslab/kokey/ru'</span>   <span class="c">// /uk /he /el /th /ar /ka</span>
 
 koToEn(<span class="s">'안녕'</span>)   <span class="c">// 'dkssud'</span>
@@ -127,10 +127,11 @@ enToKo(<span class="s">'dkssud'</span>) <span class="c">// '안녕'</span>
 register(ru)
 toEn(<span class="s">'привет안녕'</span>) <span class="c">// 'ghbdtndkssud'</span>
 
-<span class="c">// Vue / React: v-model & controlled inputs</span>
-<span class="c">// &lt;KokeyInput v-model="v" mode="ru" /&gt;</span>
+<span class="c">// Vue / React / Svelte / Solid adapters</span>
+<span class="c">// &lt;KokeyInput v-model="v" mode="ru" /&gt;  &lt;input use:kokey={'ko'} /&gt;</span>
 
-observe() <span class="c">// bind every &lt;input data-kokey="ko|ru|en|…"&gt;</span></code></pre>
+fixMistyped(<span class="s">'dkssudgktpdy'</span>) <span class="c">// '안녕하세요' — paste auto-correction</span>
+observe() <span class="c">// bind every &lt;input data-kokey="ko|ru|en|…"&gt; + [data-kokey-paste]</span></code></pre>
 
   <footer>
     <a href="https://github.com/devslab-kr/kokey">GitHub</a> ·
