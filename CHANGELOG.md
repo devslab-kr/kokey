@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.5.2 (2026-08-09)
+
+Docs-only republish — no code changes. The Roadmap still listed `v0.5` as
+planned after it shipped; it is now marked shipped, and the `v0.6` line says
+where the browser extension actually stands (built, in `extension/`,
+submitted to the Chrome, Firefox and Whale stores, awaiting review).
+/ 문서 재배포 — 코드 무변경. 출시된 v0.5가 로드맵에 여전히 예정으로 남아
+있던 것을 수정하고, v0.6 확장의 현재 상태(스토어 심사 대기)를 명시합니다.
+
 ## 0.5.1 (2026-08-08)
 
 Docs-only republish — no code changes. Runnable `examples/svelte` and

@@ -267,8 +267,8 @@ peer dependency이고 Svelte는 그마저 없어서, 코어는 여전히 zero-de
 - ~~`v0.2` — DOM 레이어~~ ✅ 출시됨
 - ~~`v0.3` — Vue 디렉티브 / React 훅~~ ✅ 출시됨
 - ~~`v0.4` — 다국어 자판: ru/uk/he/el/th/ar/ka + `toEn` 자동 감지~~ ✅ 출시됨
-- `v0.5` — Svelte 액션 / Solid 디렉티브 + 붙여넣기 자동 교정
-- `v0.6` — 브라우저 확장 (어느 사이트에서든 자판 착오 교정 — 컨텍스트 메뉴 + 단축키) — 🚧 repo에 탑재 ([extension/](./extension/)), 스토어 제출 대기
+- ~~`v0.5` — Svelte 액션 / Solid 디렉티브 + 붙여넣기 자동 교정~~ ✅ 출시됨
+- `v0.6` — 브라우저 확장 (어느 사이트에서든 자판 착오 교정 — 컨텍스트 메뉴 + 단축키) — 🚧 완성되어 [extension/](./extension/)에 있고, Chrome·Firefox·웨일 스토어 제출 후 심사 대기 중
 
 ## inko가 아닌 이유
 
