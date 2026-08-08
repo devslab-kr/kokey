@@ -13,7 +13,7 @@ TypeScript-first, **zero dependencies**, ESM/CJS dual package.
 
 **English** · [한국어](./README.ko.md) · [Русский](./README.ru.md) · [Українська](./README.uk.md) · [עברית](./README.he.md) · [Ελληνικά](./README.el.md) · [ไทย](./README.th.md) · [العربية](./README.ar.md) · [ქართული](./README.ka.md) · [Live demo](https://devslab-kr.github.io/kokey/)
 
-Try it online: [⚡ StackBlitz — Vanilla](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/vanilla) · [Vue](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/vue) · [React](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/react) | [📦 CodeSandbox](https://codesandbox.io/s/github/devslab-kr/kokey/tree/main/examples/vanilla)
+Try it online: [⚡ StackBlitz — Vanilla](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/vanilla) · [Vue](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/vue) · [React](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/react) · [Svelte](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/svelte) · [Solid](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/solid) | [📦 CodeSandbox](https://codesandbox.io/s/github/devslab-kr/kokey/tree/main/examples/vanilla)
 
 <p align="center">
   <a href="https://devslab-kr.github.io/kokey/"><img src="https://raw.githubusercontent.com/devslab-kr/kokey/main/docs/preview.png" alt="kokey demo — dkssud → 안녕, ghbdtn → привет, wrong-layout text restored live" width="720"></a>
