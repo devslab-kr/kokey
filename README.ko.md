@@ -270,6 +270,9 @@ peer dependency이고 Svelte는 그마저 없어서, 코어는 여전히 zero-de
 - ~~`v0.5` — Svelte 액션 / Solid 디렉티브 + 붙여넣기 자동 교정~~ ✅ 출시됨
 - `v0.6` — 브라우저 확장 (어느 사이트에서든 자판 착오 교정 — 컨텍스트 메뉴 + 단축키) — 🚧 완성되어 [extension/](./extension/)에 있고, Chrome·Firefox·웨일 스토어 제출 후 심사 대기 중
 
+검토했지만 로드맵에 올리지 않은 것들(추가 자판 후보, 하지 않기로 한 것,
+확장 후속 작업): [docs/backlog.md](./docs/backlog.md).
+
 ## inko가 아닌 이유
 
 [inko](https://github.com/738/inko)가 이 영역을 개척했지만 2019년 이후
