@@ -273,6 +273,9 @@ advanced use.
 - ~~`v0.5` — Svelte action / Solid directive + paste auto-correction~~ ✅ shipped
 - `v0.6` — browser extension (fix mistyped text on any site — context menu + hotkey) — 🚧 built, in [extension/](./extension/); submitted to the Chrome, Firefox and Whale stores, awaiting review
 
+Ideas we considered and why they are not here (more layouts, the ones we
+won't do, extension follow-ups): [docs/backlog.md](./docs/backlog.md).
+
 ## Why not inko?
 
 [inko](https://github.com/738/inko) pioneered this space but has been
