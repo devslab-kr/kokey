@@ -270,8 +270,8 @@ advanced use.
 - ~~`v0.2` — DOM layer~~ ✅ shipped
 - ~~`v0.3` — Vue directive / React hook~~ ✅ shipped
 - ~~`v0.4` — multi-layout: ru/uk/he/el/th/ar/ka + `toEn` auto-detection~~ ✅ shipped
-- `v0.5` — Svelte action / Solid directive + paste auto-correction
-- `v0.6` — browser extension (fix mistyped text on any site — context menu + hotkey) — 🚧 in repo ([extension/](./extension/)), store submission pending
+- ~~`v0.5` — Svelte action / Solid directive + paste auto-correction~~ ✅ shipped
+- `v0.6` — browser extension (fix mistyped text on any site — context menu + hotkey) — 🚧 built, in [extension/](./extension/); submitted to the Chrome, Firefox and Whale stores, awaiting review
 
 ## Why not inko?
 
