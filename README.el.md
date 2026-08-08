@@ -11,7 +11,7 @@
 
 [English](./README.md) · [한국어](./README.ko.md) · [Русский](./README.ru.md) · [Українська](./README.uk.md) · [עברית](./README.he.md) · **Ελληνικά** · [ไทย](./README.th.md) · [العربية](./README.ar.md) · [ქართული](./README.ka.md)
 
-Try it online: [⚡ StackBlitz — Vanilla](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/vanilla) · [Vue](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/vue) · [React](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/react) | [📦 CodeSandbox](https://codesandbox.io/s/github/devslab-kr/kokey/tree/main/examples/vanilla)
+Try it online: [⚡ StackBlitz — Vanilla](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/vanilla) · [Vue](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/vue) · [React](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/react) · [Svelte](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/svelte) · [Solid](https://stackblitz.com/github/devslab-kr/kokey/tree/main/examples/solid) | [📦 CodeSandbox](https://codesandbox.io/s/github/devslab-kr/kokey/tree/main/examples/vanilla)
 
 Πληκτρολογήσατε `kalhm;era` ενώ θέλατε `καλημέρα`; Ξεχάσατε να αλλάξετε
 γλώσσα και ο κωδικός βγήκε ελληνικά; Το `kokey` μετατρέπει «ό,τι
