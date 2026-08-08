@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.1 (2026-08-08)
+
+Docs-only republish — no code changes. Runnable `examples/svelte` and
+`examples/solid` and their StackBlitz try-online links now appear on the npm
+page, so the framework list there matches what 0.5.0 actually shipped.
+/ 문서 재배포 — 코드 무변경. Svelte·Solid 예제와 원클릭 실행 링크가 npm
+페이지에 반영됩니다.
+
 ## 0.5.0 (2026-08-07)
 
 ### Added
