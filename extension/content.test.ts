@@ -2,7 +2,7 @@
 // Integration test for the REAL shipped extension scripts: the content-
 // script world is simulated by stubbing the `kokey` global (with the same
 // module the CDN bundle wraps) and `chrome.runtime.onMessage`.
-import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 
 type FixMessage = { type: string }
 let handler: (msg: FixMessage) => void
@@ -48,8 +48,6 @@ beforeAll(async () => {
   await import('./convert.js')
   // @ts-expect-error side-effect script, no declarations
   await import('./content.js')
-  // @ts-expect-error side-effect script, no declarations
-  await import('./theme.js')
   // @ts-expect-error side-effect script, no declarations
   await import('./suggest.js')
 })
@@ -138,88 +136,51 @@ describe('content script message handling', () => {
 type Suggest = {
   setEnabled: (on: boolean) => void
   setTheme: (mode: string) => void
-  _evaluate: (el: Element | null) => void
+  _attach: (el: Element | null) => void
   _button: () => HTMLButtonElement | null
 }
 const suggest = () => (globalThis as unknown as { kokeySuggest: Suggest }).kokeySuggest
 
-describe('kokeyExt.suggestFix — what may be offered unasked', () => {
-  const fn = () =>
-    (globalThis as unknown as { kokeyExt: { suggestFix: (t: string) => string | null } })
-      .kokeyExt.suggestFix
+describe('in-field suggest button (extension policy)', () => {
+  beforeEach(() => vi.useFakeTimers())
+  afterEach(() => vi.useRealTimers())
 
-  it('offers only the conservative heuristic, never the Latin→Korean guess', () => {
-    expect(fn()('dkssudgktpdy')).toBe('안녕하세요')
-    expect(fn()('ㅗ디ㅣㅐ')).toBe('hello')
-    // `decide` would compose these into Hangul; an uninvited button must not
-    expect(fn()('dkssud')).toBeNull()
-    expect(fn()('hello')).toBeNull()
-    expect(fn()('')).toBeNull()
-  })
-})
-
-describe('in-field suggest button', () => {
   function field(type = 'text', value = ''): HTMLInputElement {
     const el = document.createElement('input')
     el.type = type
     el.value = value
     document.body.appendChild(el)
-    // jsdom does no layout, so every rect is zeros — which the "field went
-    // away" guard in place() correctly reads as gone. Give it a real box.
     el.getBoundingClientRect = () =>
       ({ top: 10, left: 10, right: 210, bottom: 34, width: 200, height: 24,
          x: 10, y: 10, toJSON: () => ({}) }) as DOMRect
     return el
   }
 
-  it('appears for a mistyped value and converts on click', () => {
+  it('attaches the library button to an eligible field', () => {
     const el = field('text', 'dkssudgktpdy')
-    suggest()._evaluate(el)
-    const btn = suggest()._button()!
-    expect(btn.style.display).toBe('block')
-
-    let inputs = 0
-    el.addEventListener('input', () => {
-      inputs += 1
-    })
-    btn.click()
-    expect(el.value).toBe('안녕하세요')
-    expect(inputs).toBe(1)
-    expect(btn.style.display).toBe('none') // hides after applying
-  })
-
-  it('stays hidden for text that looks fine', () => {
-    const el = field('text', 'hello there')
-    suggest()._evaluate(el)
-    expect(suggest()._button()!.style.display).toBe('none')
+    suggest()._attach(el)
+    el.dispatchEvent(new Event('input'))
+    vi.advanceTimersByTime(400)
+    expect(suggest()._button()).not.toBeNull()
   })
 
   it('never attaches to a password field', () => {
     const el = field('password', 'dkssudgktpdy')
-    suggest()._evaluate(el)
-    expect(suggest()._button()!.style.display).toBe('none')
+    suggest()._attach(el)
+    el.dispatchEvent(new Event('input'))
+    vi.advanceTimersByTime(400)
+    expect(suggest()._button()).toBeNull()
   })
 
-  it('does not steal focus from the field', () => {
+  it('detaches every button when switched off', () => {
     const el = field('text', 'dkssudgktpdy')
-    el.focus()
-    suggest()._evaluate(el)
-    const btn = suggest()._button()!
-    const e = new MouseEvent('mousedown', { bubbles: true, cancelable: true })
-    btn.dispatchEvent(e)
-    expect(e.defaultPrevented).toBe(true)
-  })
-
-  it('can be switched off, and switching off hides a shown button', () => {
-    const el = field('text', 'dkssudgktpdy')
-    suggest()._evaluate(el)
-    expect(suggest()._button()!.style.display).toBe('block')
+    suggest()._attach(el)
+    el.dispatchEvent(new Event('input'))
+    vi.advanceTimersByTime(400)
+    expect(suggest()._button()).not.toBeNull()
 
     suggest().setEnabled(false)
-    expect(suggest()._button()!.style.display).toBe('none')
-    suggest()._evaluate(el)
-    expect(suggest()._button()!.style.display).toBe('none')
-
+    expect(suggest()._button()).toBeNull()
     suggest().setEnabled(true)
   })
 })
@@ -266,88 +227,5 @@ describe('extension scripts use the promise-based API namespace', () => {
         `${f} should use the api alias, not ${offenders.join(', ')}`
       ).toEqual([])
     }
-  })
-})
-
-type Theme = {
-  paletteFor: (el: Element, mode: string) => { bg: string; fg: string }
-  luminance: (rgb: number[]) => number
-  contrast: (a: number, b: number) => number
-  surfaceColor: (el: Element) => number[]
-  ON_LIGHT: { bg: string }
-  ON_DARK: { bg: string }
-}
-const theme = () => (globalThis as unknown as { kokeyTheme: Theme }).kokeyTheme
-
-describe('button theming', () => {
-  it('computes WCAG luminance and contrast', () => {
-    expect(theme().luminance([255, 255, 255])).toBeCloseTo(1, 3)
-    expect(theme().luminance([0, 0, 0])).toBeCloseTo(0, 3)
-    // black on white is the maximum 21:1
-    expect(
-      theme().contrast(theme().luminance([0, 0, 0]), theme().luminance([255, 255, 255]))
-    ).toBeCloseTo(21, 0)
-  })
-
-  it('resolves the surface through transparent ancestors', () => {
-    // an input carries an opaque UA background by default, which is why the
-    // walk normally stops at the field itself — the surface the button sits
-    // on. Sites that clear it are the case this walk exists for.
-    const outer = document.createElement('div')
-    outer.style.backgroundColor = 'rgb(17, 17, 17)'
-    const inner = document.createElement('div') // transparent
-    const input = document.createElement('input')
-    input.style.backgroundColor = 'transparent'
-    outer.appendChild(inner)
-    inner.appendChild(input)
-    document.body.appendChild(outer)
-    expect(theme().surfaceColor(input).slice(0, 3)).toEqual([17, 17, 17])
-  })
-
-  it('reads the field\'s own background when it has one', () => {
-    const outer = document.createElement('div')
-    outer.style.backgroundColor = 'rgb(17, 17, 17)'
-    const input = document.createElement('input')
-    input.style.backgroundColor = 'rgb(255, 255, 255)'
-    outer.appendChild(input)
-    document.body.appendChild(outer)
-    // a white field on a dark page still gets the light-surface palette
-    expect(theme().paletteFor(input, 'auto').bg).toBe(theme().ON_LIGHT.bg)
-  })
-
-  it('picks the dark-surface palette on a dark field and vice versa', () => {
-    const dark = document.createElement('input')
-    dark.style.backgroundColor = 'rgb(20, 20, 24)'
-    const light = document.createElement('input')
-    light.style.backgroundColor = 'rgb(255, 255, 255)'
-    document.body.append(dark, light)
-
-    expect(theme().paletteFor(dark, 'auto').bg).toBe(theme().ON_DARK.bg)
-    expect(theme().paletteFor(light, 'auto').bg).toBe(theme().ON_LIGHT.bg)
-  })
-
-  it('honours a pinned mode over the measurement', () => {
-    const dark = document.createElement('input')
-    dark.style.backgroundColor = 'rgb(20, 20, 24)'
-    document.body.appendChild(dark)
-    expect(theme().paletteFor(dark, 'light').bg).toBe(theme().ON_LIGHT.bg)
-  })
-
-  it('themes the button when it is shown', () => {
-    const el = document.createElement('input')
-    el.type = 'text'
-    el.value = 'dkssudgktpdy'
-    el.style.backgroundColor = 'rgb(18, 18, 18)'
-    document.body.appendChild(el)
-    el.getBoundingClientRect = () =>
-      ({ top: 10, left: 10, right: 210, bottom: 34, width: 200, height: 24,
-         x: 10, y: 10, toJSON: () => ({}) }) as DOMRect
-
-    suggest().setTheme('auto')
-    suggest()._evaluate(el)
-    const btn = suggest()._button()!
-    expect(btn.style.display).toBe('block')
-    // jsdom normalises hex to rgb()
-    expect(btn.style.background).toContain('94, 234, 212') // #5eead4
   })
 })
