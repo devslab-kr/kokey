@@ -1,5 +1,33 @@
 # Changelog
 
+## 0.6.0 (2026-08-12)
+
+### Added
+
+- **`bindSuggest`** (`<input data-kokey-suggest>` via `observe()`) — when a
+  field's value looks mistyped, a small button appears at its right edge and
+  converts it on click. Nothing changes until the click. It offers only what
+  `fixMistyped` is confident about, never the "compose this Latin text into
+  Korean" guess an explicit `convert(text, 'ko')` will make: an uninvited
+  button has to be right nearly always, so `dkssudgktpdy` gets one and a
+  bare `dkssud` does not.
+  **Styling belongs to the site** — the button carries the class
+  `kokey-suggest` and no colours. `{ theme: 'auto' }` is the opt-in for
+  contexts with no stylesheet of their own: it measures the *field's* own
+  background brightness and picks a readable kokey palette, verifying WCAG
+  contrast. It never copies the page's colours; a page's "theme colour" is
+  only incidentally related to its accent, and reading it as fact ships
+  unreadable controls.
+  **변환 제안 버튼** — 값이 자판 착오로 보이면 입력란 오른쪽 끝에 버튼을
+  띄우고 누를 때만 변환합니다. 색은 사이트의 CSS(`.kokey-suggest`)가 소유하고,
+  자체 스타일시트가 없는 환경만 `theme: 'auto'`로 자동 배색합니다.
+
+This is the button the browser extension shipped in 0.7.0; it now lives in
+the library, and the extension consumes it — the extension keeps only what
+is genuinely its own policy (which fields qualify, when to bind, and that
+it must self-theme because it has no stylesheet on the pages it runs in).
+/ 확장에 있던 버튼을 라이브러리로 내리고, 확장은 그것을 소비합니다.
+
 ## 0.5.2 (2026-08-09)
 
 Docs-only republish — no code changes. The Roadmap still listed `v0.5` as

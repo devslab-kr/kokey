@@ -161,6 +161,34 @@ fixMistyped('hello')        // null
 `preventDefault()`로 거부하거나, `fixMistyped`를 직접 써서 "제안 UI"를
 만들 수도 있습니다.
 
+### 변환 제안 버튼 — 고치지 말고 제안하기
+
+값이 자판 착오로 보이면 입력란 오른쪽 끝에 작은 버튼을 띄우고, 누르면
+변환합니다:
+
+```html
+<input data-kokey-suggest>  <!-- observe()가 자동으로 바인딩 -->
+```
+
+```ts
+import { bindSuggest } from '@devslab/kokey'
+
+bindSuggest(el)                      // 색은 여러분의 CSS가 .kokey-suggest로
+bindSuggest(el, { theme: 'auto' })   // 또는 kokey가 읽기 좋은 색을 고르게
+```
+
+누르기 전에는 아무것도 바뀌지 않습니다. `fixMistyped`가 확신하는 것만
+제안하고, 명시적인 `convert(text, 'ko')`가 기꺼이 하는 "라틴 문자를 한글로
+조합" 추측은 하지 않습니다 — 부르지도 않았는데 뜬 버튼은 거의 항상 맞아야
+하니까요. 그래서 `dkssudgktpdy`에는 버튼이 뜨고 `dkssud`에는 안 뜹니다.
+
+**스타일은 사이트 몫입니다.** 버튼에는 `kokey-suggest` 클래스만 붙고 색은
+없으니 여러분의 스타일시트가 소유합니다. `theme: 'auto'`는 자기 스타일시트가
+없는 환경을 위한 옵트인으로, **입력란 자신의** 배경 밝기를 재서 읽기 좋은
+kokey 팔레트를 고르고 WCAG 명도 대비를 확인합니다. 페이지의 색을 흉내내지는
+않습니다 — 페이지의 "테마 색"은 강조색과 우연히만 상관 있어서, 사실로 읽으면
+안 보이는 버튼이 나갑니다. (브라우저 확장이 쓰는 방식이 이것입니다.)
+
 ### Vue / React / Svelte / Solid
 
 일반(비제어) 인풋에는 디렉티브/훅을:
@@ -251,6 +279,7 @@ peer dependency이고 Svelte는 그마저 없어서, 코어는 여전히 zero-de
 | `createRefBinder` | `(mode?) => (el \| null) => void` | 프레임워크 무관 ref 콜백 팩토리 (`useKokey`의 코어) |
 | `fixMistyped` | `(text) => string \| null` | 자판 착오로 보이면 교정, 정상이면 `null` (휴리스틱, 한국어 전용) |
 | `bindPaste` | `(el) => unbind` | 인풋 하나의 붙여넣기 자동 교정 (`data-kokey-paste`는 `observe`가 처리) |
+| `bindSuggest` | `(el, opts?) => unbind` | 입력란에 원클릭 변환 버튼 제안 (`data-kokey-suggest`는 `observe`가 처리, `theme: 'auto'`면 자체 스타일) |
 | `vKokey` | `@devslab/kokey/vue` | Vue 3 디렉티브: `v-kokey="'ko'"` (기존 `vHangul` 유지) |
 | `KokeyInput` | `@devslab/kokey/vue` · `/react` | `v-model` / controlled 인풋용 컴포넌트 (`mode`, `as="input\|textarea"`) |
 | `useKokey` | `@devslab/kokey/react` · `/solid` | ref 콜백을 반환하는 훅/팩토리 (기존 `useHangul` 유지) |
@@ -268,7 +297,12 @@ peer dependency이고 Svelte는 그마저 없어서, 코어는 여전히 zero-de
 - ~~`v0.3` — Vue 디렉티브 / React 훅~~ ✅ 출시됨
 - ~~`v0.4` — 다국어 자판: ru/uk/he/el/th/ar/ka + `toEn` 자동 감지~~ ✅ 출시됨
 - ~~`v0.5` — Svelte 액션 / Solid 디렉티브 + 붙여넣기 자동 교정~~ ✅ 출시됨
-- `v0.6` — 브라우저 확장 (어느 사이트에서든 자판 착오 교정 — 컨텍스트 메뉴 + 단축키) — 🚧 완성되어 [extension/](./extension/)에 있고, Chrome·Firefox·웨일 스토어 제출 후 심사 대기 중
+- ~~`v0.6` — 입력란 변환 제안 버튼 (`bindSuggest`, `data-kokey-suggest`)~~ ✅ 출시됨
+
+**브라우저 확장**은 자체 버전 트랙을 가진 별도 산출물입니다(현재 0.7.0,
+[extension/](./extension/)) — 컨텍스트 메뉴·`Alt+K`·제안 버튼으로 같은 변환을
+어느 사이트에서든 제공합니다. Chrome·Firefox·웨일 제출 후 심사 대기 중이고,
+Edge는 [보류](./extension/store/listing.md)입니다.
 
 검토했지만 로드맵에 올리지 않은 것들(추가 자판 후보, 하지 않기로 한 것,
 확장 후속 작업): [docs/backlog.md](./docs/backlog.md).

@@ -163,6 +163,36 @@ for those. Before replacing, a cancelable `kokey-paste` CustomEvent fires
 with `detail: { pasted, fixed }` — `preventDefault()` it to veto, or use
 `fixMistyped` directly to build a suggest-UI instead.
 
+### Suggest button — offer a fix instead of making one
+
+When a field's value looks mistyped, float a small button at its right edge
+that converts it on click:
+
+```html
+<input data-kokey-suggest>  <!-- picked up by observe() -->
+```
+
+```ts
+import { bindSuggest } from '@devslab/kokey'
+
+bindSuggest(el)                      // your CSS styles .kokey-suggest
+bindSuggest(el, { theme: 'auto' })   // or let kokey pick a readable palette
+```
+
+Nothing changes until the click. It offers only what `fixMistyped` is
+confident about — never the "compose this Latin text into Korean" guess
+that an explicit `convert(text, 'ko')` will happily make, because an
+uninvited button has to be right nearly always. So `dkssudgktpdy` gets a
+button and a bare `dkssud` does not.
+
+**Styling is yours.** The button carries the class `kokey-suggest` and no
+colours, so your stylesheet owns it. `theme: 'auto'` is the opt-in for
+contexts with no stylesheet of their own — it measures the *field's* own
+background brightness and picks a readable kokey palette, verifying WCAG
+contrast. It never tries to copy the page's colours; a page's "theme
+colour" is only incidentally related to its accent, and reading it as fact
+ships unreadable controls. (This is what the browser extension uses.)
+
 ### Vue / React / Svelte / Solid
 
 For plain (uncontrolled) inputs, the directive/hook:
@@ -253,6 +283,7 @@ zero-dependency. The legacy `vHangul` / `useHangul` names still work.
 | `createRefBinder` | `(mode?) => (el \| null) => void` | Framework-agnostic ref-callback factory (what `useKokey` wraps) |
 | `fixMistyped` | `(text) => string \| null` | Correct wrong-layout gibberish, or `null` if the text looks fine (heuristic, Korean-only) |
 | `bindPaste` | `(el) => unbind` | Auto-correct wrong-layout pastes on one input (`data-kokey-paste` via `observe`) |
+| `bindSuggest` | `(el, opts?) => unbind` | Offer a one-click fix in the field (`data-kokey-suggest` via `observe`; `theme: 'auto'` for self-styling) |
 | `vKokey` | `@devslab/kokey/vue` | Vue 3 directive: `v-kokey="'ko'"` (legacy `vHangul` kept) |
 | `KokeyInput` | `@devslab/kokey/vue` · `/react` | Component for `v-model` / controlled inputs (`mode`, `as="input\|textarea"`) |
 | `useKokey` | `@devslab/kokey/react` · `/solid` | Hook/ref factory returning a ref callback (legacy `useHangul` kept) |
@@ -271,7 +302,13 @@ advanced use.
 - ~~`v0.3` — Vue directive / React hook~~ ✅ shipped
 - ~~`v0.4` — multi-layout: ru/uk/he/el/th/ar/ka + `toEn` auto-detection~~ ✅ shipped
 - ~~`v0.5` — Svelte action / Solid directive + paste auto-correction~~ ✅ shipped
-- `v0.6` — browser extension (fix mistyped text on any site — context menu + hotkey) — 🚧 built, in [extension/](./extension/); submitted to the Chrome, Firefox and Whale stores, awaiting review
+- ~~`v0.6` — in-field suggest button (`bindSuggest`, `data-kokey-suggest`)~~ ✅ shipped
+
+The **browser extension** is a separate deliverable on its own version track
+(currently 0.7.0, in [extension/](./extension/)) — it brings the same
+conversions to any site via a context menu, `Alt+K`, and the suggest button.
+Submitted to the Chrome, Firefox and Whale stores; awaiting review. Edge is
+[on hold](./extension/store/listing.md).
 
 Ideas we considered and why they are not here (more layouts, the ones we
 won't do, extension follow-ups): [docs/backlog.md](./docs/backlog.md).

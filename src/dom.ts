@@ -15,6 +15,7 @@
  */
 import { getLayout, toEn } from './registry'
 import { bindPaste } from './paste'
+import { bindSuggest } from './suggest'
 
 /** Legacy mode union kept for compatibility — `KokeyMode` supersedes it. */
 export type HangulMode = 'ko' | 'en'
@@ -26,6 +27,8 @@ type Bindable = HTMLInputElement | HTMLTextAreaElement
 const SELECTOR =
   'input[data-kokey], textarea[data-kokey], input[data-hangul], textarea[data-hangul]'
 const PASTE_SELECTOR = 'input[data-kokey-paste], textarea[data-kokey-paste]'
+const SUGGEST_SELECTOR =
+  'input[data-kokey-suggest], textarea[data-kokey-suggest]'
 
 const unbinders = new WeakMap<Bindable, () => void>()
 
@@ -141,6 +144,9 @@ function bindAll(scope: ParentNode): void {
   for (const el of scope.querySelectorAll(PASTE_SELECTOR)) {
     if (isBindable(el)) bindPaste(el)
   }
+  for (const el of scope.querySelectorAll(SUGGEST_SELECTOR)) {
+    if (isBindable(el)) bindSuggest(el)
+  }
 }
 
 /**
@@ -180,12 +186,16 @@ export function observe(root: ParentNode = document): () => void {
         if (record.target.hasAttribute('data-kokey-paste')) {
           bindPaste(record.target)
         }
+        if (record.target.hasAttribute('data-kokey-suggest')) {
+          bindSuggest(record.target)
+        }
         continue
       }
       for (const node of record.addedNodes) {
         if (isBindable(node)) {
           if (node.matches(SELECTOR)) bind(node)
           if (node.matches(PASTE_SELECTOR)) bindPaste(node)
+          if (node.matches(SUGGEST_SELECTOR)) bindSuggest(node)
         } else if (node instanceof Element) bindAll(node)
       }
     }
@@ -195,7 +205,12 @@ export function observe(root: ParentNode = document): () => void {
     childList: true,
     subtree: true,
     attributes: true,
-    attributeFilter: ['data-kokey', 'data-hangul', 'data-kokey-paste']
+    attributeFilter: [
+      'data-kokey',
+      'data-hangul',
+      'data-kokey-paste',
+      'data-kokey-suggest'
+    ]
   })
   return () => observer.disconnect()
 }
