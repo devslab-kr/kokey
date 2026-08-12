@@ -20,6 +20,7 @@
         "settings.js",
         "convert.js",
         "content.js",
+        "theme.js",
         "suggest.js"
       ],
       "run_at": "document_idle",

@@ -18,7 +18,12 @@
 
   const DEFAULTS = {
     /** Show the in-field convert button when a value looks mistyped. */
-    suggestButton: true
+    suggestButton: true,
+    /**
+     * Which palette the button uses: 'auto' reads the field's surface
+     * brightness, 'light'/'dark' name the SURFACE and pin the choice.
+     */
+    buttonTheme: 'auto'
   }
 
   const area = () =>

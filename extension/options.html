@@ -33,6 +33,13 @@
     background: color-mix(in srgb, CanvasText 8%, transparent); color: CanvasText;
   }
   button.primary { background: #0d9488; border-color: #0d9488; color: #fff; }
+  .theme { display: flex; align-items: center; gap: 8px; margin-top: 12px; }
+  .theme label { font-weight: 400; font-size: 13px; }
+  select {
+    font: inherit; padding: 4px 8px; border-radius: 7px;
+    border: 1px solid color-mix(in srgb, CanvasText 28%, transparent);
+    background: Field; color: FieldText;
+  }
   .status { margin-top: 8px; font-size: 12px; min-height: 1.4em; }
   .status.err { color: #b91c1c; }
   .status.ok { color: #0d9488; }
@@ -49,6 +56,16 @@
       <div>
         <label for="suggest" data-i18n="suggestLabel"></label>
         <p class="hint" data-i18n="suggestHint"></p>
+
+        <div class="theme">
+          <label for="theme" data-i18n="themeLabel"></label>
+          <select id="theme">
+            <option value="auto" data-i18n="themeAuto"></option>
+            <option value="light" data-i18n="themeLight"></option>
+            <option value="dark" data-i18n="themeDark"></option>
+          </select>
+        </div>
+        <p class="hint" data-i18n="themeHint"></p>
       </div>
     </div>
   </section>

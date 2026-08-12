@@ -36,6 +36,7 @@
   let composing = false
   let timer = 0
   let enabled = true
+  let theme = 'auto'
 
   function canSuggest(el) {
     if (!el) return false
@@ -53,9 +54,9 @@
     button.setAttribute('aria-label', TITLE)
     button.style.cssText =
       'position:absolute;z-index:2147483646;display:none;' +
-      'padding:2px 8px;border-radius:999px;border:1px solid rgba(0,0,0,.12);' +
-      'background:#0d9488;color:#fff;cursor:pointer;' +
-      'font:11px/1.6 system-ui,sans-serif;box-shadow:0 1px 4px rgba(0,0,0,.2)'
+      'padding:2px 8px;border-radius:999px;border:1px solid transparent;' +
+      'cursor:pointer;font:11px/1.6 system-ui,sans-serif;' +
+      'box-shadow:0 1px 4px rgba(0,0,0,.2)'
     // keep focus (and the caret) in the field
     button.addEventListener('mousedown', (e) => e.preventDefault())
     button.addEventListener('click', apply)
@@ -99,6 +100,11 @@
     if (!ensureButton()) return
     target = el
     fixed = next
+    // re-themed per field: the same page can hold light and dark surfaces
+    const palette = globalThis.kokeyTheme.paletteFor(el, theme)
+    button.style.background = palette.bg
+    button.style.color = palette.fg
+    button.style.borderColor = palette.border
     button.style.display = 'block'
     place()
   }
@@ -150,6 +156,9 @@
       enabled = on
       if (!on) hide()
     },
+    setTheme(next) {
+      theme = next
+    },
     // test seams
     _evaluate: evaluate,
     _button: () => button
@@ -157,8 +166,10 @@
 
   globalThis.kokeySettings.load().then((s) => {
     enabled = s.suggestButton
+    theme = s.buttonTheme
   })
   globalThis.kokeySettings.subscribe((s) => {
+    theme = s.buttonTheme
     globalThis.kokeySuggest.setEnabled(s.suggestButton)
   })
 })()
