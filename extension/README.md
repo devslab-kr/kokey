@@ -33,7 +33,7 @@ Firefox; the puzzle-piece menu → kokey → Options on Chrome/Edge):
   "theme colour" is only incidentally related to what a designer would call
   its accent, and reading it as fact ships unreadable controls.
 - **Keyboard shortcut** — Firefox implements `commands.update()`, so the
-  shortcut is editable right in the options page. Chrome and Edge have no
+  shortcut is editable right in the options page. Chromium browsers have no
   such API, so the page opens `chrome://extensions/shortcuts` instead. The
   page feature-detects rather than sniffing the browser.
 
