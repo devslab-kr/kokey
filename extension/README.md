@@ -15,12 +15,35 @@ the browser.
   `chrome://extensions/shortcuts`.
 - **Non-editable selections** are converted to the clipboard (a toast
   confirms) — the page itself is never rewritten.
+- **In-field convert button** — when a value looks mistyped, a small "Fix"
+  button appears at the right edge of the field. It only converts when
+  clicked; nothing changes on its own. Password fields are excluded (the
+  shortcut still works there). Turn it off in the options page.
+
+## Options
+
+Open the extension's options (about:addons → kokey → Preferences on
+Firefox; the puzzle-piece menu → kokey → Options on Chrome/Edge):
+
+- **Show a convert button inside text fields** — on by default.
+- **Keyboard shortcut** — Firefox implements `commands.update()`, so the
+  shortcut is editable right in the options page. Chrome and Edge have no
+  such API, so the page opens `chrome://extensions/shortcuts` instead. The
+  page feature-detects rather than sniffing the browser.
+
+## Firefox: grant site access after installing
+
+Firefox MV3 does **not** grant host access at install time, so the
+extension appears to do nothing until you allow it: **about:addons → kokey
+→ Permissions → "Access your data for all websites"**. Chrome and Edge
+grant the content script at install.
 
 Conversion order for an explicit action (see `convert.js`): the library's
 `fixMistyped` heuristic first, then any registered non-Latin script →
 QWERTY (`привет` → `ghbdtn`), then pure Latin → Korean (`dkssud` → `안녕`).
-A per-layout target picker is a planned options page — until then Latin
-text always composes to Korean.
+Choosing the target layout for Latin input is not in the options page yet —
+until then Latin text always composes to Korean. (The in-field button never
+makes that guess; see `suggest.js`.)
 
 Out of scope for v1: `contenteditable` editors (Gmail, Notion, …) — the
 selection-to-clipboard path covers them for now.

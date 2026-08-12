@@ -26,5 +26,17 @@
     return composed !== text ? composed : null
   }
 
-  globalThis.kokeyExt = { decide }
+  /**
+   * The conversion to OFFER without being asked (the in-field suggest
+   * button). Only the library's conservative heuristic counts here: an
+   * uninvited button must be right nearly always, so unlike `decide` this
+   * never falls back to "compose the Latin text into Korean" — on an
+   * ordinary English field that guess would be wrong far more often than
+   * right. Returns null when nothing should be offered.
+   */
+  function suggestFix(text) {
+    return text ? k.fixMistyped(text) : null
+  }
+
+  globalThis.kokeyExt = { decide, suggestFix }
 })()

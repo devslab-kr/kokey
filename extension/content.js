@@ -7,6 +7,7 @@
  */
 ;(() => {
   const { decide } = globalThis.kokeyExt
+  const api = globalThis.kokeySettings.api
 
   const ko = (navigator.language || '').toLowerCase().startsWith('ko')
   const MSG = {
@@ -83,7 +84,7 @@
       .catch(() => toast(MSG.copyFailed))
   }
 
-  chrome.runtime.onMessage.addListener((msg) => {
+  api.runtime.onMessage.addListener((msg) => {
     if (msg?.type !== 'kokey-fix') return
     const el = document.activeElement
     if (isTextField(el)) {

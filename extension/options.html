@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>kokey</title>
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    font: 14px/1.6 system-ui, -apple-system, "Segoe UI", "Malgun Gothic", sans-serif;
+    margin: 0; padding: 20px; min-width: 420px;
+    background: Canvas; color: CanvasText;
+  }
+  h1 { font-size: 17px; margin: 0 0 18px; }
+  h1 .a { color: #0d9488; }
+  section { border-top: 1px solid color-mix(in srgb, CanvasText 15%, transparent); padding: 16px 0; }
+  section:last-of-type { border-bottom: 1px solid color-mix(in srgb, CanvasText 15%, transparent); }
+  .row { display: flex; align-items: flex-start; gap: 10px; }
+  .row input[type=checkbox] { margin-top: 3px; }
+  label { font-weight: 600; }
+  .hint { margin: 4px 0 0; font-size: 12px; opacity: .72; }
+  .shortcut { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  /* a class that sets display: beats the UA [hidden] rule, so guard it —
+     without this BOTH shortcut UIs render and the browser split is a lie */
+  .shortcut[hidden] { display: none; }
+  input[type=text] {
+    font: inherit; padding: 5px 9px; min-width: 150px;
+    border: 1px solid color-mix(in srgb, CanvasText 28%, transparent);
+    border-radius: 7px; background: Field; color: FieldText;
+  }
+  button {
+    font: inherit; padding: 5px 12px; border-radius: 7px; cursor: pointer;
+    border: 1px solid color-mix(in srgb, CanvasText 22%, transparent);
+    background: color-mix(in srgb, CanvasText 8%, transparent); color: CanvasText;
+  }
+  button.primary { background: #0d9488; border-color: #0d9488; color: #fff; }
+  .status { margin-top: 8px; font-size: 12px; min-height: 1.4em; }
+  .status.err { color: #b91c1c; }
+  .status.ok { color: #0d9488; }
+  footer { margin-top: 18px; font-size: 12px; opacity: .7; }
+  a { color: #0d9488; }
+</style>
+</head>
+<body>
+  <h1><span class="a">ko</span>key</h1>
+
+  <section>
+    <div class="row">
+      <input type="checkbox" id="suggest">
+      <div>
+        <label for="suggest" data-i18n="suggestLabel"></label>
+        <p class="hint" data-i18n="suggestHint"></p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <label data-i18n="shortcutLabel"></label>
+    <p class="hint" data-i18n="shortcutHint"></p>
+
+    <div class="shortcut" id="editor" hidden>
+      <input type="text" id="shortcut" placeholder="Alt+K" spellcheck="false">
+      <button class="primary" id="save" data-i18n="save"></button>
+      <button id="reset" data-i18n="reset"></button>
+    </div>
+
+    <div class="shortcut" id="deeplink" hidden>
+      <button class="primary" id="open" data-i18n="openShortcuts"></button>
+    </div>
+
+    <p class="status" id="status" role="status"></p>
+  </section>
+
+  <footer>
+    <a href="https://github.com/devslab-kr/kokey" target="_blank" rel="noreferrer">GitHub</a>
+  </footer>
+
+  <script src="settings.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>
