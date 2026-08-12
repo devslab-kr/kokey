@@ -101,6 +101,11 @@
       <p data-i18n="en_d">Script auto-detected. Try привет안녕שלום</p>
       <input data-kokey="en" placeholder="привет안녕 → ghbdtndkssud" autocomplete="off" dir="ltr">
     </div>
+    <div class="card">
+      <h3 data-i18n="sug_t">data-kokey-suggest — offer, don't fix</h3>
+      <p data-i18n="sug_d">A button appears only when it is confident. Try dkssudgktpdy</p>
+      <input data-kokey-suggest placeholder="dkssudgktpdy → 안녕하세요" autocomplete="off" dir="ltr">
+    </div>
     <div class="card" style="grid-column: 1 / -1">
       <h3 data-i18n="conv_t">Converter — both directions at once</h3>
       <p data-i18n="conv_d">Paste anything below — toEn auto-detects all 8 layouts.</p>
@@ -118,7 +123,7 @@ npm install @devslab/kokey
 &lt;script src="https://cdn.jsdelivr.net/npm/@devslab/kokey/dist/kokey.global.js"&gt;&lt;/script&gt;</code></pre>
 
   <h2 data-i18n="usage_h">Usage</h2>
-  <pre><code><span class="k">import</span> { koToEn, enToKo, register, toEn, fixMistyped, observe } <span class="k">from</span> <span class="s">'@devslab/kokey'</span>
+  <pre><code><span class="k">import</span> { koToEn, enToKo, register, toEn, fixMistyped, bindSuggest, observe } <span class="k">from</span> <span class="s">'@devslab/kokey'</span>
 <span class="k">import</span> { ru } <span class="k">from</span> <span class="s">'@devslab/kokey/ru'</span>   <span class="c">// /uk /he /el /th /ar /ka</span>
 
 koToEn(<span class="s">'안녕'</span>)   <span class="c">// 'dkssud'</span>
@@ -131,7 +136,8 @@ toEn(<span class="s">'привет안녕'</span>) <span class="c">// 'ghbdtndkss
 <span class="c">// &lt;KokeyInput v-model="v" mode="ru" /&gt;  &lt;input use:kokey={'ko'} /&gt;</span>
 
 fixMistyped(<span class="s">'dkssudgktpdy'</span>) <span class="c">// '안녕하세요' — paste auto-correction</span>
-observe() <span class="c">// bind every &lt;input data-kokey="ko|ru|en|…"&gt; + [data-kokey-paste]</span></code></pre>
+bindSuggest(el) <span class="c">// or &lt;input data-kokey-suggest&gt; — offers a fix, never forces one</span>
+observe() <span class="c">// binds [data-kokey] + [data-kokey-paste] + [data-kokey-suggest]</span></code></pre>
 
   <footer>
     <a href="https://github.com/devslab-kr/kokey">GitHub</a> ·
@@ -156,6 +162,8 @@ observe() <span class="c">// bind every &lt;input data-kokey="ko|ru|en|…"&gt; 
       ru_d: 'ЙЦУКЕН enforced as you type. Try ghbdtn → привет',
       en_t: 'data-kokey="en" — restore anything',
       en_d: 'Script auto-detected. Try привет안녕שלום',
+      sug_t: \"data-kokey-suggest — offer, don't fix\",
+      sug_d: 'A button appears only when it is confident. Try dkssudgktpdy',
       conv_t: 'Converter — both directions at once',
       conv_d: 'Paste anything below — toEn auto-detects all 8 layouts.',
       install_h: 'Install', usage_h: 'Usage'
@@ -171,6 +179,8 @@ observe() <span class="c">// bind every &lt;input data-kokey="ko|ru|en|…"&gt; 
       ru_d: 'ЙЦУКЕН 강제 조립. Try ghbdtn → привет',
       en_t: 'data-kokey="en" — 어떤 오입력이든 복원',
       en_d: '스크립트 자동 감지. Try привет안녕שלום',
+      sug_t: 'data-kokey-suggest — 고치지 말고 제안',
+      sug_d: '확신할 때만 버튼이 뜹니다. Try dkssudgktpdy',
       conv_t: 'Converter — 양방향 변환기',
       conv_d: '아무 텍스트나 붙여넣으세요 — toEn이 8개 자판을 자동 감지합니다.',
       install_h: '설치', usage_h: '사용법'
@@ -186,6 +196,8 @@ observe() <span class="c">// bind every &lt;input data-kokey="ko|ru|en|…"&gt; 
       ru_d: 'ЙЦУКЕН на лету. Наберите ghbdtn → привет',
       en_t: 'data-kokey="en" — восстановить что угодно',
       en_d: 'Письменность определяется автоматически. Вставьте привет안녕שלום',
+      sug_t: 'data-kokey-suggest — предложить, а не исправить',
+      sug_d: 'Кнопка появляется, только когда уверена. Try dkssudgktpdy',
       conv_t: 'Конвертер — оба направления сразу',
       conv_d: 'Вставьте любой текст — toEn сам определит все 8 раскладок.',
       install_h: 'Установка', usage_h: 'Использование'
@@ -201,6 +213,8 @@ observe() <span class="c">// bind every &lt;input data-kokey="ko|ru|en|…"&gt; 
       ru_d: 'ЙЦУКЕН на льоту. Наберіть ghbdtn → привет',
       en_t: 'data-kokey="en" — відновити будь-що',
       en_d: 'Письмо визначається автоматично. Вставте привіт안녕שלום',
+      sug_t: 'data-kokey-suggest — запропонувати, а не виправити',
+      sug_d: \"Кнопка з'являється, лише коли впевнена. Try dkssudgktpdy\",
       conv_t: 'Конвертер — обидва напрями одразу',
       conv_d: 'Вставте будь-який текст — toEn сам визначить усі 8 розкладок.',
       install_h: 'Встановлення', usage_h: 'Використання'
@@ -216,6 +230,8 @@ observe() <span class="c">// bind every &lt;input data-kokey="ko|ru|en|…"&gt; 
       ru_d: 'ЙЦУКЕН תוך כדי הקלדה. נסו ghbdtn → привет',
       en_t: 'data-kokey="en" — שחזור של הכול',
       en_d: 'זיהוי כתב אוטומטי. נסו привет안녕שלום',
+      sug_t: 'data-kokey-suggest — להציע, לא לתקן',
+      sug_d: 'הכפתור מופיע רק כשיש ודאות. Try dkssudgktpdy',
       conv_t: 'ממיר — שני הכיוונים בבת אחת',
       conv_d: 'הדביקו כל טקסט — toEn מזהה את כל 8 הפריסות.',
       install_h: 'התקנה', usage_h: 'שימוש'
@@ -231,6 +247,8 @@ observe() <span class="c">// bind every &lt;input data-kokey="ko|ru|en|…"&gt; 
       ru_d: 'ЙЦУКЕН καθώς πληκτρολογείτε. Δοκιμάστε ghbdtn → привет',
       en_t: 'data-kokey="en" — επαναφορά των πάντων',
       en_d: 'Αυτόματη ανίχνευση γραφής. Δοκιμάστε привет안녕שלום',
+      sug_t: 'data-kokey-suggest — πρόταση, όχι διόρθωση',
+      sug_d: 'Το κουμπί εμφανίζεται μόνο όταν υπάρχει βεβαιότητα. Try dkssudgktpdy',
       conv_t: 'Μετατροπέας — και οι δύο κατευθύνσεις μαζί',
       conv_d: 'Επικολλήστε οτιδήποτε — το toEn ανιχνεύει και τις 8 διατάξεις.',
       install_h: 'Εγκατάσταση', usage_h: 'Χρήση'
@@ -246,6 +264,8 @@ observe() <span class="c">// bind every &lt;input data-kokey="ko|ru|en|…"&gt; 
       ru_d: 'ЙЦУКЕН ขณะพิมพ์ ลอง ghbdtn → привет',
       en_t: 'data-kokey="en" — กู้คืนได้ทุกอย่าง',
       en_d: 'ตรวจจับชนิดอักษรอัตโนมัติ ลอง привет안녕שלום หรือ l;ylfu',
+      sug_t: 'data-kokey-suggest — เสนอ ไม่ใช่แก้ให้',
+      sug_d: 'ปุ่มจะปรากฏเมื่อมั่นใจเท่านั้น Try dkssudgktpdy',
       conv_t: 'ตัวแปลง — สองทิศทางพร้อมกัน',
       conv_d: 'วางข้อความอะไรก็ได้ — toEn ตรวจจับผังแป้นพิมพ์ทั้ง 8 อัตโนมัติ',
       install_h: 'การติดตั้ง', usage_h: 'การใช้งาน'
@@ -261,6 +281,8 @@ observe() <span class="c">// bind every &lt;input data-kokey="ko|ru|en|…"&gt; 
       ru_d: 'ЙЦУКЕН أثناء الكتابة. جرّب ghbdtn → привет',
       en_t: 'data-kokey="en" — استعادة أي شيء',
       en_d: 'كشف تلقائي لنوع الكتابة. جرّب привет안녕שלום أو lvpfh',
+      sug_t: 'data-kokey-suggest — اقتراح لا تصحيح',
+      sug_d: 'يظهر الزر فقط عند التأكد. Try dkssudgktpdy',
       conv_t: 'المحوِّل — الاتجاهان معًا',
       conv_d: 'الصق أي نص — يكتشف toEn التخطيطات الثمانية تلقائيًا.',
       install_h: 'التثبيت', usage_h: 'الاستخدام'
@@ -276,6 +298,8 @@ observe() <span class="c">// bind every &lt;input data-kokey="ko|ru|en|…"&gt; 
       ru_d: 'ЙЦУКЕН აკრეფისას. სცადეთ ghbdtn → привет',
       en_t: 'data-kokey="en" — ყველაფრის აღდგენა',
       en_d: 'დამწერლობის ავტომატური ამოცნობა. სცადეთ привет안녕שלום ან gamarjoba',
+      sug_t: 'data-kokey-suggest — შემოთავაზება, და არა შესწორება',
+      sug_d: 'ღილაკი მხოლოდ დარწმუნებისას ჩნდება. Try dkssudgktpdy',
       conv_t: 'გადამყვანი — ორივე მიმართულება ერთდროულად',
       conv_d: 'ჩასვით ნებისმიერი ტექსტი — toEn რვავე განლაგებას თავად ცნობს.',
       install_h: 'ინსტალაცია', usage_h: 'გამოყენება'
