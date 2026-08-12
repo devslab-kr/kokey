@@ -2,6 +2,9 @@ node_modules/
 dist/
 extension/kokey.global.js
 extension/*.zip
+# local demo copy — the Pages workflow assembles a fresh one from dist/
+site/kokey.global.js
+site/kokey.global.js.map
 coverage/
 *.log
 .DS_Store

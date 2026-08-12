@@ -43,13 +43,16 @@ and search terms. Best value per unit of work.
 
 ## Browser extension follow-ups
 
-Held until `v0.6` actually ships — the extension is submitted to the
-Chrome, Firefox and Whale stores and awaiting review, and store feedback
-may reorder these. Recorded in [extension/README.md](../extension/README.md) too.
-v0.6이 실제로 출시된 뒤로 미룸 — 스토어 심사 결과가 우선순위를 바꿀 수 있음.
+Held until the extension is actually live in the stores — it is submitted
+to Chrome, Firefox and Whale and awaiting review, and store feedback may
+reorder these. (Note the extension has its own version track: 0.7.0, not
+the library's.) Recorded in [extension/README.md](../extension/README.md) too.
+스토어에 실제로 올라간 뒤로 미룸 — 심사 결과가 우선순위를 바꿀 수 있음.
+확장은 라이브러리와 별개 버전 트랙(0.7.0)임에 유의.
 
-- Options page — pick the target layout for Latin input (today it always
-  composes to Korean, see `extension/convert.js`)
+- Target layout for Latin input — the options page exists as of 0.7.0, but
+  Latin text still always composes to Korean (`extension/convert.js`). The
+  in-field suggest button deliberately never makes that guess at all.
 - `contenteditable` support (Gmail, Notion) — currently falls through to
   the clipboard path
 - `_locales` for a localized store listing
