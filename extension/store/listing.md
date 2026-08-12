@@ -148,9 +148,22 @@ the conversion.
 6. AMO는 같은 zip으로 https://addons.mozilla.org/developers/ 에서 제출
    (gecko id는 매니페스트에 이미 있음). minified `kokey.global.js`가 있어
    **소스 zip 제출 필수** — `git archive -o kokey-source-v<version>.zip HEAD`
-7. Edge는 https://partner.microsoft.com/dashboard/microsoftedge 에서 같은
-   zip으로 제출 (Partner Center 등록 무료, Chromium이라 수정 없음)
-8. 네이버 웨일은 https://store.whale.naver.com 개발자 센터에서 같은 zip
+7. 네이버 웨일은 https://whale.dev 개발자센터에서 같은 zip
+
+### Edge — 보류 (2026-08-12 소유자 결정)
+
+**등록하지 않기로 했습니다.** Edge 사용자는 Chrome 웹스토어에서 그대로
+설치할 수 있어 실사용에 막힘이 없고, 등록 과정에 걸림돌이 두 개 있었습니다:
+
+- Edge 프로그램은 **개인 Microsoft 계정(MSA)만** 지원합니다. 회사/학교
+  계정으로는 "We don't recognize the program you are trying to enroll in"
+  으로 막힙니다. GitHub 로그인으로 MSA를 만드는 우회는 가능합니다.
+- 게시자 이름 `devslab`이 **이미 선점**돼 있습니다. Edge 애드온 스토어에
+  공개된 devslab 확장은 없으므로, 과거 가입분이거나 타인의 선점입니다.
+  진행하려면 어느 계정인지 찾거나 `devslab.kr` 등 다른 이름을 써야 합니다.
+
+나중에 다시 할 때: https://partner.microsoft.com/dashboard/microsoftedge/public/login
+(등록 무료, Chromium이라 zip 수정 없음)
 
 ### 업데이트 제출 시 (0.7.0~)
 

@@ -31,7 +31,7 @@
   **흉내내지 않습니다** — 페이지의 "테마 색"은 디자이너가 말하는 강조색과
   우연히만 상관 있어서, 그걸 사실로 읽으면 안 보이는 버튼이 나갑니다.
 - **단축키** — Firefox는 `commands.update()`가 있어 옵션 페이지에서 바로
-  변경됩니다. Chrome·Edge는 해당 API가 없어 `chrome://extensions/shortcuts`를
+  변경됩니다. Chromium 계열은 해당 API가 없어 `chrome://extensions/shortcuts`를
   열어줍니다. 브라우저 판별이 아니라 API 존재 여부로 갈립니다.
 
 ## Firefox: 설치 후 사이트 접근 허용
