@@ -1,9 +1,13 @@
 {
   "manifest_version": 3,
   "name": "kokey — wrong-layout text fixer",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Fix text typed with the wrong keyboard layout — 한글, русский, עברית, ไทย ↔ QWERTY. Right-click or Alt+K. Everything runs locally.",
-  "permissions": ["contextMenus"],
+  "permissions": ["contextMenus", "storage"],
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": false
+  },
   "background": {
     "service_worker": "background.js",
     "scripts": ["background.js"]
@@ -11,7 +15,13 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["kokey.global.js", "convert.js", "content.js"],
+      "js": [
+        "kokey.global.js",
+        "settings.js",
+        "convert.js",
+        "content.js",
+        "suggest.js"
+      ],
       "run_at": "document_idle",
       "all_frames": true
     }

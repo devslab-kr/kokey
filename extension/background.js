@@ -4,10 +4,15 @@
  * All conversion happens in the content script; nothing runs here but
  * message plumbing.
  */
+// Firefox's promise-returning namespace is `browser`; its `chrome` alias is
+// callback-style, so an awaited `chrome.tabs.query(...)` yields undefined
+// there. Chrome has no `browser`, so this picks the promise API on both.
+const api = globalThis.browser ?? globalThis.chrome
+
 const MENU_ID = 'kokey-fix'
 
-chrome.runtime.onInstalled.addListener(() => {
-  chrome.contextMenus.create({
+api.runtime.onInstalled.addListener(() => {
+  api.contextMenus.create({
     id: MENU_ID,
     title: 'kokey: fix mistyped text / 자판 착오 복원',
     contexts: ['selection', 'editable']
@@ -17,7 +22,7 @@ chrome.runtime.onInstalled.addListener(() => {
 async function sendFix(tab) {
   let tabId = tab?.id
   if (tabId == null) {
-    const [active] = await chrome.tabs.query({
+    const [active] = await api.tabs.query({
       active: true,
       currentWindow: true
     })
@@ -25,16 +30,16 @@ async function sendFix(tab) {
   }
   if (tabId == null) return
   try {
-    await chrome.tabs.sendMessage(tabId, { type: 'kokey-fix' })
+    await api.tabs.sendMessage(tabId, { type: 'kokey-fix' })
   } catch {
     // no content script on this page (chrome:// etc.) — nothing to do
   }
 }
 
-chrome.contextMenus.onClicked.addListener((info, tab) => {
+api.contextMenus.onClicked.addListener((info, tab) => {
   if (info.menuItemId === MENU_ID) sendFix(tab)
 })
 
-chrome.commands.onCommand.addListener((command, tab) => {
+api.commands.onCommand.addListener((command, tab) => {
   if (command === 'kokey-fix') sendFix(tab)
 })

@@ -116,6 +116,15 @@ menu or the keyboard shortcut. All processing is local; the extension
 makes no network requests and collects no data.
 ```
 
+**storage 정당화**
+
+```
+Stores the user's own preferences only — whether the in-field convert
+button is shown. No browsing data, no page content, nothing about the user
+is stored or transmitted; the value is a single boolean kept in the
+browser's extension storage.
+```
+
 **contextMenus 정당화**
 
 ```
@@ -131,10 +140,19 @@ the conversion.
 
 ## 제출 순서 (요약)
 
-1. `npm run package:extension` → `extension/kokey-extension-v0.6.0.zip`
+1. `npm run package:extension` → `extension/kokey-extension-v<version>.zip`
 2. https://chrome.google.com/webstore/devconsole → 새 항목 → zip 업로드
 3. 위 문안 붙여넣기 (기본 언어 한국어 → 영어 번역 추가)
 4. 스크린샷 2장 + 아이콘 업로드, 개인정보 탭 답변 입력
 5. 공개 범위 "공개" → 심사 제출 (보통 1~3일)
 6. AMO는 같은 zip으로 https://addons.mozilla.org/developers/ 에서 제출
-   (gecko id는 매니페스트에 이미 있음)
+   (gecko id는 매니페스트에 이미 있음). minified `kokey.global.js`가 있어
+   **소스 zip 제출 필수** — `git archive -o kokey-source-v<version>.zip HEAD`
+7. Edge는 https://partner.microsoft.com/dashboard/microsoftedge 에서 같은
+   zip으로 제출 (Partner Center 등록 무료, Chromium이라 수정 없음)
+8. 네이버 웨일은 https://store.whale.naver.com 개발자 센터에서 같은 zip
+
+### 업데이트 제출 시 (0.7.0~)
+
+`storage` 권한이 추가되어 **모든 스토어가 다시 심사**합니다. 권한 사유는
+아래 정당화 문안에 이미 포함돼 있습니다.
