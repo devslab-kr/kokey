@@ -21,6 +21,12 @@
         suggestLabel: '입력란에 변환 버튼 표시',
         suggestHint:
           '자판을 잘못 두고 친 것으로 보이면 입력란 오른쪽 끝에 작은 "변환" 버튼이 나타납니다. 눌러야만 바뀌고, 저절로 고치지는 않습니다. (비밀번호 입력란은 제외 — 거기서도 단축키는 그대로 동작합니다.)',
+        themeLabel: '버튼 색상',
+        themeAuto: '자동 (입력란 밝기에 맞춤)',
+        themeLight: '밝은 배경용',
+        themeDark: '어두운 배경용',
+        themeHint:
+          '자동은 버튼이 얹히는 입력란의 배경 밝기를 재서 읽기 좋은 쪽을 고릅니다. 페이지의 색을 흉내내지는 않습니다 — 그건 사이트마다 엉뚱한 값을 읽기 쉬워서입니다.',
         shortcutLabel: '단축키',
         shortcutHint: '포커스된 입력란이나 선택한 텍스트를 복원합니다.',
         save: '저장',
@@ -37,6 +43,12 @@
         suggestLabel: 'Show a convert button inside text fields',
         suggestHint:
           'When a value looks mistyped, a small "Fix" button appears at the right edge of the field. It only converts when you click it — nothing is changed on its own. (Password fields are excluded; the keyboard shortcut still works there.)',
+        themeLabel: 'Button colour',
+        themeAuto: 'Auto (match the field)',
+        themeLight: 'For light backgrounds',
+        themeDark: 'For dark backgrounds',
+        themeHint:
+          "Auto measures how light or dark the field under the button is and picks the readable variant. It does not try to copy the page's own colours — that reads the wrong value far too often.",
         shortcutLabel: 'Keyboard shortcut',
         shortcutHint: 'Fixes the focused field, or the selected text.',
         save: 'Save',
@@ -70,6 +82,15 @@
   })
   suggest.addEventListener('change', () => {
     globalThis.kokeySettings.save({ suggestButton: suggest.checked })
+    say(T.saved, 'ok')
+  })
+
+  const theme = document.getElementById('theme')
+  globalThis.kokeySettings.load().then((s) => {
+    theme.value = s.buttonTheme
+  })
+  theme.addEventListener('change', () => {
+    globalThis.kokeySettings.save({ buttonTheme: theme.value })
     say(T.saved, 'ok')
   })
 

@@ -26,6 +26,12 @@ Open the extension's options (about:addons → kokey → Preferences on
 Firefox; the puzzle-piece menu → kokey → Options on Chrome/Edge):
 
 - **Show a convert button inside text fields** — on by default.
+- **Button colour** — *Auto* measures how light or dark the field under the
+  button is and picks the readable kokey palette, checking the WCAG contrast
+  of the result; *For light backgrounds* / *For dark backgrounds* pin it.
+  Auto deliberately does **not** copy the page's own colours: a page's
+  "theme colour" is only incidentally related to what a designer would call
+  its accent, and reading it as fact ships unreadable controls.
 - **Keyboard shortcut** — Firefox implements `commands.update()`, so the
   shortcut is editable right in the options page. Chrome and Edge have no
   such API, so the page opens `chrome://extensions/shortcuts` instead. The
