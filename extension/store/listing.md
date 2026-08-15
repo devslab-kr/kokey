@@ -167,9 +167,16 @@ the conversion.
 
 ### 게시 완료 (0.7.0)
 
-Firefox 게시 확인: https://addons.mozilla.org/firefox/addon/kokey-wrong-layout-text-fixer/
-Chrome·웨일도 게시됨. 업데이트 제출 시 `storage` 같은 새 권한이 붙으면
-**모든 스토어가 다시 심사**하며, 권한 사유는 위 정당화 문안에 있습니다.
+세 스토어 모두 게시 완료 (링크 전부 200 실측):
+
+| 스토어 | 링크 |
+| --- | --- |
+| Chrome Web Store | https://chromewebstore.google.com/detail/kokey-%E2%80%94-wrong-layout-text/behceldadncjkojneillkiiilldmihln |
+| Firefox Add-ons | https://addons.mozilla.org/firefox/addon/kokey-wrong-layout-text-fixer/ |
+| 네이버 웨일 | https://store.whale.naver.com/detail/mgenmihaioegdmifaelfhhdgfonbnchm |
+
+업데이트 제출 시 `storage` 같은 새 권한이 붙으면 **모든 스토어가 다시
+심사**하며, 권한 사유는 위 정당화 문안에 있습니다.
 
 ### 다음 확장 릴리스는 1.0.0 (2026-08-13 소유자 결정)
 

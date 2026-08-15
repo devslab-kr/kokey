@@ -304,8 +304,8 @@ peer dependency이고 Svelte는 그마저 없어서, 코어는 여전히 zero-de
 컨텍스트 메뉴·`Alt+K`·제안 버튼으로 **어느 사이트에서든** 같은 변환을
 제공하는 Manifest V3 확장(옵션 페이지 포함). 모든 처리는 로컬입니다.
 
-**[Firefox에 설치](https://addons.mozilla.org/firefox/addon/kokey-wrong-layout-text-fixer/)** · Chrome·웨일에도 게시돼 있고, Edge는
-[보류](./extension/store/listing.md)입니다.
+설치: **[Chrome](https://chromewebstore.google.com/detail/kokey-%E2%80%94-wrong-layout-text/behceldadncjkojneillkiiilldmihln)** · **[Firefox](https://addons.mozilla.org/firefox/addon/kokey-wrong-layout-text-fixer/)** · **[웨일](https://store.whale.naver.com/detail/mgenmihaioegdmifaelfhhdgfonbnchm)**.
+Edge는 [보류](./extension/store/listing.md)입니다.
 
 > 확장은 **자체 버전 트랙을 가진 별도 산출물**입니다(현재 확장 0.7.0,
 > 라이브러리 0.6.0 — 두 번호는 무관합니다). 소스는

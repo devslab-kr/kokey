@@ -4,8 +4,9 @@ Fix wrong-layout text on any site — the [kokey](https://github.com/devslab-kr/
 engine as a Manifest V3 extension. All processing is local; nothing leaves
 the browser.
 
-**[Install for Firefox](https://addons.mozilla.org/firefox/addon/kokey-wrong-layout-text-fixer/)** — also published to the Chrome Web Store and
-the Naver Whale store. Edge is on hold, see [store/listing.md](./store/listing.md).
+Install: **[Chrome Web Store](https://chromewebstore.google.com/detail/kokey-%E2%80%94-wrong-layout-text/behceldadncjkojneillkiiilldmihln)** · **[Firefox Add-ons](https://addons.mozilla.org/firefox/addon/kokey-wrong-layout-text-fixer/)** ·
+**[Naver Whale](https://store.whale.naver.com/detail/mgenmihaioegdmifaelfhhdgfonbnchm)**. Edge is on hold — see
+[store/listing.md](./store/listing.md).
 
 The extension has its **own version track**, unrelated to the library's npm
 version.
