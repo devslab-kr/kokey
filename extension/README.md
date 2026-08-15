@@ -4,6 +4,12 @@ Fix wrong-layout text on any site — the [kokey](https://github.com/devslab-kr/
 engine as a Manifest V3 extension. All processing is local; nothing leaves
 the browser.
 
+**[Install for Firefox](https://addons.mozilla.org/firefox/addon/kokey-wrong-layout-text-fixer/)** — also published to the Chrome Web Store and
+the Naver Whale store. Edge is on hold, see [store/listing.md](./store/listing.md).
+
+The extension has its **own version track**, unrelated to the library's npm
+version.
+
 [한국어](./README.ko.md)
 
 ## What it does
@@ -70,9 +76,17 @@ Firefox* → *Load Temporary Add-on* → pick `manifest.json`.
 | --- | --- |
 | `manifest.json` | MV3 manifest (Chrome service worker + Firefox event script) |
 | `background.js` | context-menu registration, hotkey → message relay |
+| `settings.js` | storage shape shared by the options page and content scripts |
 | `convert.js` | conversion decision for explicit actions (`kokeyExt.decide`) |
 | `content.js` | applies the fix to fields / selections, shows the toast |
+| `suggest.js` | which fields get the library's suggest button, and when |
+| `options.html` / `options.js` | the options page |
 | `kokey.global.js` | the CDN bundle, copied by the build (gitignored) |
+
+Every script reaches the extension APIs through
+`globalThis.browser ?? globalThis.chrome` — Firefox's `chrome` alias is
+callback-style, so an awaited `chrome.storage.sync.get()` there resolves to
+`undefined` and every setting would silently read as its default.
 
 `content.test.ts` runs the real `convert.js` + `content.js` against a
 stubbed `chrome.runtime` in the main vitest suite.

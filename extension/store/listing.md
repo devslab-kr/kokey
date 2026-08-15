@@ -165,7 +165,21 @@ the conversion.
 나중에 다시 할 때: https://partner.microsoft.com/dashboard/microsoftedge/public/login
 (등록 무료, Chromium이라 zip 수정 없음)
 
-### 업데이트 제출 시 (0.7.0~)
+### 게시 완료 (0.7.0)
 
-`storage` 권한이 추가되어 **모든 스토어가 다시 심사**합니다. 권한 사유는
-아래 정당화 문안에 이미 포함돼 있습니다.
+Firefox 게시 확인: https://addons.mozilla.org/firefox/addon/kokey-wrong-layout-text-fixer/
+Chrome·웨일도 게시됨. 업데이트 제출 시 `storage` 같은 새 권한이 붙으면
+**모든 스토어가 다시 심사**하며, 권한 사유는 위 정당화 문안에 있습니다.
+
+### 다음 확장 릴리스는 1.0.0 (2026-08-13 소유자 결정)
+
+확장(0.7.0)과 라이브러리(npm 0.6.0)가 **번호만 인접한 완전히 별개의 트랙**
+이라, 스토어에서 "kokey 0.7.0"을 본 사람이 npm 0.6.0을 구버전으로 읽습니다.
+0.7.0은 이미 게시돼 되돌릴 수 없으므로, **다음 확장 릴리스에서 1.0.0으로**
+올려 충돌을 영구히 끊습니다:
+
+- `kokey 1.x` = 브라우저 확장 · `@devslab/kokey 0.x` = 라이브러리
+- 세 스토어에 실사용자 배포 중이므로 1.0이 사실에도 맞음
+
+그때 `extension/manifest.json`의 `version`만 `1.0.0`으로 올리면 됩니다
+(라이브러리 `package.json`은 건드리지 않습니다).

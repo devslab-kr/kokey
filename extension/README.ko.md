@@ -4,6 +4,11 @@
 엔진의 Manifest V3 확장판. 모든 처리는 로컬이며 브라우저 밖으로 아무것도
 나가지 않습니다.
 
+**[Firefox에 설치](https://addons.mozilla.org/firefox/addon/kokey-wrong-layout-text-fixer/)** — Chrome 웹스토어·네이버 웨일에도 게시돼 있습니다.
+Edge는 보류이며 [store/listing.md](./store/listing.md) 참고.
+
+확장은 라이브러리 npm 버전과 **무관한 자체 버전 트랙**을 씁니다.
+
 [English](./README.md)
 
 ## 하는 일
@@ -67,9 +72,17 @@ npm run build:extension   # dist/ 빌드 후 kokey.global.js를 이 폴더로 �
 | --- | --- |
 | `manifest.json` | MV3 매니페스트 (Chrome 서비스 워커 + Firefox 이벤트 스크립트) |
 | `background.js` | 컨텍스트 메뉴 등록, 단축키 → 메시지 릴레이 |
+| `settings.js` | 옵션 페이지와 콘텐츠 스크립트가 공유하는 저장 형태 |
 | `convert.js` | 명시적 액션의 변환 결정 (`kokeyExt.decide`) |
 | `content.js` | 필드/선택 텍스트에 적용, 토스트 표시 |
+| `suggest.js` | 어떤 필드에 라이브러리 제안 버튼을 붙일지·언제 붙일지 |
+| `options.html` / `options.js` | 옵션 페이지 |
 | `kokey.global.js` | CDN 번들, 빌드가 복사 (gitignore 대상) |
+
+모든 스크립트는 `globalThis.browser ?? globalThis.chrome`으로 확장 API에
+접근합니다 — Firefox의 `chrome` 별칭은 콜백 방식이라, `await
+chrome.storage.sync.get()`이 undefined를 돌려주면서 모든 설정이 조용히
+기본값으로 읽히게 됩니다.
 
 `content.test.ts`가 실제 `convert.js` + `content.js`를 `chrome.runtime`
 스텁과 함께 메인 vitest 스위트에서 구동합니다.
