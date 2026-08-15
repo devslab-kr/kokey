@@ -299,10 +299,21 @@ peer dependency이고 Svelte는 그마저 없어서, 코어는 여전히 zero-de
 - ~~`v0.5` — Svelte 액션 / Solid 디렉티브 + 붙여넣기 자동 교정~~ ✅ 출시됨
 - ~~`v0.6` — 입력란 변환 제안 버튼 (`bindSuggest`, `data-kokey-suggest`)~~ ✅ 출시됨
 
-**브라우저 확장**은 자체 버전 트랙을 가진 별도 산출물입니다(현재 0.7.0,
-[extension/](./extension/)) — 컨텍스트 메뉴·`Alt+K`·제안 버튼으로 같은 변환을
-어느 사이트에서든 제공합니다. Chrome·Firefox·웨일 제출 후 심사 대기 중이고,
-Edge는 [보류](./extension/store/listing.md)입니다.
+## 브라우저 확장
+
+컨텍스트 메뉴·`Alt+K`·제안 버튼으로 **어느 사이트에서든** 같은 변환을
+제공하는 Manifest V3 확장(옵션 페이지 포함). 모든 처리는 로컬입니다.
+
+**[Firefox에 설치](https://addons.mozilla.org/firefox/addon/kokey-wrong-layout-text-fixer/)** · Chrome·웨일에도 게시돼 있고, Edge는
+[보류](./extension/store/listing.md)입니다.
+
+> 확장은 **자체 버전 트랙을 가진 별도 산출물**입니다(현재 확장 0.7.0,
+> 라이브러리 0.6.0 — 두 번호는 무관합니다). 소스는
+> [extension/](./extension/).
+
+**Firefox 사용자:** MV3는 설치만으로 사이트 접근 권한을 주지 않아 확장이
+동작하지 않는 것처럼 보입니다 — *about:addons → kokey → 권한 → "모든
+사이트의 데이터 접근"*을 켜주세요.
 
 검토했지만 로드맵에 올리지 않은 것들(추가 자판 후보, 하지 않기로 한 것,
 확장 후속 작업): [docs/backlog.md](./docs/backlog.md).

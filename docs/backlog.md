@@ -43,12 +43,15 @@ and search terms. Best value per unit of work.
 
 ## Browser extension follow-ups
 
-Held until the extension is actually live in the stores — it is submitted
-to Chrome, Firefox and Whale and awaiting review, and store feedback may
-reorder these. (Note the extension has its own version track: 0.7.0, not
-the library's.) Recorded in [extension/README.md](../extension/README.md) too.
-스토어에 실제로 올라간 뒤로 미룸 — 심사 결과가 우선순위를 바꿀 수 있음.
-확장은 라이브러리와 별개 버전 트랙(0.7.0)임에 유의.
+The extension is **live** in the Chrome, Firefox and Whale stores as of
+0.7.0, so these are unblocked — still demand-gated like everything else
+here. Note the extension has its own version track (0.7.0, unrelated to the
+library's 0.6.0), and the next extension release goes to **1.0.0** to stop
+the two numbering schemes reading as one; see
+[store/listing.md](../extension/store/listing.md).
+확장은 0.7.0으로 세 스토어에 **게시 완료** — 이 항목들은 이제 막혀 있지
+않습니다(다만 다른 항목과 같이 수요 기반). 확장은 별개 버전 트랙이며 다음
+릴리스는 1.0.0입니다.
 
 - Target layout for Latin input — the options page exists as of 0.7.0, but
   Latin text still always composes to Korean (`extension/convert.js`). The

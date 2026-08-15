@@ -304,11 +304,22 @@ advanced use.
 - ~~`v0.5` — Svelte action / Solid directive + paste auto-correction~~ ✅ shipped
 - ~~`v0.6` — in-field suggest button (`bindSuggest`, `data-kokey-suggest`)~~ ✅ shipped
 
-The **browser extension** is a separate deliverable on its own version track
-(currently 0.7.0, in [extension/](./extension/)) — it brings the same
-conversions to any site via a context menu, `Alt+K`, and the suggest button.
-Submitted to the Chrome, Firefox and Whale stores; awaiting review. Edge is
-[on hold](./extension/store/listing.md).
+## Browser extension
+
+The same conversions on any site — a context menu entry, `Alt+K`, and the
+suggest button — as a Manifest V3 extension, with an options page. All
+processing is local.
+
+**[Install for Firefox](https://addons.mozilla.org/firefox/addon/kokey-wrong-layout-text-fixer/)** · Chrome and Whale listings are live too; Edge
+is [on hold](./extension/store/listing.md).
+
+> The extension is a **separate deliverable on its own version track** (it is
+> at 0.7.0 while the library is at 0.6.0 — the numbers are unrelated). Source
+> in [extension/](./extension/).
+
+**Firefox users:** MV3 grants no site access at install, so the extension
+looks inert until you allow it — *about:addons → kokey → Permissions →
+"Access your data for all websites"*.
 
 Ideas we considered and why they are not here (more layouts, the ones we
 won't do, extension follow-ups): [docs/backlog.md](./docs/backlog.md).
