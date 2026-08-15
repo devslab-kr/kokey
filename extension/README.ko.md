@@ -4,8 +4,9 @@
 엔진의 Manifest V3 확장판. 모든 처리는 로컬이며 브라우저 밖으로 아무것도
 나가지 않습니다.
 
-**[Firefox에 설치](https://addons.mozilla.org/firefox/addon/kokey-wrong-layout-text-fixer/)** — Chrome 웹스토어·네이버 웨일에도 게시돼 있습니다.
-Edge는 보류이며 [store/listing.md](./store/listing.md) 참고.
+설치: **[Chrome 웹스토어](https://chromewebstore.google.com/detail/kokey-%E2%80%94-wrong-layout-text/behceldadncjkojneillkiiilldmihln)** · **[Firefox 부가 기능](https://addons.mozilla.org/firefox/addon/kokey-wrong-layout-text-fixer/)** ·
+**[네이버 웨일](https://store.whale.naver.com/detail/mgenmihaioegdmifaelfhhdgfonbnchm)**. Edge는 보류이며
+[store/listing.md](./store/listing.md) 참고.
 
 확장은 라이브러리 npm 버전과 **무관한 자체 버전 트랙**을 씁니다.
 

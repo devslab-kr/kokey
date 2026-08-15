@@ -310,8 +310,8 @@ The same conversions on any site — a context menu entry, `Alt+K`, and the
 suggest button — as a Manifest V3 extension, with an options page. All
 processing is local.
 
-**[Install for Firefox](https://addons.mozilla.org/firefox/addon/kokey-wrong-layout-text-fixer/)** · Chrome and Whale listings are live too; Edge
-is [on hold](./extension/store/listing.md).
+Install: **[Chrome](https://chromewebstore.google.com/detail/kokey-%E2%80%94-wrong-layout-text/behceldadncjkojneillkiiilldmihln)** · **[Firefox](https://addons.mozilla.org/firefox/addon/kokey-wrong-layout-text-fixer/)** · **[Whale](https://store.whale.naver.com/detail/mgenmihaioegdmifaelfhhdgfonbnchm)**.
+Edge is [on hold](./extension/store/listing.md).
 
 > The extension is a **separate deliverable on its own version track** (it is
 > at 0.7.0 while the library is at 0.6.0 — the numbers are unrelated). Source
