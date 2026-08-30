@@ -191,7 +191,7 @@ describe('options page', () => {
     // an explicit guard BOTH the editor and the deep-link button render and
     // the Firefox/Chrome split silently stops working. Caught in a rendered
     // screenshot, pinned here.
-    // This body runs in node under Vitest, where the built-in module resolves.
+    // @ts-ignore -- @types/node is not a direct dependency; Vitest runs this in Node.
     const fs = await import('node:fs/promises')
     const html: string = await fs.readFile('extension/options.html', 'utf8')
     expect(html).toMatch(/\.shortcut\[hidden\]\s*\{\s*display:\s*none/)
@@ -204,7 +204,7 @@ describe('extension scripts use the promise-based API namespace', () => {
     // .sync.get(...)` resolves to undefined there and every setting silently
     // reads as its default. Each script must go through
     // `globalThis.browser ?? globalThis.chrome`.
-    // The built-in module is available in the Vitest node environment.
+    // @ts-ignore -- @types/node is not a direct dependency; Vitest runs this in Node.
     const fs = await import('node:fs/promises')
     const files = [
       'background.js',
