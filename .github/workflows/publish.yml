@@ -37,9 +37,7 @@ jobs:
           registry-url: https://registry.npmjs.org
 
       - run: npm ci
-      - run: npm run typecheck
-      - run: npm run test
-      - run: npm run build
+      - run: npm run verify
 
       - name: Check release version matches package.json
         run: |

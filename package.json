@@ -82,10 +82,11 @@
     "build:extension": "npm run build && node scripts/build-extension.mjs",
     "package:extension": "npm run build:extension && node scripts/package-extension.mjs",
     "check:brand": "node scripts/check-brand-assets.mjs",
+    "verify": "npm run check:brand && npm run typecheck && npm run test && npm run build",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "prepublishOnly": "npm run typecheck && npm run test && npm run build"
+    "prepublishOnly": "npm run verify"
   },
   "peerDependencies": {
     "react": ">=18",

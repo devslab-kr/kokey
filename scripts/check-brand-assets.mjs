@@ -116,8 +116,36 @@ try {
     'data-atmosphere="project"', 'hero-atmosphere__glow', guide,
     'og:image:alt', 'twitter:image:alt', '@media (forced-colors: active), print',
   ]) if (!site.includes(marker)) fail(`site/index.html is missing ${marker}`);
+  for (const marker of [
+    'class="project-hero hero-atmosphere"',
+    '.hero-atmosphere {',
+    '.hero-atmosphere > [aria-hidden="true"].hero-atmosphere__glow',
+    '[data-atmosphere="project"] > [aria-hidden="true"].hero-atmosphere__glow::after',
+    '.hero-atmosphere > :not([aria-hidden="true"].hero-atmosphere__glow)',
+  ]) if (!site.includes(marker)) fail(`site/index.html must use the canonical hero atmosphere selector: ${marker}`);
 } catch {
   fail('missing site/index.html');
+}
+
+try {
+  const packageJson = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8'));
+  if (!packageJson.scripts?.verify?.includes('npm run check:brand')) {
+    fail('package.json verify must include npm run check:brand');
+  }
+  if (packageJson.scripts?.prepublishOnly !== 'npm run verify') {
+    fail('package.json prepublishOnly must delegate to the non-recursive verify script');
+  }
+} catch {
+  fail('missing or invalid package.json');
+}
+
+for (const workflow of ['.github/workflows/ci.yml', '.github/workflows/pages.yml', '.github/workflows/publish.yml']) {
+  try {
+    const source = await readFile(path.join(root, workflow), 'utf8');
+    if (!source.includes('npm run verify')) fail(`${workflow} must gate work with npm run verify`);
+  } catch {
+    fail(`missing ${workflow}`);
+  }
 }
 
 if (!process.exitCode) console.log('Brand check passed: kokey O05 surfaces match oss-brand v0.1.1.');
