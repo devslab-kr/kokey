@@ -81,6 +81,7 @@
     "build": "tsup",
     "build:extension": "npm run build && node scripts/build-extension.mjs",
     "package:extension": "npm run build:extension && node scripts/package-extension.mjs",
+    "check:brand": "node scripts/check-brand-assets.mjs",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",

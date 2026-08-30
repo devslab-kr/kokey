@@ -5,6 +5,7 @@ extension/*.zip
 # local demo copy — the Pages workflow assembles a fresh one from dist/
 site/kokey.global.js
 site/kokey.global.js.map
+.playwright-cli/
 coverage/
 *.log
 .DS_Store
