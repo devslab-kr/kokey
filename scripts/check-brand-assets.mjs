@@ -5,25 +5,25 @@ import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const guide = 'https://devslab.kr/brand/open-source/';
-const release = 'https://github.com/devslab-kr/oss-brand/releases/tag/v0.1.1';
+const release = 'https://github.com/devslab-kr/oss-brand/releases/tag/v0.2.0';
 const rootReadmes = [
   'README.md', 'README.ko.md', 'README.ru.md', 'README.uk.md', 'README.he.md',
   'README.el.md', 'README.th.md', 'README.ar.md', 'README.ka.md',
 ];
 
 const assets = {
-  'docs/assets/brand/readme-header.png': 'e6361b3aa57893e15f4f486de5be09a595c795a60c6d5160d6a7018c1942bc55',
-  'docs/assets/brand/project-mark.svg': '73c86d6341d3b37132640be132139edd6cd424c4fa4bc214165d8848a4cae263',
-  'docs/assets/brand/project-lockup.svg': '0700814ed1bed42238717b386213f97476ea02729fa7a440c64ea8c780efc458',
-  'site/favicon.svg': '73c86d6341d3b37132640be132139edd6cd424c4fa4bc214165d8848a4cae263',
-  'site/favicon.ico': '21d099bb6ab2bb6fdf09033da984114d87a175fc9f5f0fb60751911096f01092',
-  'site/apple-touch-icon.png': '735ed95d43bab030019a8927cc3607b06d57e2a187bf8b0e0b079b9916cb44f5',
-  'site/og.png': '3e73a5eee4076daa4b9218ebf69c197aaa7547d2b173dc5582b4f34372aab494',
-  'extension/icons/icon16.png': '6d6b8bc981f50b9df16e2822b6912060fae1bdd33f02444f98b20ae455c46b8d',
-  'extension/icons/icon48.png': '61f2e3a9b27e39ca1511bb3b497ccc8cfa0480808a54927c64967c3ec1fca84d',
-  'extension/icons/icon128.png': '2ff7f08959ad348754b4ca947cef2480dbeaef7972681aadc72c7b9b95229528',
-  'extension/store/promo-marquee.png': '03f142ae211aff1cc10fff6fa94be4cd9e6e0974ac7f30c5149aee12db44bd24',
-  'extension/store/promo-small.png': '23851063e84e28f4e5341c213919790942b08ea190fc30b18d7901f275da0103',
+  'docs/assets/brand/readme-header.png': 'eaadf90e41edbb3ef93d273b4d2f8b39ee39e47eed98f8d96eac6b22d97e5e20',
+  'docs/assets/brand/project-mark.svg': '94099fee08e79c23c076aefc38ed1f2eb60f45d34f798bf3f3d98935bbc2df22',
+  'docs/assets/brand/project-lockup.svg': '3bbae4d656bd29d0d15aa9f59640a25d2edccf5a2b3a31be3bb58c09111cc402',
+  'site/favicon.svg': '94099fee08e79c23c076aefc38ed1f2eb60f45d34f798bf3f3d98935bbc2df22',
+  'site/favicon.ico': '0b6c665a7fe8d699a50d5f0d0796a3ced157ed855ecbeb7bf5b70c5bc6c250c2',
+  'site/apple-touch-icon.png': 'd104abcdd579313d02f40c6fe56d27e46e30797eca3d652a1c385fbdbf4549ed',
+  'site/og.png': '33172c28ad3606ccecc0a79d13ee181999bcdaa2923e2f18fe3bd3ca59449116',
+  'extension/icons/icon16.png': '5e523142cdbe63692fdefa9c9f45fe6035a06868df33ee7c20c4f54b90329b5b',
+  'extension/icons/icon48.png': '2cd50f405b433c8db4d9c10ad74cf2fd2cb131c830f5c7f91b8cee74c65b10af',
+  'extension/icons/icon128.png': '4224e9107730fd3a5883d8a67e9fd154fc75abde9c21283d5b9f35b7802ea51e',
+  'extension/store/promo-marquee.png': 'd39ef57d058e307acdce8accdf538cf1343cbbac9ce6d6a465237b401a47f991',
+  'extension/store/promo-small.png': 'f4633845bbb709234975c9fb91c869961c3450b25e9f9ac55c4845296e5f6cd0',
 };
 
 const preserved = {
@@ -72,15 +72,15 @@ function pngDimensions(data) {
 
 try {
   const manifest = JSON.parse(await readFile(path.join(root, 'docs/assets/brand/oss-brand.json'), 'utf8'));
-  if (manifest.registryId !== 'O05' || manifest.project !== 'kokey' || manifest.release !== 'v0.1.1') {
-    fail('O05 manifest must identify kokey and oss-brand v0.1.1');
+  if (manifest.registryId !== 'O05' || manifest.project !== 'kokey' || manifest.release !== 'v0.2.0') {
+    fail('O05 manifest must identify kokey and oss-brand v0.2.0');
   }
   if (manifest.source !== release || manifest.guide !== guide) fail('O05 manifest source or guide is incorrect');
 } catch {
   fail('missing or invalid docs/assets/brand/oss-brand.json');
 }
 
-await verifyHashes(assets, 'oss-brand v0.1.1');
+await verifyHashes(assets, 'oss-brand v0.2.0');
 await verifyHashes(preserved, 'preserved surface');
 for (const [relativePath, expected] of Object.entries(preservedText)) {
   try {
@@ -165,4 +165,4 @@ for (const workflow of ['.github/workflows/ci.yml', '.github/workflows/pages.yml
   }
 }
 
-if (!process.exitCode) console.log('Brand check passed: kokey O05 surfaces match oss-brand v0.1.1.');
+if (!process.exitCode) console.log('Brand check passed: kokey O05 surfaces match oss-brand v0.2.0.');
