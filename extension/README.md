@@ -1,5 +1,7 @@
 # kokey browser extension
 
+**Open source by [DevsLab](https://devslab.kr/)** · [OSS brand guide](https://devslab.kr/brand/open-source/) · Registry O05
+
 Fix wrong-layout text on any site — the [kokey](https://github.com/devslab-kr/kokey)
 engine as a Manifest V3 extension. All processing is local; nothing leaves
 the browser.

@@ -1,5 +1,7 @@
 # kokey 브라우저 확장
 
+**DevsLab 오픈소스** · [OSS 브랜드 가이드](https://devslab.kr/brand/open-source/) · Registry O05
+
 어느 사이트에서든 자판 착오 텍스트를 복원 — [kokey](https://github.com/devslab-kr/kokey)
 엔진의 Manifest V3 확장판. 모든 처리는 로컬이며 브라우저 밖으로 아무것도
 나가지 않습니다.

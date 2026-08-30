@@ -5,6 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>kokey — 자판 오입력 복원 · wrong-keyboard-layout converter (한글·русский·עברית·ไทย…)</title>
 <meta name="description" content="kokey: restore text typed with the wrong keyboard layout. Korean Dubeolsik built in + Russian, Ukrainian, Hebrew, Greek, Thai, Arabic, Georgian. zero-dependency TypeScript.">
+<meta name="theme-color" content="#0f1117">
+<link rel="canonical" href="https://devslab-kr.github.io/kokey/">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="DevsLab Open Source">
+<meta property="og:url" content="https://devslab-kr.github.io/kokey/">
+<meta property="og:title" content="kokey — wrong-keyboard-layout converter">
+<meta property="og:description" content="Restore text typed with the wrong keyboard layout. Korean, Russian, Hebrew, Greek, Thai, Arabic, Ukrainian, Georgian ↔ QWERTY.">
+<meta property="og:image" content="https://devslab-kr.github.io/kokey/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="kokey O05 — two key surfaces connected by a correction path. Open source by DevsLab.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="kokey — wrong-keyboard-layout converter">
+<meta name="twitter:description" content="Restore text typed with the wrong keyboard layout across eight supported layouts.">
+<meta name="twitter:image" content="https://devslab-kr.github.io/kokey/og.png">
+<meta name="twitter:image:alt" content="kokey O05 — two key surfaces connected by a correction path. Open source by DevsLab.">
 <style>
   :root {
     --bg: #0f1117; --panel: #171a23; --line: #262b38;
@@ -17,6 +36,22 @@
     line-height: 1.6;
   }
   main { max-width: 860px; margin: 0 auto; padding: 48px 20px 80px; }
+  .project-hero { overflow: hidden; padding-bottom: 32px; }
+  .hero-atmosphere { position: relative; isolation: isolate; }
+  .hero-atmosphere > [aria-hidden="true"].hero-atmosphere__glow {
+    position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background: radial-gradient(ellipse 46% 68% at 86% 22%, rgb(34 211 238 / .10), transparent 72%);
+  }
+  [data-atmosphere="project"] > [aria-hidden="true"].hero-atmosphere__glow::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .08;
+    background: radial-gradient(ellipse 30% 42% at 86% 22%, rgb(251 191 36), transparent 72%);
+  }
+  .hero-atmosphere > :not([aria-hidden="true"].hero-atmosphere__glow) { position: relative; z-index: 1; }
+  .brand-line { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+  .brand-line a { display: inline-flex; align-items: center; color: var(--text); font-size: 14px; font-weight: 700; }
+  .brand-line img { width: 24px; height: 24px; margin-right: 7px; }
+  .oss-endorsement { color: var(--dim); font-size: 13px; margin-bottom: 10px; }
+  .oss-endorsement a { color: var(--accent); font-weight: 600; }
   h1 { font-size: 44px; letter-spacing: -1px; }
   h1 .accent { color: var(--accent); }
   .tagline { color: var(--dim); font-size: 18px; margin: 8px 0 4px; }
@@ -57,36 +92,52 @@
   footer { margin-top: 64px; color: var(--dim); font-size: 13px; }
   .ext { margin: -18px 0 30px; padding: 12px 16px; font-size: 14px;
     background: var(--panel); border: 1px solid var(--line); border-radius: 10px; }
+  @media (forced-colors: active), print {
+    .hero-atmosphere > [aria-hidden="true"].hero-atmosphere__glow,
+    .hero-atmosphere > [aria-hidden="true"].hero-atmosphere__glow::after { display: none; }
+  }
+  @media (max-width: 260px) {
+    main { padding-inline: 12px; }
+    h1 { overflow-wrap: anywhere; }
+    .langs { gap: 6px 10px; }
+  }
 </style>
 </head>
 <body>
 <main>
-  <h1>ko<span class="accent">key</span></h1>
-  <p class="tagline">한글 · русский · українська · עברית · ελληνικά · ไทย · العربية · ქართული ↔ QWERTY</p>
-  <p class="tagline" data-i18n="tagline">Restore text typed with the wrong keyboard layout · TypeScript-first · zero-dependency</p>
-  <div class="badges">
-    <a href="https://www.npmjs.com/package/@devslab/kokey"><img src="https://img.shields.io/npm/v/%40devslab%2Fkokey" alt="npm"></a>
-    <a href="https://github.com/devslab-kr/kokey/actions/workflows/ci.yml"><img src="https://github.com/devslab-kr/kokey/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-    <a href="https://github.com/devslab-kr/kokey"><img src="https://img.shields.io/github/stars/devslab-kr/kokey?style=flat" alt="GitHub"></a>
-  </div>
-  <nav class="langs" id="langs" aria-label="Language">
-    <a data-lang="en">English</a>
-    <a data-lang="ko">한국어</a>
-    <a data-lang="ru">Русский</a>
-    <a data-lang="uk">Українська</a>
-    <a data-lang="he">עברית</a>
-    <a data-lang="el">Ελληνικά</a>
-    <a data-lang="th">ไทย</a>
-    <a data-lang="ar">العربية</a>
-    <a data-lang="ka">ქართული</a>
-  </nav>
+  <header class="project-hero hero-atmosphere" data-atmosphere="project">
+    <div class="hero-atmosphere__glow" aria-hidden="true"></div>
+    <div class="project-hero__content">
+      <div class="brand-line"><a href="./" aria-label="kokey home"><img src="favicon.svg" alt="">kokey</a></div>
+      <p class="oss-endorsement">Open source by <a href="https://devslab.kr/brand/open-source/">DevsLab</a> · Registry O05</p>
+      <h1>ko<span class="accent">key</span></h1>
+      <p class="tagline">한글 · русский · українська · עברית · ελληνικά · ไทย · العربية · ქართული ↔ QWERTY</p>
+      <p class="tagline" data-i18n="tagline">Restore text typed with the wrong keyboard layout · TypeScript-first · zero-dependency</p>
+      <div class="badges">
+        <a href="https://www.npmjs.com/package/@devslab/kokey"><img src="https://img.shields.io/npm/v/%40devslab%2Fkokey" alt="npm"></a>
+        <a href="https://github.com/devslab-kr/kokey/actions/workflows/ci.yml"><img src="https://github.com/devslab-kr/kokey/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+        <a href="https://github.com/devslab-kr/kokey"><img src="https://img.shields.io/github/stars/devslab-kr/kokey?style=flat" alt="GitHub"></a>
+      </div>
+      <nav class="langs" id="langs" aria-label="Language">
+        <a data-lang="en">English</a>
+        <a data-lang="ko">한국어</a>
+        <a data-lang="ru">Русский</a>
+        <a data-lang="uk">Українська</a>
+        <a data-lang="he">עברית</a>
+        <a data-lang="el">Ελληνικά</a>
+        <a data-lang="th">ไทย</a>
+        <a data-lang="ar">العربية</a>
+        <a data-lang="ka">ქართული</a>
+      </nav>
 
-  <p class="ext" data-i18n-html="ext">
-    <b>Browser extension</b> — the same fixes on any site:
-    <a href="https://chromewebstore.google.com/detail/kokey-%E2%80%94-wrong-layout-text/behceldadncjkojneillkiiilldmihln">Chrome</a> ·
-    <a href="https://addons.mozilla.org/firefox/addon/kokey-wrong-layout-text-fixer/">Firefox</a> ·
-    <a href="https://store.whale.naver.com/detail/mgenmihaioegdmifaelfhhdgfonbnchm">Whale</a>
-  </p>
+      <p class="ext" data-i18n-html="ext">
+        <b>Browser extension</b> — the same fixes on any site:
+        <a href="https://chromewebstore.google.com/detail/kokey-%E2%80%94-wrong-layout-text/behceldadncjkojneillkiiilldmihln">Chrome</a> ·
+        <a href="https://addons.mozilla.org/firefox/addon/kokey-wrong-layout-text-fixer/">Firefox</a> ·
+        <a href="https://store.whale.naver.com/detail/mgenmihaioegdmifaelfhhdgfonbnchm">Whale</a>
+      </p>
+    </div>
+  </header>
 
   <h2 data-i18n="demo_h">Live demo — try it yourself</h2>
   <div class="demo">
