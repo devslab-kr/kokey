@@ -30,8 +30,11 @@ const preserved = {
   'docs/preview.png': '8f7ca2f4d178df5ba02b2b455b7ce7bd0e779e9830be74b40edbafb06fca30ce',
   'extension/store/screenshot-1.png': '0afc7fc033618d40dd20a403f6ffd716c909650796aa691f33ead4f19917250e',
   'extension/store/screenshot-2.png': '9db058101a7c4e6d5734444406229624fc5b1c16cea7cddd0f35d8a0f7862b93',
-  'site/privacy.html': '58ebbfe8c577664530e9360437423225f45f7a041f2b1ef5d1e0a3481946538e',
-  'extension/manifest.json': '60becf5fbd4895ec05ab3aa705ce30dcd19948b7e0f5e038154706c66cadfd12',
+};
+
+const preservedText = {
+  'site/privacy.html': '5d5e52dc9b19b5751692d5c9275b4bc25c6c4366cbe3181a96f8c2e1b9d2176a',
+  'extension/manifest.json': 'ef42e8e4d160daf27a24d96623a96952f1a22e2f910b4aba70dd4f77910eb520',
 };
 
 function fail(message) {
@@ -45,6 +48,11 @@ async function bytes(relativePath) {
 
 async function hash(relativePath) {
   return createHash('sha256').update(await bytes(relativePath)).digest('hex');
+}
+
+async function normalizedTextHash(relativePath) {
+  const text = await readFile(path.join(root, relativePath), 'utf8');
+  return createHash('sha256').update(text.replace(/\r\n/g, '\n'), 'utf8').digest('hex');
 }
 
 async function verifyHashes(entries, label) {
@@ -74,6 +82,15 @@ try {
 
 await verifyHashes(assets, 'oss-brand v0.1.1');
 await verifyHashes(preserved, 'preserved surface');
+for (const [relativePath, expected] of Object.entries(preservedText)) {
+  try {
+    if (await normalizedTextHash(relativePath) !== expected) {
+      fail(`${relativePath} normalized preserved surface checksum mismatch`);
+    }
+  } catch {
+    fail(`missing ${relativePath}`);
+  }
+}
 
 for (const relativePath of rootReadmes) {
   try {
