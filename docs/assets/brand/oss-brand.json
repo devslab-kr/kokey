@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "source": "https://github.com/devslab-kr/oss-brand/releases/tag/v0.2.0",
-  "release": "v0.2.0",
+  "source": "https://github.com/devslab-kr/oss-brand/releases/tag/v0.3.0",
+  "release": "v0.3.0",
   "guide": "https://devslab.kr/brand/open-source/",
   "registryId": "O05",
   "project": "kokey",
-  "glyphConcept": "two key surfaces connected by a correction path",
+  "glyphConcept": "a completed correction stroke across key input",
   "relationship": "input sibling"
 }
