@@ -52,7 +52,12 @@ async function hash(relativePath) {
 
 async function normalizedTextHash(relativePath) {
   const text = await readFile(path.join(root, relativePath), 'utf8');
-  return createHash('sha256').update(text.replace(/\r\n/g, '\n'), 'utf8').digest('hex');
+  // Publisher identity is generated and checked separately; preserve the legal
+  // policy byte-for-byte under its original checksum outside that footer slot.
+  const preserved = relativePath === 'site/privacy.html'
+    ? text.replace(/<!-- site-kit:publisher:start -->[\s\S]*?<!-- site-kit:publisher:end -->/, '<a href="https://github.com/devslab-kr">devslab</a>')
+    : text;
+  return createHash('sha256').update(preserved.replace(/\r\n/g, '\n'), 'utf8').digest('hex');
 }
 
 async function verifyHashes(entries, label) {
