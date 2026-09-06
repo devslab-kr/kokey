@@ -82,11 +82,13 @@
     "build:extension": "npm run build && node scripts/build-extension.mjs",
     "package:extension": "npm run build:extension && node scripts/package-extension.mjs",
     "check:brand": "node scripts/check-brand-assets.mjs",
-    "verify": "npm run check:brand && npm run typecheck && npm run test && npm run build",
+    "verify": "npm run check:publisher && npm run check:brand && npm run typecheck && npm run test && npm run build",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "prepublishOnly": "npm run verify"
+    "prepublishOnly": "npm run verify",
+    "build:publisher": "node scripts/build-publisher.mjs",
+    "check:publisher": "node scripts/build-publisher.mjs --check"
   },
   "peerDependencies": {
     "react": ">=18",
@@ -105,6 +107,7 @@
     }
   },
   "devDependencies": {
+    "@devslab/site-kit": "0.8.0",
     "@types/react": "^19.0.0",
     "adm-zip": "^0.6.0",
     "jsdom": "^26.1.0",
