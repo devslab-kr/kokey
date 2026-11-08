@@ -32,7 +32,7 @@ jobs:
 
       - uses: actions/setup-node@v5
         with:
-          node-version: 22
+          node-version: 24 # npm >= 11.5.1 is required for OIDC trusted publishing; Node 22 bundles npm 10
           cache: npm
           registry-url: https://registry.npmjs.org
 
@@ -59,10 +59,11 @@ jobs:
             fs.writeFileSync('release-notes.md', lines.slice(start + 1, end).join('\n').trim() + '\n');
           "
 
+      # Auth is npm Trusted Publishing (OIDC): the registry trusts this
+      # repo + workflow file via `id-token: write` above, so no NPM_TOKEN.
+      # A token in NODE_AUTH_TOKEN would take precedence and bypass OIDC.
       - name: Publish package
         run: npm publish --access public --provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create GitHub Release (creates the tag on workflow_dispatch)
         uses: softprops/action-gh-release@v3

@@ -314,7 +314,7 @@ peer dependency이고 Svelte는 그마저 없어서, 코어는 여전히 zero-de
 Edge는 [보류](./extension/store/listing.md)입니다.
 
 > 확장은 **자체 버전 트랙을 가진 별도 산출물**입니다(현재 확장 0.7.0,
-> 라이브러리 0.6.0 — 두 번호는 무관합니다). 소스는
+> 라이브러리 0.6.1 — 두 번호는 무관합니다). 소스는
 > [extension/](./extension/).
 
 **Firefox 사용자:** MV3는 설치만으로 사이트 접근 권한을 주지 않아 확장이
