@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.6.1 (2026-11-09)
+
+Republish — no code changes. npm releases now go through Trusted Publishing
+(OIDC from `publish.yml`, Node 24 / npm 11) instead of a long-lived token;
+this version is the one that validates the connection. The browser extension
+is on its own version track and is unaffected.
+/ 재배포 — 코드 무변경. npm 발행이 토큰 대신 Trusted Publishing(OIDC)으로
+전환되었고, 이 버전이 그 연결을 검증합니다. 브라우저 확장은 별도 트랙이라
+무관합니다.
+
 ## 0.6.0 (2026-08-12)
 
 ### Added

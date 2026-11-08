@@ -320,7 +320,7 @@ Install: **[Chrome](https://chromewebstore.google.com/detail/kokey-%E2%80%94-wro
 Edge is [on hold](./extension/store/listing.md).
 
 > The extension is a **separate deliverable on its own version track** (it is
-> at 0.7.0 while the library is at 0.6.0 — the numbers are unrelated). Source
+> at 0.7.0 while the library is at 0.6.1 — the numbers are unrelated). Source
 > in [extension/](./extension/).
 
 **Firefox users:** MV3 grants no site access at install, so the extension
